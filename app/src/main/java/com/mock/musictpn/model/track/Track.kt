@@ -7,6 +7,7 @@ import java.io.Serializable
 
 @Entity
 data class Track(
+    @PrimaryKey
     val id : String,
     val name : String,
     val artistId:String,

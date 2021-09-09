@@ -64,6 +64,21 @@ interface IMusicService {
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
 
+    /**
+     * Get all tracks of a genre which have id = {id}
+     * @param id: Genre id
+     */
+    @GET("genres/{id}/tracks/top")
+    suspend fun getTrackListByGenreId(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): TrackList
+
+    @GET("artists/{id}/tracks")
+    suspend fun getTrackListByArtistId(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): TrackList
 
     /**
      * Get top trending albums in a range
@@ -89,16 +104,6 @@ interface IMusicService {
         @Query("apikey") apiKey: String = API_KEY
     ): ImageList
 
-    /**
-     * Get all track of album by album id
-     * @param id : Album Id
-     * @return List all tracks of album
-     */
-    @GET("albums/{id}/tracks")
-    suspend fun getAlbumTrackById(
-        @Path("id") id: String,
-        @Query("apikey") apiKey: String = API_KEY
-    ): TrackList
 
 
     /**
@@ -113,15 +118,7 @@ interface IMusicService {
     ): ImageList
 
 
-    /**
-     * Get all tracks of a genre which have id = {id}
-     * @param id: Genre id
-     */
-    @GET("genres/{id}/tracks")
-    suspend fun getTrackListByGenreId(
-        @Path("id") id: String,
-        @Query("apikey") apiKey: String = API_KEY
-    ): TrackList
+
 
 
     /**
@@ -132,6 +129,7 @@ interface IMusicService {
     @GET("playlists/{id}/tracks")
     suspend fun getPlaylistTracks(
         @Path("id") id: String,
+        @Query("limit") limit:Int = 20,
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
 
