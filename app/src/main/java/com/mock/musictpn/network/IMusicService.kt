@@ -71,6 +71,7 @@ interface IMusicService {
     @GET("genres/{id}/tracks/top")
     suspend fun getTrackListByGenreId(
         @Path("id") id: String,
+        @Query("limit")limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
 

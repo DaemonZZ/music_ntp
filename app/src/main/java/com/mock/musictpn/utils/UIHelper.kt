@@ -9,25 +9,14 @@ import android.widget.EditText
 
 object UIHelper {
 
-    fun hideKeyboard(activity: Activity) {
-        val imm: InputMethodManager =
-            activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        if(imm.isAcceptingText){
-            imm.hideSoftInputFromWindow(
-                activity.currentFocus?.windowToken,
-                0
-            );
-        }
-        var view = activity.currentFocus
-        if (view == null) {
-            view = View(activity)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
+    /**
+     * @author ThangDN6
+     *  Set up touch listener for non-text box views to hide keyboard.
+     *  @param view: the editText which need this action
+     *  @param activity: activity
+      */
 
-
-    // Set up touch listener for non-text box views to hide keyboard.
     fun setupUI(view: View,activity:Activity) {
 
         if (view !is EditText) {
@@ -45,5 +34,27 @@ object UIHelper {
                 setupUI(innerView,activity)
             }
         }
+    }
+
+    /**
+     * @author ThangDN6
+     * Toggle the soft keyboard hidden
+     *
+     */
+    fun hideKeyboard(activity: Activity) {
+        val imm: InputMethodManager =
+            activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        if(imm.isAcceptingText){
+            imm.hideSoftInputFromWindow(
+                activity.currentFocus?.windowToken,
+                0
+            );
+        }
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
