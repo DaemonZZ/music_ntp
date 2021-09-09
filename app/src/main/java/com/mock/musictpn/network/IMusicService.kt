@@ -1,6 +1,7 @@
 package com.mock.musictpn.network
 
 import com.mock.musictpn.model.album.AlbumList
+import com.mock.musictpn.model.image.ImageList
 import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.network.ApiContract.API_KEY
@@ -15,6 +16,7 @@ import retrofit2.http.Query
  *
  */
 interface IMusicService {
+
 
     /**
      * Get music track by id
@@ -46,10 +48,11 @@ interface IMusicService {
      */
     @GET("tracks/top")
     suspend fun getTopTrendingTracks(
-        @Query("range") range:String,
+        @Query("range") range: String,
         @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
+
 
     /**
      * Get all tracks of a album which have id = {id}
@@ -57,9 +60,9 @@ interface IMusicService {
      */
     @GET("albums/{id}/tracks")
     suspend fun getTracksListByAlbumId(
-        @Path("id") id:String,
+        @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
-    ):TrackList
+    ): TrackList
 
 
     /**
@@ -70,12 +73,67 @@ interface IMusicService {
      */
     @GET("albums/top")
     suspend fun getTopTrendingAlbums(
-        @Query("range") range:String,
+        @Query("range") range: String,
         @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
-    ) : AlbumList
+    ): AlbumList
+
+    /**
+     * Get Image album by id
+     * @param id: Album Id
+     * @return List images with multiple sizes
+     */
+    @GET("albums/{id}/images")
+    suspend fun getAlbumImagesById(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): ImageList
+
+    /**
+     * Get all track of album by album id
+     * @param id : Album Id
+     * @return List all tracks of album
+     */
+    @GET("albums/{id}/tracks")
+    suspend fun getAlbumTrackById(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): TrackList
 
 
+    /**
+     * Get list Images of artist with multiple sizes
+     * @param id: artist id
+     * @return list images with multiple sizes
+     */
+    @GET("artists/{id}/images")
+    suspend fun getArtistImagesById(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): ImageList
+
+
+    /**
+     * Get all tracks of a genre which have id = {id}
+     * @param id: Genre id
+     */
+    @GET("genres/{id}/tracks")
+    suspend fun getTrackListByGenreId(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): TrackList
+
+
+    /**
+     * Get All tracks of playlist
+     * @param id: playlist id
+     * @return ListTracks of playlist
+     */
+    @GET("playlists/{id}/tracks")
+    suspend fun getPlaylistTracks(
+        @Path("id") id: String,
+        @Query("apikey") apiKey: String = API_KEY
+    ): TrackList
 
 
     /**
