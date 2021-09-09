@@ -1,4 +1,4 @@
-package com.mock.musictpn.extension
+package com.mock.musictpn.utils
 
 import android.app.Activity
 import android.view.MotionEvent
