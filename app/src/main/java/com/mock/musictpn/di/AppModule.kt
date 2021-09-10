@@ -22,7 +22,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideHandler() = CoroutineExceptionHandler { context, throwable ->
+    fun provideHandler() = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
 
@@ -31,7 +31,7 @@ object AppModule {
     fun provideIOScope(handler: CoroutineExceptionHandler) = CoroutineScope(
         Dispatchers.IO +
                 SupervisorJob() +
-                CoroutineName("main_scope") +
+                CoroutineName("IO_Scope") +
                 handler
     )
 
@@ -53,7 +53,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSpiService(gson: Gson, client: OkHttpClient): IMusicService {
+    fun provideApiService(gson: Gson, client: OkHttpClient): IMusicService {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(BASE_URL)

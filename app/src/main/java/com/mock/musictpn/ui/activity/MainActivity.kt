@@ -7,6 +7,7 @@ import com.mock.musictpn.R
 import com.mock.musictpn.databinding.ActivityMainBinding
 import com.mock.musictpn.ui.base.BaseActivity
 import com.mock.musictpn.ui.fragment.album.AlbumFragment
+import com.mock.musictpn.utils.UIHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,14 +18,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.fragment_container_view, AlbumFragment())
-            }
-        }
     }
-
 
 }

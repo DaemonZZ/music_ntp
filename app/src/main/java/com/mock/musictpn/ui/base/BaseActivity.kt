@@ -1,12 +1,11 @@
 package com.mock.musictpn.ui.base
 
-import android.content.Context
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.mock.musictpn.utils.UIHelper
 import com.mock.musictpn.views.LoadingDialog
 import com.mock.musictpn.views.MessageDialog
 
@@ -26,6 +25,7 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         mLoadingDialog = LoadingDialog(this)
         errorDialog = MessageDialog(this)
         intViewModel()
+        UIHelper.setupUI(mBinding.root,this)
     }
 
     private fun intViewModel() {
@@ -36,26 +36,6 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             message?.let {
                 showError(it)
             }
-        }
-    }
-
-    fun hideKeyBoard() {
-        try {
-            runOnUiThread {
-                try {
-                    val inputManager = this@BaseActivity
-                        .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputManager.hideSoftInputFromWindow(
-                        this@BaseActivity.currentFocus?.applicationWindowToken,
-                        InputMethodManager.HIDE_NOT_ALWAYS
-                    )
-                } catch (e: IllegalStateException) {
-                } catch (e: Exception) {
-                }
-            }
-
-        } catch (e: IllegalStateException) {
-        } catch (e: Exception) {
         }
     }
 
