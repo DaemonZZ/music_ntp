@@ -2,7 +2,7 @@ package com.mock.musictpn.ui.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mock.musictpn.data.network.IMusicService
+import com.mock.musictpn.datasource.network.IMusicService
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

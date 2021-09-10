@@ -2,8 +2,8 @@ package com.mock.musictpn.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mock.musictpn.data.network.ApiContract.BASE_URL
-import com.mock.musictpn.data.network.IMusicService
+import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
+import com.mock.musictpn.datasource.network.IMusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,7 +1,7 @@
 package com.mock.musictpn.ui.fragment.album
 
 import android.util.Log
-import com.mock.musictpn.data.network.ApiContract
+import com.mock.musictpn.datasource.network.ApiContract
 import com.mock.musictpn.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

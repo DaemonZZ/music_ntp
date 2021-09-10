@@ -1,10 +1,10 @@
-package com.mock.musictpn.data.network
+package com.mock.musictpn.datasource.network
 
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.image.ImageList
 import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.data.network.ApiContract.API_KEY
+import com.mock.musictpn.datasource.network.ApiContract.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -103,7 +103,6 @@ interface IMusicService {
         @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
     ): ImageList
-
 
     /**
      * Get list Images of artist with multiple sizes
