@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MusicTPN</string>
+    <string name="app_name">Music NTP</string>
+    <string name="ok">OK</string>
 </resources>

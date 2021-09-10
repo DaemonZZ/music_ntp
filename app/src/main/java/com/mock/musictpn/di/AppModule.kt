@@ -1,29 +1,28 @@
 package com.mock.musictpn.di
 
-import android.util.Log
-import com.mock.musictpn.network.IMusicService
-import com.mock.musictpn.network.ApiContract.BASE_URL
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.mock.musictpn.data.network.ApiContract.BASE_URL
+import com.mock.musictpn.data.network.IMusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Inject
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Singleton
     @Provides
     fun provideHandler() = CoroutineExceptionHandler { context, throwable ->
-        Log.e(
-            "ThangDN6",
-            "provideHandler: ${throwable.cause} \n " +
-                    "scope: ${context[CoroutineName]}",
-        )
         throwable.printStackTrace()
     }
 
@@ -36,13 +35,29 @@ object AppModule {
                 handler
     )
 
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").setLenient().create()
+    }
 
     @Provides
     @Singleton
-    fun provideSpiService(): IMusicService {
+    fun provideHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        return OkHttpClient.Builder()
+            .connectTimeout(300, TimeUnit.SECONDS)
+            .readTimeout(300, TimeUnit.SECONDS).addInterceptor(logging).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSpiService(gson: Gson, client: OkHttpClient): IMusicService {
         return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(BASE_URL)
+            .client(client)
             .build()
             .create(IMusicService::class.java)
     }
