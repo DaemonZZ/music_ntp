@@ -1,4 +1,4 @@
-package com.mock.musictpn.network
+package com.mock.musictpn.data.network
 
 object ApiContract {
     const val BASE_URL = "http://api.napster.com/v2.2/"

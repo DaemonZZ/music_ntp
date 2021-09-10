@@ -1,11 +1,11 @@
-package com.mock.musictpn.network
+package com.mock.musictpn.data.network
 
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.image.ImageList
 import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.network.ApiContract.API_KEY
-import retrofit2.Call
+import com.mock.musictpn.data.network.ApiContract.API_KEY
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,7 +16,6 @@ import retrofit2.http.Query
  *
  */
 interface IMusicService {
-
 
     /**
      * Get music track by id
@@ -71,7 +70,7 @@ interface IMusicService {
     @GET("genres/{id}/tracks/top")
     suspend fun getTrackListByGenreId(
         @Path("id") id: String,
-        @Query("limit")limit: Int = 10,
+        @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
 
@@ -92,7 +91,7 @@ interface IMusicService {
         @Query("range") range: String,
         @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
-    ): AlbumList
+    ): Response<AlbumList>
 
     /**
      * Get Image album by id
@@ -104,7 +103,6 @@ interface IMusicService {
         @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
     ): ImageList
-
 
 
     /**
@@ -119,9 +117,6 @@ interface IMusicService {
     ): ImageList
 
 
-
-
-
     /**
      * Get All tracks of playlist
      * @param id: playlist id
@@ -130,7 +125,7 @@ interface IMusicService {
     @GET("playlists/{id}/tracks")
     suspend fun getPlaylistTracks(
         @Path("id") id: String,
-        @Query("limit") limit:Int = 20,
+        @Query("limit") limit: Int = 20,
         @Query("apikey") apiKey: String = API_KEY
     ): TrackList
 

@@ -1,4 +1,4 @@
-package com.mock.musictpn.database.dao
+package com.mock.musictpn.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
