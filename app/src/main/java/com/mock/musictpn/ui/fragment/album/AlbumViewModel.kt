@@ -21,4 +21,5 @@ class AlbumViewModel @Inject constructor() : BaseViewModel() {
             errorMessage.postValue(e.message.toString())
         }
     }
+
 }
