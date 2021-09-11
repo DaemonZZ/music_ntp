@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Music NTP</string>
     <string name="ok">OK</string>
+    <string name="search_edt_hint">Bài hát, playlist, nghệ sĩ,...</string>
+    <string name="title_recent">Bài hát gần đây</string>
+    <string name="title_device">Thiết bị</string>
+    <string name="show_more">Xem Thêm</string>
+    <string name="bxh">Bảng xếp hạng</string>
 </resources>

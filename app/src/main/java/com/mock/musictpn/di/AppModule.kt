@@ -2,8 +2,8 @@ package com.mock.musictpn.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mock.musictpn.data.network.ApiContract.BASE_URL
-import com.mock.musictpn.data.network.IMusicService
+import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
+import com.mock.musictpn.datasource.network.IMusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideHandler() = CoroutineExceptionHandler { context, throwable ->
+    fun provideHandler() = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
 
@@ -31,7 +31,7 @@ object AppModule {
     fun provideIOScope(handler: CoroutineExceptionHandler) = CoroutineScope(
         Dispatchers.IO +
                 SupervisorJob() +
-                CoroutineName("main_scope") +
+                CoroutineName("IO_Scope") +
                 handler
     )
 
@@ -53,7 +53,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSpiService(gson: Gson, client: OkHttpClient): IMusicService {
+    fun provideApiService(gson: Gson, client: OkHttpClient): IMusicService {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(BASE_URL)

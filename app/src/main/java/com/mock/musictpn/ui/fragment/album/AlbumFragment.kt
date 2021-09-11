@@ -16,7 +16,6 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding, AlbumViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.getAlbum()
     }
 
     override fun setupViews() {
