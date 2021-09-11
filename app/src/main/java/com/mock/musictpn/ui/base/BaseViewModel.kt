@@ -18,4 +18,12 @@ open class BaseViewModel : ViewModel() {
         return CoroutineScope(Dispatchers.Main).launch { block() }
     }
 
+    suspend fun <T> async(block: suspend CoroutineScope.() -> T): Deferred<T> {
+        return CoroutineScope(Dispatchers.IO).async { block() }
+    }
+
+    suspend fun <T> asyncAwait(block: suspend CoroutineScope.() -> T): T {
+        return async(block).await()
+    }
+
 }

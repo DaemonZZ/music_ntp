@@ -38,6 +38,7 @@ interface IMusicService {
         @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
     ): ArtistList
+
     /**
      * Get albums by id
      * @param id artist id
@@ -47,7 +48,6 @@ interface IMusicService {
         @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
     ): AlbumList
-
 
 
     /**
@@ -127,7 +127,6 @@ interface IMusicService {
     ): SearchResult
 
 
-
     /**
      * Get top music tracks for displaying on main screen slider
      * @param limit: max count of response results
@@ -158,7 +157,7 @@ interface IMusicService {
      *              it must be one of ApiContract.RANGE_DAY,ApiContract.RANGE_WEEK,ApiContract.RANGE_MONTH,ApiContract.RANGE_YEAR or ApiContract.RANGE_LIFE
      * @param limit max count of response results each type
      */
-    @GET("albums/top")
+    @GET("albums/new")
     suspend fun getTopTrendingAlbums(
         @Query("range") range: String,
         @Query("limit") limit: Int = 10,
@@ -171,6 +170,6 @@ interface IMusicService {
     @GET("genres")
     suspend fun getGenreList(
         @Query("apikey") apiKey: String = API_KEY
-    ):Response<GenreList>
+    ): Response<GenreList>
 
 }

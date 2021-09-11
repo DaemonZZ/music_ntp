@@ -5,4 +5,9 @@
     <dimen name="dimen_16dp">16dp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="dimens_180dp">180dp</dimen>
+    <dimen name="dimens_8dp">8dp</dimen>
+    <dimen name="dimens_230dp">230dp</dimen>
+    <dimen name="dimens_32dp">32dp</dimen>
+    <dimen name="dimens_80dp">80dp</dimen>
 </resources>

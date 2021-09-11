@@ -8,6 +8,12 @@ import androidx.databinding.ViewDataBinding
 import com.mock.musictpn.utils.UIHelper
 import com.mock.musictpn.views.LoadingDialog
 import com.mock.musictpn.views.MessageDialog
+import android.view.WindowManager
+
+import android.os.Build
+
+
+
 
 abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
     protected lateinit var mBinding: DB

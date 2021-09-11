@@ -12,7 +12,7 @@ class AlbumViewModel @Inject constructor() : BaseViewModel() {
     fun getAlbum() = launchOnUI {
         isLoading.postValue(true)
         try {
-            val response = musicService.getTopTrendingAlbums(ApiContract.RANGE_WEEK)
+            val response = musicService.getTopTrendingAlbums(ApiContract.RANGE_MONTH)
             if (response.isSuccessful){
                 Log.d("NganHV", "${response.body()}")
                 isLoading.postValue(false)

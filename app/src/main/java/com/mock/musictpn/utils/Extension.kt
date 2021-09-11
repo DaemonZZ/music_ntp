@@ -1,13 +1,13 @@
 package com.mock.musictpn.utils
 
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
-@BindingAdapter("load_img")
-fun getImageFromUrl(img: ImageView, url:String){
-        Glide.with(img).load(url)
+@BindingAdapter("set_image")
+fun AppCompatImageView.getImageFromUrl(url: String) {
+    Glide.with(this).load(url)
 //            .error(R.drawable.error)
 //            .placeholder(R.drawable.loading)
-            .into(img)
+        .into(this)
 }

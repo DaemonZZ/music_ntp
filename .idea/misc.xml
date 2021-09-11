@@ -3,19 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/error.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_home.xml" value="0.14010416666666667" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_play.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_search.xml" value="0.28489583333333335" />
         <entry key="..\:/mock/Music/app/src/main/res/layout/activity_main.xml" value="0.23505434782608695" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/dialog_loading.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/dialog_message.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_album.xml" value="0.1" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_genre.xml" value="0.254981884057971" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_home.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_trending.xml" value="0.22" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/slider_item.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/track_item.xml" value="0.33" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/banner_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/dialog_notification_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/option_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/toolbar_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/tv_search_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_indicators.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_not_selected.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_selected.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_loading.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_message.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_album.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_banner.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/slider_item.xml" value="0.20208333333333334" />
       </map>
     </option>
   </component>
