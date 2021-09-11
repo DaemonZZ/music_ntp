@@ -38,7 +38,7 @@ class HomeFragment:BaseFragment<FragmentHomeBinding,HomeViewModel>(){
 
     private fun loadSlider(){
         mViewModel.albumList.observe(this,{
-
+            topAlbums = it
         })
         scope.launch {
 
