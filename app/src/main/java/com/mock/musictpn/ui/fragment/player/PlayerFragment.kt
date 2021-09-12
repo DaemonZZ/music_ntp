@@ -70,7 +70,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
         Log.d("ThangDN6 - PlayerFragment", "onViewCreated: ")
         serviceIntent =Intent(requireContext(),MusicService::class.java)
         scope.launch {
-            mViewModel.loadAlbum("alb.54719066")
+            mViewModel.loadAlbum("alb.611303574")
         }
     }
 

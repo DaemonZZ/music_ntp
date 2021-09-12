@@ -144,4 +144,6 @@ class MusicPlayer {
     fun getTrackDuration() = player.duration
     fun getCurrentPosition() = player.currentPosition
 
+
+
 }

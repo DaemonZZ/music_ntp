@@ -16,6 +16,6 @@ data class Track(
 ) : Serializable {
     //Test
     fun getImageUrl():String{
-        return "https://api.napster.com/imageserver/v2/albums/$albumId/images/300x300.jpg"
+        return "https://api.napster.com/imageserver/v2/albums/$albumId/images/70x70.jpg"
     }
 }
