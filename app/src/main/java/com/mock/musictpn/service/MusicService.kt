@@ -126,12 +126,14 @@ class MusicService : Service() {
         val playPendingIntent = PendingIntent.getBroadcast(
             this,
             0,
-            mediaIntent.apply { action = MusicPlayer.ACTION_PLAY },
+            mediaIntent.apply { action = if(musicController.isPlaying()) MusicPlayer.ACTION_PAUSE else MusicPlayer.ACTION_PLAY },
             0
         )
 
+        val btnIcon = if(musicController.isPlaying()) R.drawable.play_noti else R.drawable.pause
+
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.drawable.play_noti)
+            .setSmallIcon(btnIcon)
             .setContentTitle(track)
             .setContentText(artistName)
             .setLargeIcon(image)
@@ -139,7 +141,7 @@ class MusicService : Service() {
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .addAction(R.drawable.prev, "Previous", prevPendingIntent)
-            .addAction(R.drawable.play_noti, "Play", playPendingIntent)
+            .addAction(btnIcon, "Play", playPendingIntent)
             .addAction(R.drawable.next, "Next", nextPendingIntent)
             .setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
