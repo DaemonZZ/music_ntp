@@ -1,5 +1,7 @@
 package com.mock.musictpn.ui.fragment.home
 
+import android.util.Log
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
@@ -12,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private lateinit var bannerAdapter: BannerAdapter
-    override val mViewModel: HomeViewModel by viewModels()
+    override val mViewModel: HomeViewModel by activityViewModels()
     override fun getLayoutRes(): Int = R.layout.fragment_home
 
     override fun setupViews() {
@@ -29,6 +31,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         mViewModel.albumList.observe(this, {
             bannerAdapter.setData(it.albums)
         })
+
+        mViewModel.isLoading.observe(this) { isShow: Boolean ->
+            showLoading(isShow)
+        }
+        mViewModel.errorMessage.observe(this) { message: String? ->
+            message?.let {
+                showError(it)
+            }
+        }
     }
 
 }

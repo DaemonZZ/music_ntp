@@ -1,6 +1,7 @@
 package com.mock.musictpn.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
@@ -28,5 +29,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }.attach()
         mBinding.vpMain.isUserInputEnabled = false
     }
+
+    override fun setupViews() {
+    }
+
+    override fun setupListeners() {
+    }
+
+    override fun setupObservers() {
+    }
+
 
 }

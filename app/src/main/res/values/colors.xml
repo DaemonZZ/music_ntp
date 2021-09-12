@@ -8,7 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorBgDialog">#51101D32</color>
+    <color name="colorPressed">#34101D32</color>
     <color name="main_bg">#BFE9FF</color>
     <color name="title_bg">#01A6FF</color>
-    <color name="color_background">#DEEEFF</color>
+    <color name="color_background">#ECF5FF</color>
 </resources>

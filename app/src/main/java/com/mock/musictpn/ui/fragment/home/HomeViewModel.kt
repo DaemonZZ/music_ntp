@@ -18,10 +18,8 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         if (response.isSuccessful) {
             response.body()?.let {
                 _albumList.postValue(it)
-
             }
         }
-
     }
 
 }

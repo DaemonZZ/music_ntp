@@ -6,4 +6,7 @@
     <string name="title_device">Thiết bị</string>
     <string name="show_more">Xem Thêm</string>
     <string name="bxh">Bảng xếp hạng</string>
+    <string name="num_1">1</string>
+    <string name="num_2">2</string>
+    <string name="num_3">3</string>
 </resources>

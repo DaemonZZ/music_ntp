@@ -14,15 +14,14 @@ data class Track(
     val name: String,
     val artistId: String,
     val albumId: String,
+    val artistName: String,
     val previewURL: String
-) : Serializable
+) : Serializable {
+    /**
+     * Track = Album
+     * 70x70-200x200-300x300-500x500
+     *
+     */
+    fun getImageUrl(): String = "https://api.napster.com/imageserver/v2/albums/$albumId/images/170x170.jpg"
 
-{
-    suspend fun getArtist(apiService: IMusicService):Artist{
-        return apiService.getArtistById(artistId).artists[0]
-    }
-
-    suspend fun getAlbum(apiService: IMusicService): Album {
-        return apiService.getAlbumById(albumId).albums[0]
-    }
 }
