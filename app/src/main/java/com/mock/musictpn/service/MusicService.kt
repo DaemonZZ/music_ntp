@@ -49,11 +49,8 @@ class MusicService : Service() {
                 if (list != null) {
                     musicController.listTrack = list as TrackList
                     val img = BitmapFactory.decodeResource(resources,R.drawable.sky)
-                    createNotification(list.tracks[musicController.getcurrentIndex()].name, img, "Some one")
-                    scope.launch {
-                        musicController.playTrack(0)
-
-                    }
+                    createNotification(list.tracks[musicController.getCurrentIndex()].name, img, "Some one")
+                    musicController.playTrack(0)
                     Glide.with(this@MusicService)
                         .asBitmap()
                         .load(musicController.getCurrentTrack().getImageUrl())
@@ -62,7 +59,7 @@ class MusicService : Service() {
                                 resource: Bitmap,
                                 transition: Transition<in Bitmap>?
                             ) {
-                                createNotification(list.tracks[musicController.getcurrentIndex()].name, resource, "Some one")
+                                createNotification(list.tracks[musicController.getCurrentIndex()].name, resource, "Some one")
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -82,10 +79,10 @@ class MusicService : Service() {
                 musicController.togglePlayButton()
             }
             MusicPlayer.ACTION_NEXT -> {
-                scope.launch { musicController.next() }
+                musicController.next()
             }
             MusicPlayer.ACTION_PREV -> {
-                scope.launch { musicController.prev() }
+                musicController.prev()
             }
             MusicPlayer.ACTION_SHUFFLE -> {
                 musicController.toggleShuffle()

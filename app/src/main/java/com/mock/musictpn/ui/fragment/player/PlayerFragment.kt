@@ -21,6 +21,7 @@ import com.mock.musictpn.service.MusicService
 import com.mock.musictpn.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -47,10 +48,15 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
 
             mService.musicController.setOnPlayerStateChangedListener(object : OnPlayerStateChangedListener{
                 override fun onStateChange() {
-                    loadState()
+                    CoroutineScope(Dispatchers.Main).launch {  loadState() } // make provider
                 }
                 override fun onTrackChange() {
-                    loadTrackInfo()
+                    CoroutineScope(Dispatchers.Main).launch { loadTrackInfo() }
+
+                }
+
+                override fun onStartedPlaying() {
+                    mBinding.seekBar.max = mService.musicController.getTrackDuration()
                 }
 
             })
@@ -163,11 +169,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
 
     fun loadTrackInfo(){
         mBinding.track = mService.musicController.getCurrentTrack()
-        mBinding.seekBar.max = mService.musicController.getTrackDuration()/100
-
+       // mBinding.seekBar.max = mService.musicController.getTrackDuration()
     }
 
-    private val mHandler = Handler(Looper.getMainLooper())
     private fun setupSeekBar(){
         Timer().apply {
             scheduleAtFixedRate(object : TimerTask(){

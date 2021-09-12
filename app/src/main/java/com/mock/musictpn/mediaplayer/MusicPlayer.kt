@@ -4,11 +4,15 @@ import android.media.MediaPlayer
 import android.util.Log
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 interface OnPlayerStateChangedListener {
     fun onStateChange()
     fun onTrackChange()
+    fun onStartedPlaying()
 }
 
 
@@ -34,8 +38,14 @@ class MusicPlayer {
 
     }
 
-    private val player: MediaPlayer = MediaPlayer()
-    private lateinit var listener: OnPlayerStateChangedListener
+    private var player: MediaPlayer = MediaPlayer()
+    private lateinit var stateChangedListener: OnPlayerStateChangedListener
+    private var preparedListener = MediaPlayer.OnPreparedListener { mp ->
+        Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
+        mp.start()
+        stateChangedListener.onStartedPlaying()
+        stateChangedListener.onStateChange()
+    }
     var listTrack: TrackList = TrackList()
     private var currentTrack = 0
     private var isShuffle = true
@@ -44,31 +54,33 @@ class MusicPlayer {
 
     init {
         player.setOnCompletionListener {
-            Log.d("ThangDN6 - MusicPlayer", "reached event: ")
-            if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
-            else
-                when (repeatMode) {
-                    MODE_NO_REPEAT -> if (currentTrack == listTrack.tracks.size - 1) stop() else next()
-                    MODE_REPEAT_ONE_TRACK -> playTrack(currentTrack)
-                    MODE_REPEAT_WHOLE_LIST -> if (currentTrack == listTrack.tracks.size - 1) playTrack(
-                        0
-                    ) else next()
-                }
+            if(it.isPlaying){
+                Log.d("ThangDN6 - MusicPlayer", "reached event: Complete track")
+                if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
+                else
+                    when (repeatMode) {
+                        MODE_NO_REPEAT -> if (currentTrack == listTrack.tracks.size - 1) stop() else next()
+                        MODE_REPEAT_ONE_TRACK -> playTrack(currentTrack)
+                        MODE_REPEAT_WHOLE_LIST -> if (currentTrack == listTrack.tracks.size - 1) playTrack(
+                            0
+                        ) else next()
+                    }
+            }
+
         }
+        player.setOnPreparedListener(preparedListener)
     }
-
-
 
 
     fun playTrack(index: Int) {
         currentTrack = index
         val track = listTrack.tracks[index]
-        listener.onTrackChange()
+        stateChangedListener.onTrackChange()
         player.reset()
         player.setDataSource(track.previewURL)
-        player.prepare()
-        player.start()
-        listener.onStateChange()
+        player.prepareAsync()
+        //player.start()
+
         Log.d("ThangDN6 - MusicPlayer", "playTrack: ${track.name}")
     }
 
@@ -82,7 +94,7 @@ class MusicPlayer {
             player.start()
             Log.d("ThangDN6 - MusicPlayer", "togglePlayButton: Resumed")
         }
-        listener.onStateChange()
+        stateChangedListener.onStateChange()
     }
 
     fun next() {
@@ -110,7 +122,7 @@ class MusicPlayer {
     fun toggleShuffle() {
         isShuffle = !isShuffle
         Log.d("ThangDN6 - MusicPlayer", "toggleShuffle: isShuffle = $isShuffle")
-        listener.onStateChange()
+        stateChangedListener.onStateChange()
     }
 
     fun toggleRepeat() {
@@ -119,23 +131,23 @@ class MusicPlayer {
         } else {
             repeatMode++
         }
-        listener.onStateChange()
+        stateChangedListener.onStateChange()
         Log.d("ThangDN6 - MusicPlayer", "toggleRepeat: ")
     }
 
     fun stop() {
         player.stop()
         player.release()
-        listener.onStateChange()
+        stateChangedListener.onStateChange()
     }
 
     fun getCurrentTrack(): Track {
         return listTrack.tracks[currentTrack]
     }
-    fun getcurrentIndex() = currentTrack
+    fun getCurrentIndex() = currentTrack
 
     fun setOnPlayerStateChangedListener(listener: OnPlayerStateChangedListener) {
-        this.listener = listener
+        this.stateChangedListener = listener
     }
 
     fun isShuffle() = isShuffle
@@ -143,7 +155,5 @@ class MusicPlayer {
     fun isPlaying() = player.isPlaying
     fun getTrackDuration() = player.duration
     fun getCurrentPosition() = player.currentPosition
-
-
 
 }
