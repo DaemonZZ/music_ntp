@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
+import com.mock.musictpn.mediaplayer.MusicPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,5 +61,11 @@ object AppModule {
             .client(client)
             .build()
             .create(IMusicService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePlayer():MusicPlayer {
+        return MusicPlayer()
     }
 }
