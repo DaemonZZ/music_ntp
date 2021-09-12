@@ -15,10 +15,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicTPN"
         android:usesCleartextTraffic="true">
+        <receiver
+            android:name=".receiver.MusicReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="play"/>
+                <action android:name="pause"/>
+                <action android:name="stop"/>
+                <action android:name="next"/>
+                <action android:name="prev"/>
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".service.MusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".ui.activity.MainActivity"

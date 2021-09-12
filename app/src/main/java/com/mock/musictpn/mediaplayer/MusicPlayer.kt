@@ -49,7 +49,7 @@ class MusicPlayer {
     var listTrack: TrackList = TrackList()
     private var currentTrack = 0
     private var isShuffle = true
-    private var repeatMode = MODE_REPEAT_ONE_TRACK
+    private var repeatMode = MODE_REPEAT_WHOLE_LIST
     private var pausePosition = 0
 
     init {
@@ -155,5 +155,6 @@ class MusicPlayer {
     fun isPlaying() = player.isPlaying
     fun getTrackDuration() = player.duration
     fun getCurrentPosition() = player.currentPosition
+    fun seekTo(position:Int) = player.seekTo(position)
 
 }

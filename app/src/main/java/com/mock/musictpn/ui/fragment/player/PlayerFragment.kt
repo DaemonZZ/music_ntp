@@ -4,14 +4,19 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentPlayerBinding
 import com.mock.musictpn.mediaplayer.MusicPlayer
@@ -27,18 +32,18 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
+class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
     override val mViewModel: PlayerViewModel by viewModels()
 
-    private lateinit var mService:MusicService
+    private lateinit var mService: MusicService
 
     @Inject
-    lateinit var scope:CoroutineScope
+    lateinit var scope: CoroutineScope
 
-    private lateinit var  serviceIntent : Intent
+    private lateinit var serviceIntent: Intent
 
-    private val connection = object : ServiceConnection{
+    private val connection = object : ServiceConnection {
         private var isConnected = false
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             isConnected = true
@@ -46,12 +51,17 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
             val binder = service as MusicService.MusicBinder
             mService = binder.getService()
 
-            mService.musicController.setOnPlayerStateChangedListener(object : OnPlayerStateChangedListener{
+            mService.musicController.setOnPlayerStateChangedListener(object :
+                OnPlayerStateChangedListener {
                 override fun onStateChange() {
-                    CoroutineScope(Dispatchers.Main).launch {  loadState() } // make provider
+                    CoroutineScope(Dispatchers.Main).launch { loadState() } // make provider
                 }
+
                 override fun onTrackChange() {
-                    CoroutineScope(Dispatchers.Main).launch { loadTrackInfo() }
+                    CoroutineScope(Dispatchers.Main).launch {
+                        loadTrackInfo()
+                        upDateNotification()
+                    }
 
                 }
 
@@ -74,7 +84,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ThangDN6 - PlayerFragment", "onViewCreated: ")
-        serviceIntent =Intent(requireContext(),MusicService::class.java)
+        serviceIntent = Intent(requireContext(), MusicService::class.java)
         scope.launch {
             mViewModel.loadAlbum("alb.611303574")
         }
@@ -85,9 +95,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
     }
 
     override fun setupViews() {
-        val intent = Intent(requireContext(),MusicService::class.java)
-        requireContext().bindService(intent,connection,Context.BIND_AUTO_CREATE)
-
+        val intent = Intent(requireContext(), MusicService::class.java)
+        requireContext().bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
 
     }
@@ -98,13 +107,26 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
         mBinding.btnPlay.setOnClickListener { togglePlay() }
         mBinding.btnNext.setOnClickListener { onNext() }
         mBinding.btnRepeat.setOnClickListener { toggleRepeat() }
+        mBinding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if(seekBar!=null){
+                    mService.musicController.seekTo(seekBar.progress)
+                }
+            }
+
+        })
     }
 
     override fun setupObservers() {
-        mViewModel.getTrackList().observe(this,{
+        mViewModel.getTrackList().observe(this, {
             val bundle = Bundle().apply {
-                putSerializable("list",it)
+                putSerializable("list", it)
             }
 
             val intent = serviceIntent.apply {
@@ -118,7 +140,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
         })
     }
 
-    private fun updateView(track: Track){
+    private fun updateView(track: Track) {
         Glide.with(mBinding.imgCover).load(track.getImageUrl())
             .placeholder(R.drawable.sky)
             .timeout(30000)
@@ -128,58 +150,91 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding,PlayerViewModel>(){
         setupSeekBar()
     }
 
-    private fun togglePlay(){
+    private fun togglePlay() {
         val intent = serviceIntent.apply { action = MusicPlayer.ACTION_PLAY }
         requireContext().startForegroundService(intent)
     }
 
-    private fun onNext(){
+    private fun onNext() {
         val intent = serviceIntent.apply { action = MusicPlayer.ACTION_NEXT }
         requireContext().startForegroundService(intent)
     }
-    private fun onPrev(){
+
+    private fun onPrev() {
         val intent = serviceIntent.apply { action = MusicPlayer.ACTION_PREV }
         requireContext().startForegroundService(intent)
     }
-    private fun toggleShuffle(){
+
+    private fun toggleShuffle() {
         val intent = serviceIntent.apply { action = MusicPlayer.ACTION_SHUFFLE }
         requireContext().startForegroundService(intent)
     }
-    private fun toggleRepeat(){
-        val intent = serviceIntent.apply { action = MusicPlayer.ACTION_REPEAT}
+
+    private fun toggleRepeat() {
+        val intent = serviceIntent.apply { action = MusicPlayer.ACTION_REPEAT }
         requireContext().startForegroundService(intent)
     }
 
-    fun loadState(){
-        if(mService.musicController.isShuffle())
+    fun loadState() {
+        if (mService.musicController.isShuffle())
             mBinding.btnShuffle.setImageResource(R.drawable.shuffle)
         else mBinding.btnShuffle.setImageResource(R.drawable.ic_not_shuffle)
 
-        when(mService.musicController.getRepeatMode()){
+        when (mService.musicController.getRepeatMode()) {
             MusicPlayer.MODE_NO_REPEAT -> mBinding.btnRepeat.setImageResource(R.drawable.ic_not_shuffle)
             MusicPlayer.MODE_REPEAT_ONE_TRACK -> mBinding.btnRepeat.setImageResource(R.drawable.ic_repeat_1)
             MusicPlayer.MODE_REPEAT_WHOLE_LIST -> mBinding.btnRepeat.setImageResource(R.drawable.ic_repeat)
         }
 
-        if(mService.musicController.isPlaying())
+        if (mService.musicController.isPlaying()) {
             mBinding.btnPlay.setImageResource(R.drawable.pause)
-        else mBinding.btnPlay.setImageResource(R.drawable.play1)
+            upDateNotification()
+        } else {
+            mBinding.btnPlay.setImageResource(R.drawable.play1)
+            upDateNotification()
+        }
 
     }
 
-    fun loadTrackInfo(){
+    fun loadTrackInfo() {
         mBinding.track = mService.musicController.getCurrentTrack()
-       // mBinding.seekBar.max = mService.musicController.getTrackDuration()
+        // mBinding.seekBar.max = mService.musicController.getTrackDuration()
     }
 
-    private fun setupSeekBar(){
+    private fun setupSeekBar() {
         Timer().apply {
-            scheduleAtFixedRate(object : TimerTask(){
+            scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
                     mBinding.seekBar.progress = mService.musicController.getCurrentPosition()
                 }
-            },0,100)
+            }, 0, 100)
         }
+    }
+
+    fun upDateNotification() {
+        if (mService.musicController.listTrack.tracks.isNotEmpty())
+            Glide.with(this)
+                .asBitmap()
+                .load(mService.musicController.getCurrentTrack().getImageUrl())
+                .placeholder(R.drawable.sky)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        mService.createNotification(
+                            mService.musicController.getCurrentTrack().name,
+                            resource,
+                            "Some one"
+                        )
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        Log.d("ThangDN6 - MusicService", "onLoadCleared: cleared")
+                    }
+
+                })
+
     }
 
 }

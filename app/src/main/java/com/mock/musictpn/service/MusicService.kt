@@ -18,6 +18,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.mock.musictpn.R
 import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.model.track.TrackList
+import com.mock.musictpn.receiver.MusicReceiver
+import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.fragment.player.PlayerFragment
 import com.mock.musictpn.utils.Const.CHANNEL_ID
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,8 +101,8 @@ class MusicService : Service() {
 
 
 
-    private fun createNotification(track: String, image: Bitmap, artistName: String) {
-        val intent = Intent(this, PlayerFragment::class.java)
+    fun createNotification(track: String, image: Bitmap, artistName: String) {
+        val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
             0,
@@ -109,7 +111,7 @@ class MusicService : Service() {
         )
         val mediaSession = MediaSessionCompat(this, "tag")
 
-        val mediaIntent = Intent()
+        val mediaIntent = Intent(this,MusicReceiver::class.java)
 
         val nextPendingIntent = PendingIntent.getBroadcast(
             this,
@@ -130,10 +132,11 @@ class MusicService : Service() {
             0
         )
 
-        val btnIcon = if(musicController.isPlaying()) R.drawable.play_noti else R.drawable.pause
+        val btnIcon = if(musicController.isPlaying()) R.drawable.pause else R.drawable.play_noti
+        val notificationIcon = if(musicController.isPlaying()) R.drawable.play_noti else R.drawable.pause
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(btnIcon)
+            .setSmallIcon(notificationIcon)
             .setContentTitle(track)
             .setContentText(artistName)
             .setLargeIcon(image)
