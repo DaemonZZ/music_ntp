@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mock.musictpn.datasource.TrackRepository
 import com.mock.musictpn.datasource.network.IMusicService
 import kotlinx.coroutines.*
 import java.net.UnknownHostException
@@ -14,6 +15,9 @@ open class BaseViewModel : ViewModel() {
     @Inject
     lateinit var musicService: IMusicService
 
+    @Inject
+    lateinit var trackRepository: TrackRepository
+
     var isLoading = MutableLiveData<Boolean>()
     var errorMessage = MutableLiveData<String?>()
 
@@ -23,7 +27,7 @@ open class BaseViewModel : ViewModel() {
                 block()
             } catch (ex: UnknownHostException) {
                 errorMessage.postValue("Check your internet connection and try again !")
-            } catch (ex: Exception){
+            } catch (ex: Exception) {
                 errorMessage.postValue("ERROR")
             }
         }
