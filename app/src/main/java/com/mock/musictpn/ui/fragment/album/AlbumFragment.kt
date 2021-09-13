@@ -33,7 +33,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding, MainViewModel>() {
                 showError(it)
             }
         }
-        mViewModel.albumList.observe(this) {
+        mViewModel.albums.observe(this) {
             albumAdapter.setData(it.albums)
         }
     }

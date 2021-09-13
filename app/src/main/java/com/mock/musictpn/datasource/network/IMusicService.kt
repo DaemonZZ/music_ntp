@@ -145,7 +145,7 @@ interface IMusicService {
      * @param limit max count of response results each type
      */
     @GET("tracks/top")
-    suspend fun getTopTrendingTracks(
+    suspend fun getTopTracksTrending(
         @Query("range") range: String,
         @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY

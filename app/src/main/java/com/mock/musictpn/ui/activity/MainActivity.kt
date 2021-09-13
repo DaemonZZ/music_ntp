@@ -45,9 +45,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun setupViews() {
         checkPermission()
-        mViewModel.getTopTrendingTracks()
-        mViewModel.getAlbums()
+        mViewModel.getTopTracksTrending()
+        mViewModel.getAlbumBanner()
         mViewModel.getGenres()
+        mViewModel.getAlbums()
     }
 
     override fun setupListeners() {

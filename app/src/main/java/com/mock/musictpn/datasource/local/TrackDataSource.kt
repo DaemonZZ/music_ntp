@@ -17,7 +17,7 @@ class TrackDataSource @Inject constructor(private val application: Application) 
         const val ORDER_BY = MediaStore.Audio.Media.DATE_ADDED
     }
 
-    fun fetchAllTrack(): List<Track> {
+    fun fetchTracksLocal(): List<Track> {
         val tracks = ArrayList<Track>()
         val projection = arrayOf(ID, TITLE, ARTIST, ALBUM_ID)
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

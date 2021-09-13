@@ -7,6 +7,7 @@ import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentHomeBinding
 import com.mock.musictpn.ui.activity.MainViewModel
 import com.mock.musictpn.ui.adapter.BannerAdapter
+import com.mock.musictpn.ui.adapter.TrackLocalAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,12 +15,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
 
     private lateinit var bannerAdapter: BannerAdapter
+    private lateinit var trackLocalAdapter: TrackLocalAdapter
     override val mViewModel: MainViewModel by activityViewModels()
 
     override fun getLayoutRes(): Int = R.layout.fragment_home
     override fun setupViews() {
         bannerAdapter = BannerAdapter {}
+        trackLocalAdapter = TrackLocalAdapter {}
         mBinding.viewPager.adapter = bannerAdapter
+        mBinding.rvDeviceTracks.adapter = trackLocalAdapter
     }
 
     override fun setupListeners() {
@@ -27,8 +31,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     override fun setupObservers() {
-        mViewModel.albumList.observe(this, {
-            it?.let {
+        mViewModel.albumBanner.observe(this, {albums->
+            albums?.let {
                 bannerAdapter.setData(it.albums)
             }
         })
@@ -42,10 +46,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             }
         }
         mViewModel.tracksLocal.observe(this) { tracks ->
-            Log.d("ADR", "HOMEFRAGMENT: VO")
-
-            for (i in tracks) {
-                Log.d("ADR", "HOMEFRAGMENT: ${i.name}")
+            tracks?.let {
+                trackLocalAdapter.setData(it)
             }
         }
     }
