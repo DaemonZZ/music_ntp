@@ -8,6 +8,7 @@ import com.mock.musictpn.datasource.local.AppDatabase
 import com.mock.musictpn.datasource.local.dao.TrackDao
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
+import com.mock.musictpn.mediaplayer.MusicPlayer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,5 +77,10 @@ object AppModule {
     @Provides
     fun provideLogDao(database: AppDatabase): TrackDao {
         return database.trackDao()
+    }
+    @Provides
+    @Singleton
+    fun providePlayer(): MusicPlayer {
+        return MusicPlayer()
     }
 }
