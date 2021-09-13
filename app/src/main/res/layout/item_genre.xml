@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="genre"
+            type="com.mock.musictpn.model.genre.Genre" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stroke_background">
+
+        <FrameLayout
+            android:id="@+id/layoutGenre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                set_image="@{genre.imageUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_160dp"
+                android:layout_marginHorizontal="@dimen/dimens_8dp"
+                android:padding="@dimen/dimens_8dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGenre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
+            android:layout_marginBottom="@dimen/dimen_16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/bw_quinta_pro_black"
+            android:gravity="center"
+            android:maxLines="1"
+            android:shadowColor="@color/black"
+            android:shadowDx="-8"
+            android:shadowDy="-8"
+            android:shadowRadius="1"
+            android:text="@{genre.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/layoutGenre"
+            app:layout_constraintLeft_toLeftOf="@id/layoutGenre"
+            app:layout_constraintRight_toRightOf="@id/layoutGenre" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

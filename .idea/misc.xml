@@ -3,30 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/cover_shape.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/error.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_home.xml" value="0.14010416666666667" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_play.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/ic_search.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/item_pressed_background.xml" value="0.16041666666666668" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/play.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/play1.xml" value="0.28489583333333335" />
-        <entry key="..\:/mock/Music/app/src/main/res/drawable/repeat.xml" value="0.28489583333333335" />
         <entry key="..\:/mock/Music/app/src/main/res/layout/activity_main.xml" value="0.23505434782608695" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/dialog_loading.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/dialog_message.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_album.xml" value="0.1" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_current_list.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_disc.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_genre.xml" value="0.254981884057971" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_home.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_player.xml" value="0.25" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_trending.xml" value="0.22" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/item_track.xml" value="0.14427083333333332" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/next.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/player_fragment.xml" value="0.25" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/slider_item.xml" value="0.26875" />
-        <entry key="..\:/mock/Music/app/src/main/res/layout/track_item.xml" value="0.33" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/banner_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/dialog_notification_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/ic_play.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/ic_play_fill.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/item_pressed_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/item_track_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/option_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background_2.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background_3.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/stroke_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/toolbar_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/tv_search_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_indicators.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_not_selected.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/viewpager_selected.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_loading.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_message.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_album.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_genre.xml" value="0.22056159420289856" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_trending.xml" value="0.2" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_album.xml" value="0.22056159420289856" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_artist.xml" value="0.22735507246376813" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_banner.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_genre.xml" value="0.2" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_track.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_track_local.xml" value="0.19927536231884058" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/slider_item.xml" value="0.20208333333333334" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/track_item.xml" value="0.22735507246376813" />
       </map>
     </option>
   </component>

@@ -2,20 +2,33 @@ package com.mock.musictpn.model.track
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.mock.musictpn.datasource.network.IMusicService
+import com.google.gson.annotations.Expose
 import java.io.Serializable
 
-@Entity
+@Entity(tableName = "favorite_track")
 data class Track(
-    @PrimaryKey
-    val id: String,
-    val name: String,
-    val artistId: String,
-    val albumId: String,
-    val previewURL: String
+    @PrimaryKey(autoGenerate = true)
+    @Expose
+    val localId: Int = 0,
+    val id: String = "",
+    val name: String = "",
+    val artistId: String = "",
+    val albumId: String? = null,
+    val artistName: String = "Unknown",
+    val previewURL: String,
+    val isFavorite: Boolean = false,
+    val imageLocal: String = ""
 ) : Serializable {
-    //Test
-    fun getImageUrl():String{
-        return "https://api.napster.com/imageserver/v2/albums/$albumId/images/70x70.jpg"
+    /**
+     * Track = Album
+     * 70x70-200x200-300x300-500x500
+     *
+     */
+    fun getImageUrl(): String? {
+        return if (albumId != null) {
+            "https://api.napster.com/imageserver/v2/albums/$albumId/images/170x170.jpg"
+        } else null
     }
+
+
 }

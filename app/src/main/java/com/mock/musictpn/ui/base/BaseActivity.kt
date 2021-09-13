@@ -8,6 +8,12 @@ import androidx.databinding.ViewDataBinding
 import com.mock.musictpn.utils.UIHelper
 import com.mock.musictpn.views.LoadingDialog
 import com.mock.musictpn.views.MessageDialog
+import android.view.WindowManager
+
+import android.os.Build
+
+
+
 
 abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompatActivity() {
     protected lateinit var mBinding: DB
@@ -24,19 +30,10 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompa
         mBinding = DataBindingUtil.setContentView(this, getLayoutRes())
         mLoadingDialog = LoadingDialog(this)
         errorDialog = MessageDialog(this)
-        intViewModel()
         UIHelper.setupUI(mBinding.root,this)
-    }
-
-    private fun intViewModel() {
-        mViewModel.isLoading.observe(this) { isShow: Boolean ->
-            showLoading(isShow)
-        }
-        mViewModel.errorMessage.observe(this) { message: String? ->
-            message?.let {
-                showError(it)
-            }
-        }
+        setupViews()
+        setupListeners()
+        setupObservers()
     }
 
     open fun showError(message: String) {
@@ -55,6 +52,12 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : BaseViewModel> : AppCompa
             }
         }
     }
+
+    abstract fun setupViews()
+
+    abstract fun setupListeners()
+
+    abstract fun setupObservers()
 
 
 }

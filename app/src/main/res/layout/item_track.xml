@@ -18,13 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_pressed_background"
-        android:padding="8dp">
+        android:padding="@dimen/dimens_8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imvArtist"
             set_image="@{track.imageUrl}"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/dimens_50dp"
+            android:layout_height="@dimen/dimens_50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             android:id="@+id/tvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/dimens_8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{track.name}"
@@ -48,17 +48,17 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="{track.artistName}"
+            android:text="@{track.artistName}"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_12sp"
             app:layout_constraintLeft_toLeftOf="@id/tvName"
             app:layout_constraintRight_toRightOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/imvPlay"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/dimens_25dp"
+            android:layout_height="@dimen/dimens_25dp"
             android:gravity="center"
             android:text="@{position}"
             android:textColor="@color/title_bg"
