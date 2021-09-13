@@ -3,22 +3,20 @@ package com.mock.musictpn.ui.fragment.trending
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentTrendingBinding
+import com.mock.musictpn.ui.activity.MainViewModel
 import com.mock.musictpn.ui.adapter.TrendingAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 
-class TrendingFragment : BaseFragment<FragmentTrendingBinding, TrendingViewModel>() {
+class TrendingFragment : BaseFragment<FragmentTrendingBinding, MainViewModel>() {
 
     private lateinit var trendingAdapter: TrendingAdapter
 
-    override val mViewModel: TrendingViewModel by activityViewModels()
+    override val mViewModel: MainViewModel by activityViewModels()
     override fun getLayoutRes(): Int = R.layout.fragment_trending
 
     override fun setupViews() {
-        trendingAdapter = TrendingAdapter {
-
-        }
+        trendingAdapter = TrendingAdapter {}
         mBinding.rvTrending.adapter = trendingAdapter
-        mViewModel.getTracks()
     }
 
     override fun setupListeners() {

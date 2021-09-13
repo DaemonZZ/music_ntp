@@ -14,6 +14,6 @@ interface TrackDao {
     @Delete
     suspend fun deleteTrack(track: Track)
 
-    @Query("select * from track")
+    @Query("select * from favorite_track")
     suspend fun getAllFavoriteTrack():List<Track>
 }

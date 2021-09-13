@@ -1,12 +1,17 @@
 package com.mock.musictpn.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mock.musictpn.datasource.local.AppDatabase
+import com.mock.musictpn.datasource.local.dao.TrackDao
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
@@ -60,5 +65,16 @@ object AppModule {
             .client(client)
             .build()
             .create(IMusicService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "track.db").build()
+    }
+
+    @Provides
+    fun provideLogDao(database: AppDatabase): TrackDao {
+        return database.trackDao()
     }
 }

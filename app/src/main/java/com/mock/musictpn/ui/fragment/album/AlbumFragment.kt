@@ -3,22 +3,22 @@ package com.mock.musictpn.ui.fragment.album
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentAlbumBinding
+import com.mock.musictpn.ui.activity.MainViewModel
 import com.mock.musictpn.ui.adapter.AlbumAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AlbumFragment : BaseFragment<FragmentAlbumBinding, AlbumViewModel>() {
+class AlbumFragment : BaseFragment<FragmentAlbumBinding, MainViewModel>() {
 
     private lateinit var albumAdapter: AlbumAdapter
 
     override fun getLayoutRes(): Int = R.layout.fragment_album
-    override val mViewModel: AlbumViewModel by activityViewModels()
+    override val mViewModel: MainViewModel by activityViewModels()
 
     override fun setupViews() {
         albumAdapter = AlbumAdapter { }
         mBinding.rvAlbum.adapter = albumAdapter
-        mViewModel.getAlbums()
     }
 
     override fun setupListeners() {
@@ -33,7 +33,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding, AlbumViewModel>() {
                 showError(it)
             }
         }
-        mViewModel.albumList.observe(this) {
+        mViewModel.albums.observe(this) {
             albumAdapter.setData(it.albums)
         }
     }

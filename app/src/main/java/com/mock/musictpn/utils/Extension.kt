@@ -13,4 +13,5 @@ fun AppCompatImageView.getImageFromUrl(url: String?) {
             .into(this)
     }
 
+
 }
