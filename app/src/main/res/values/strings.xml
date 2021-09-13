@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Music NTP</string>
     <string name="ok">OK</string>
+    <string name="playlist">Danh sách phát</string>
 </resources>

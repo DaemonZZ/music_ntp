@@ -36,23 +36,16 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="150dp"
-            app:layout_constraintBottom_toTopOf="@+id/seek_bar"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_layout">
-            <ImageView
-                android:id="@+id/img_cover"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/sky"
-                />
-        </androidx.cardview.widget.CardView>
+
+       <androidx.viewpager2.widget.ViewPager2
+           android:id="@+id/vp_disc"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layoutDirection="rtl"
+           app:layout_constraintBottom_toTopOf="@+id/seek_bar"
+           app:layout_constraintLeft_toLeftOf="parent"
+           app:layout_constraintRight_toRightOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/title_layout"/>
 
         <SeekBar
             android:id="@+id/seek_bar"
@@ -127,7 +120,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Danh sách phát"
+            android:text="@string/playlist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/ico_bottom"
             android:textSize="20sp"

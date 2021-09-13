@@ -8,14 +8,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-interface OnPlayerStateChangedListener {
-    fun onStateChange()
-    fun onTrackChange()
-    fun onStartedPlaying()
-}
-
-
 /**
  * this class contained all function to handle media controller event
  * @author ThangDN6

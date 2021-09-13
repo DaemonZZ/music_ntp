@@ -13,6 +13,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -23,6 +24,7 @@ import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.mediaplayer.OnPlayerStateChangedListener
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.service.MusicService
+import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +36,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
-    override val mViewModel: PlayerViewModel by viewModels()
+    override val mViewModel: PlayerViewModel by activityViewModels()
 
     private lateinit var mService: MusicService
 
@@ -97,7 +99,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     override fun setupViews() {
         val intent = Intent(requireContext(), MusicService::class.java)
         requireContext().bindService(intent, connection, Context.BIND_AUTO_CREATE)
-
+        mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity())
 
     }
 
@@ -127,6 +129,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         mViewModel.getTrackList().observe(this, {
             val bundle = Bundle().apply {
                 putSerializable("list", it)
+                putInt("selectedIndex",0)
             }
 
             val intent = serviceIntent.apply {
@@ -141,10 +144,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     private fun updateView(track: Track) {
-        Glide.with(mBinding.imgCover).load(track.getImageUrl())
-            .placeholder(R.drawable.sky)
-            .timeout(30000)
-            .into(mBinding.imgCover)
         mBinding.track = track
         loadState()
         setupSeekBar()
@@ -189,15 +188,18 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         if (mService.musicController.isPlaying()) {
             mBinding.btnPlay.setImageResource(R.drawable.pause)
             upDateNotification()
+            mViewModel.changeState(true)
         } else {
             mBinding.btnPlay.setImageResource(R.drawable.play1)
             upDateNotification()
+            mViewModel.changeState(false)
         }
 
     }
 
     fun loadTrackInfo() {
         mBinding.track = mService.musicController.getCurrentTrack()
+        mViewModel.loadCurrent(mService.musicController.getCurrentTrack())
         // mBinding.seekBar.max = mService.musicController.getTrackDuration()
     }
 
