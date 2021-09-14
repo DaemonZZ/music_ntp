@@ -5,7 +5,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentCurrentListBinding
-import com.mock.musictpn.ui.adapter.CurentPlaylistAdapter
+import com.mock.musictpn.ui.adapter.CurrentPlaylistAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import com.mock.musictpn.ui.fragment.player.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +26,7 @@ class PlayListFragment : BaseFragment<FragmentCurrentListBinding, PlayerViewMode
         mViewModel.getTrackList().observe(this, {
             Log.d("ThangDN6 - PlayListFragment", "setupObservers: ")
             mBinding.rvCurrentList.apply {
-                adapter = CurentPlaylistAdapter(it.tracks)
+                adapter = CurrentPlaylistAdapter(it.tracks)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
             }

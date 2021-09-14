@@ -12,4 +12,5 @@
     <color name="main_bg">#BFE9FF</color>
     <color name="title_bg">#01A6FF</color>
     <color name="color_background">#ECF5FF</color>
+    <color name="translucent">#00000000</color>
 </resources>

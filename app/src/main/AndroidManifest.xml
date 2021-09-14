@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mock.musictpn">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,16 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicTPN"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true" />
+
         <receiver
             android:name=".receiver.MusicReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="play"/>
-                <action android:name="pause"/>
-                <action android:name="stop"/>
-                <action android:name="next"/>
-                <action android:name="prev"/>
+                <action android:name="play" />
+                <action android:name="pause" />
+                <action android:name="stop" />
+                <action android:name="next" />
+                <action android:name="prev" />
             </intent-filter>
         </receiver>
 
@@ -34,7 +39,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.MainActivity2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

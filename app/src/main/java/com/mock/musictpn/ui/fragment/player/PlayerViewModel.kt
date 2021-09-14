@@ -22,7 +22,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     fun isPlaying():LiveData<Boolean> = _isPlaying
 
 
-    suspend fun loadAlbum(id:String){
+    fun loadAlbum(id:String) = launchOnUI{
         val list = musicService.getTracksListByAlbumId(id)
         _trackList.postValue(list)
     }

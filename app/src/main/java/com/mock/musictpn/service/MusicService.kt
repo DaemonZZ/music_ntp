@@ -20,11 +20,9 @@ import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.receiver.MusicReceiver
 import com.mock.musictpn.ui.activity.MainActivity
-import com.mock.musictpn.ui.fragment.player.PlayerFragment
 import com.mock.musictpn.utils.Const.CHANNEL_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -132,8 +130,8 @@ class MusicService : Service() {
             0
         )
 
-        val btnIcon = if(musicController.isPlaying()) R.drawable.pause else R.drawable.play_noti
-        val notificationIcon = if(musicController.isPlaying()) R.drawable.play_noti else R.drawable.pause
+        val btnIcon = if(musicController.isPlaying()) R.drawable.ic_pause else R.drawable.ic_play_noti
+        val notificationIcon = if(musicController.isPlaying()) R.drawable.ic_play_noti else R.drawable.ic_pause
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(notificationIcon)
@@ -143,9 +141,9 @@ class MusicService : Service() {
             .setContentIntent(pendingIntent)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .addAction(R.drawable.prev, "Previous", prevPendingIntent)
+            .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent)
             .addAction(btnIcon, "Play", playPendingIntent)
-            .addAction(R.drawable.next, "Next", nextPendingIntent)
+            .addAction(R.drawable.ic_next, "Next", nextPendingIntent)
             .setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
                     .setShowActionsInCompactView(1)

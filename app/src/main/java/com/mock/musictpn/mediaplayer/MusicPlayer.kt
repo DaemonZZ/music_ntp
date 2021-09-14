@@ -32,12 +32,7 @@ class MusicPlayer {
 
     private var player: MediaPlayer = MediaPlayer()
     private lateinit var stateChangedListener: OnPlayerStateChangedListener
-    private var preparedListener = MediaPlayer.OnPreparedListener { mp ->
-        Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
-        mp.start()
-        stateChangedListener.onStartedPlaying()
-        stateChangedListener.onStateChange()
-    }
+    private lateinit var errorListener : MediaPlayer.OnErrorListener
     var listTrack: TrackList = TrackList()
     private var currentTrack = 0
     private var isShuffle = true
@@ -46,7 +41,6 @@ class MusicPlayer {
 
     init {
         player.setOnCompletionListener {
-            if(it.isPlaying){
                 Log.d("ThangDN6 - MusicPlayer", "reached event: Complete track")
                 if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
                 else
@@ -57,10 +51,18 @@ class MusicPlayer {
                             0
                         ) else next()
                     }
-            }
 
         }
-        player.setOnPreparedListener(preparedListener)
+        player.setOnErrorListener { mp, what, extra ->
+            Log.d("ThangDN6 - MusicPlayer", "$what: $extra ")
+            false
+        }
+        player.setOnPreparedListener{
+            Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
+            it.start()
+            stateChangedListener.onStartedPlaying()
+            stateChangedListener.onStateChange()
+        }
     }
 
 
@@ -90,25 +92,31 @@ class MusicPlayer {
     }
 
     fun next() {
-        if (isShuffle) {
-            val index = listTrack.tracks.indices.random()
-            playTrack(index)
-        } else if (currentTrack == listTrack.tracks.size - 1) {
-            playTrack(0)
-        } else {
-            playTrack(currentTrack + 1)
+        if(listTrack.tracks.isNotEmpty()){
+            if (isShuffle) {
+                val index = listTrack.tracks.indices.random()
+                playTrack(index)
+            } else if (currentTrack == listTrack.tracks.size - 1) {
+                playTrack(0)
+            } else {
+                playTrack(currentTrack + 1)
+            }
         }
+
     }
 
     fun prev() {
-        if (isShuffle) {
-            val index = listTrack.tracks.indices.random()
-            playTrack(index)
-        } else if (currentTrack == 0) {
-            playTrack(listTrack.tracks.size - 1)
-        } else {
-            playTrack(currentTrack - 1)
+        if(listTrack.tracks.isNotEmpty()){
+            if (isShuffle) {
+                val index = listTrack.tracks.indices.random()
+                playTrack(index)
+            } else if (currentTrack == 0) {
+                playTrack(listTrack.tracks.size - 1)
+            } else {
+                playTrack(currentTrack - 1)
+            }
         }
+
     }
 
     fun toggleShuffle() {
@@ -149,4 +157,7 @@ class MusicPlayer {
     fun getCurrentPosition() = player.currentPosition
     fun seekTo(position:Int) = player.seekTo(position)
 
+    fun setOnErrorListener(listener : MediaPlayer.OnErrorListener){
+        this.player.setOnErrorListener(listener)
+    }
 }

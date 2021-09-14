@@ -1,6 +1,5 @@
 package com.mock.musictpn.ui.fragment.home
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
