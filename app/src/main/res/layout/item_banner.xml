@@ -18,7 +18,6 @@
             set_image="@{album.imageUrl}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/dimens_8dp"
             android:padding="@dimen/dimens_8dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
