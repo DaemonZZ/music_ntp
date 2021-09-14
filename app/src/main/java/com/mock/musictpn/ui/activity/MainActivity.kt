@@ -6,17 +6,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.ActivityMainBinding
-import com.mock.musictpn.ui.adapter.MainViewPagerAdapter
 import com.mock.musictpn.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
-import android.media.MediaPlayer
-import androidx.core.net.toUri
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 
 
 @AndroidEntryPoint
@@ -25,9 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         const val RC_PERMISSION: Int = 100
     }
 
-    private val titleList = listOf("Home", "Trending", "Album", "Genre")
-    private val iconList =
-        listOf(R.drawable.ic_home, R.drawable.ic_trending, R.drawable.ic_album, R.drawable.ic_genre)
+    private var isFinishApp = false
 
     override val mViewModel: MainViewModel by viewModels()
     override fun getLayoutRes(): Int = R.layout.activity_main
@@ -35,12 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mBinding.vpMain.adapter = MainViewPagerAdapter(this)
-        TabLayoutMediator(mBinding.tabMain, mBinding.vpMain) { tab, index ->
-            tab.text = titleList[index]
-            tab.setIcon(iconList[index])
-        }.attach()
-        mBinding.vpMain.isUserInputEnabled = false
+
     }
 
     override fun setupViews() {
@@ -52,11 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun setupListeners() {
-        mBinding.btnSearch.setOnClickListener {
-            val mediaPlayer =
-                MediaPlayer.create(this, "content://media/external/audio/media/6135".toUri())
-            mediaPlayer.start()
-        }
+
     }
 
     override fun setupObservers() {
@@ -74,9 +61,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 RC_PERMISSION
             )
         } else {
-            Log.d("NganHV", "checkPermission: OK")
-            //getData
-//            getAllTrack()
             mViewModel.fetchTracksLocal()
         }
     }
@@ -90,9 +74,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         if (requestCode == RC_PERMISSION &&
             grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
-            Log.d("NganHV", "checkPermission: OK")
-            //getData
-//            getAllTrack()
             mViewModel.fetchTracksLocal()
         } else {
             //you_have_not_enough_grant_permission
@@ -100,5 +81,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             intent.data = Uri.parse("package:" + this.packageName)
             startActivityForResult(intent, RC_PERMISSION)
         }
+    }
+
+    override fun onBackPressed() {
+        if (isFinishApp) {
+            super.onBackPressed()
+            return
+        }
+        isFinishApp = true
+        Toast.makeText(this, getString(R.string.confirm_exit_app), Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            isFinishApp = false
+        }, 2000)
     }
 }
