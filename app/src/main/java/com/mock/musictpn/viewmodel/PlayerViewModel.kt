@@ -1,4 +1,4 @@
-package com.mock.musictpn.ui.fragment.player
+package com.mock.musictpn.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

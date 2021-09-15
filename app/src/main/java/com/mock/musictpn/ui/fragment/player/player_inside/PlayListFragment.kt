@@ -7,7 +7,7 @@ import com.mock.musictpn.databinding.FragmentCurrentListBinding
 import com.mock.musictpn.ui.adapter.CurrentPlaylistAdapter
 import com.mock.musictpn.ui.adapter.listener.OnPlaylistItemClickedListener
 import com.mock.musictpn.ui.base.BaseFragment
-import com.mock.musictpn.ui.fragment.player.PlayerViewModel
+import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

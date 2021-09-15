@@ -1,4 +1,4 @@
-package com.mock.musictpn.ui.activity
+package com.mock.musictpn.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

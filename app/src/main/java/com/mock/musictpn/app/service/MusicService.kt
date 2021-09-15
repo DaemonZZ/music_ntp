@@ -1,4 +1,4 @@
-package com.mock.musictpn.service
+package com.mock.musictpn.app.service
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -18,7 +18,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.mock.musictpn.R
 import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.receiver.MusicReceiver
+import com.mock.musictpn.app.receiver.MusicReceiver
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.utils.Const.CHANNEL_ID
 import dagger.hilt.android.AndroidEntryPoint
@@ -109,7 +109,7 @@ class MusicService : Service() {
         )
         val mediaSession = MediaSessionCompat(this, "tag")
 
-        val mediaIntent = Intent(this,MusicReceiver::class.java)
+        val mediaIntent = Intent(this, MusicReceiver::class.java)
 
         val nextPendingIntent = PendingIntent.getBroadcast(
             this,

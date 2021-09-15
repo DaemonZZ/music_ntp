@@ -1,4 +1,4 @@
-package com.mock.musictpn.receiver
+package com.mock.musictpn.app.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

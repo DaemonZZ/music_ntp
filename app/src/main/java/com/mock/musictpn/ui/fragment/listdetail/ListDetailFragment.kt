@@ -1,6 +1,5 @@
 package com.mock.musictpn.ui.fragment.listdetail
 
-import android.os.Bundle
 import android.util.Log
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -9,7 +8,7 @@ import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentListDetailBinding
 import com.mock.musictpn.model.album.Album
 import com.mock.musictpn.model.genre.Genre
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.TrackByTypeAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import com.mock.musictpn.utils.Const.EXTRA_ALBUM

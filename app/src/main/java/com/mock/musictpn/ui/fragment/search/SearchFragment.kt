@@ -3,7 +3,7 @@ package com.mock.musictpn.ui.fragment.search
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentSearchBinding
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.base.BaseFragment
 
 class SearchFragment : BaseFragment<FragmentSearchBinding, MainViewModel>() {

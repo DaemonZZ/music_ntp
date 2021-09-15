@@ -1,8 +1,6 @@
 package com.mock.musictpn.ui.fragment.trending
 
 import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
@@ -10,14 +8,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentTrendingBinding
-import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.service.MusicService
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.app.service.MusicService
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.TrendingAdapter
 import com.mock.musictpn.ui.adapter.listener.OnTrendingItemClickedListener
 import com.mock.musictpn.ui.base.BaseFragment
-import com.mock.musictpn.ui.fragment.player.PlayerViewModel
+import com.mock.musictpn.viewmodel.PlayerViewModel
 
 class TrendingFragment : BaseFragment<FragmentTrendingBinding, MainViewModel>() {
 

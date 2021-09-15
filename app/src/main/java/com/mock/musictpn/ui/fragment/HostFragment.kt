@@ -5,7 +5,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentHostBinding
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.MainViewPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 

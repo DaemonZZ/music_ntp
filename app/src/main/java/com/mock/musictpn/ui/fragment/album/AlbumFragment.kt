@@ -5,7 +5,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentAlbumBinding
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.AlbumAdapter
 import com.mock.musictpn.ui.base.BaseFragment
 import com.mock.musictpn.utils.Const.EXTRA_ALBUM

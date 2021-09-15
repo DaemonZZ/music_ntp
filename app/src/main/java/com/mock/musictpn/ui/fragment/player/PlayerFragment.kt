@@ -14,10 +14,11 @@ import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.mediaplayer.OnPlayerStateChangedListener
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.service.MusicService
+import com.mock.musictpn.app.service.MusicService
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
+import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

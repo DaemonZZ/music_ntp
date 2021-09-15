@@ -9,7 +9,7 @@ import com.mock.musictpn.datasource.local.dao.TrackDao
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.mediaplayer.MusicPlayer
-import com.mock.musictpn.service.MusicService
+import com.mock.musictpn.app.service.MusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

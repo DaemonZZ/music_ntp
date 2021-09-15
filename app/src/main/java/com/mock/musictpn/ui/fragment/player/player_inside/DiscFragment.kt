@@ -2,16 +2,15 @@ package com.mock.musictpn.ui.fragment.player.player_inside
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentDiscBinding
 import com.mock.musictpn.ui.base.BaseFragment
-import com.mock.musictpn.ui.fragment.player.PlayerViewModel
+import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscFragment : BaseFragment<FragmentDiscBinding,PlayerViewModel>() {
+class DiscFragment : BaseFragment<FragmentDiscBinding, PlayerViewModel>() {
     override val mViewModel: PlayerViewModel by activityViewModels()
     private lateinit var animation:Animator
 

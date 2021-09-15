@@ -8,7 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentHomeBinding
-import com.mock.musictpn.ui.activity.MainViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.BannerAdapter
 import com.mock.musictpn.ui.adapter.TrackLocalAdapter
 import com.mock.musictpn.ui.base.BaseFragment

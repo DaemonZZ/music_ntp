@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -20,9 +19,9 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import androidx.navigation.NavController
-import com.mock.musictpn.service.MusicService
-import com.mock.musictpn.ui.fragment.player.PlayerViewModel
+import com.mock.musictpn.app.service.MusicService
+import com.mock.musictpn.viewmodel.PlayerViewModel
+import com.mock.musictpn.viewmodel.MainViewModel
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
