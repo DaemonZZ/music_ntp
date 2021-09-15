@@ -29,18 +29,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var trackLocalAdapter: TrackLocalAdapter
     override val mViewModel: MainViewModel by activityViewModels()
+    private lateinit var handler: Handler
 
     override fun getLayoutRes(): Int = R.layout.fragment_home
     override fun setupViews() {
+        handler = Handler(Looper.getMainLooper())
         bannerAdapter = BannerAdapter {}
         trackLocalAdapter = TrackLocalAdapter {}
         mBinding.viewPagerBanner.adapter = bannerAdapter
         mBinding.rvDeviceTracks.adapter = trackLocalAdapter
+        mBinding.viewPagerBanner.registerOnPageChangeCallback(viewPagerCallback)
     }
 
     override fun setupListeners() {
         TabLayoutMediator(mBinding.tabLayout, mBinding.viewPagerBanner) { _, _ -> }.attach()
-        mBinding.viewPagerBanner.registerOnPageChangeCallback(viewPagerCallback)
     }
 
     override fun setupObservers() {
@@ -48,7 +50,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
             albums?.let {
                 bannerAdapter.setData(it.albums)
                 autoSwipeBanner()
-                mBinding.viewPagerBanner.registerOnPageChangeCallback(viewPagerCallback)
             }
         })
 
@@ -68,7 +69,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     }
 
     private fun autoSwipeBanner() {
-        val handler = Handler(Looper.getMainLooper())
         val update = Runnable {
             if (currentCallBack == 0) {
                 currentPage = 1
@@ -92,14 +92,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             currentCallBack = position
+            currentPage = position
         }
 
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             if (state == ViewPager.SCROLL_STATE_IDLE) {
-                if (currentCallBack == 4) {
+                if (currentCallBack == 4 && currentPage == 4) {
                     Handler(Looper.getMainLooper()).postDelayed({
-                        mBinding.viewPagerBanner.setCurrentItem(0, false)
+                        if(currentCallBack == 4){
+                            mBinding.viewPagerBanner.setCurrentItem(0, false)
+                        }
                     }, PERIOD_MS)
                 }
             }

@@ -1,7 +1,5 @@
 package com.mock.musictpn.model.album
 
-import com.mock.musictpn.datasource.network.IMusicService
-import com.mock.musictpn.model.track.TrackList
 import java.io.Serializable
 
 data class Album(
@@ -9,7 +7,7 @@ data class Album(
     val name: String,
     val released: String,
     val artistName: String
-){
+): Serializable{
     /**
      * Album Image size
      * 70x70-200x200-300x300-500x500

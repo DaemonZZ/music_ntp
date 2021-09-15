@@ -16,4 +16,9 @@
     <dimen name="dimens_50dp">50dp</dimen>
     <dimen name="dimens_160dp">160dp</dimen>
     <dimen name="text_size_36sp">36sp</dimen>
+    <dimen name="dimens_60dp">60dp</dimen>
+    <dimen name="dimens_90dp">90dp</dimen>
+    <dimen name="dimens_40dp">40dp</dimen>
+    <dimen name="dimens_4dp">4dp</dimen>
+    <dimen name="dimens_2dp">2dp</dimen>
 </resources>
