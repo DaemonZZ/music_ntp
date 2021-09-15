@@ -18,6 +18,7 @@ import com.mock.musictpn.app.service.MusicService
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
+import com.mock.musictpn.ui.fragment.player.player_inside.ChangePageActionListener
 import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +43,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
     private lateinit var currentTracks: TrackList
 
+
     private var isPreparing = false
 
     override fun getLayoutRes(): Int {
@@ -51,7 +53,16 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     override fun setupViews() {
         serviceIntent = Intent(requireContext(), MusicService::class.java)
 
-        mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity())
+        mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity()).apply {
+            setChangePageActionListener(object : ChangePageActionListener{
+                override fun changePage(page: Int) {
+                    mBinding.vpDisc.setCurrentItem(page,true)
+                }
+
+            })
+        }
+
+
         if (MainActivity.mService != null) {
             mService = MainActivity.mService!!
             setUpPlayerListener()

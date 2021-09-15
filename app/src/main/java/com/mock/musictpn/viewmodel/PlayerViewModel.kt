@@ -1,6 +1,7 @@
 package com.mock.musictpn.viewmodel
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
@@ -17,11 +18,10 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     private val _isPlaying = MutableLiveData<Boolean>()
     var previousState = TrackList()
 
+
     fun getTrackList(): LiveData<TrackList> = _trackList
 
-
     fun isPlaying(): LiveData<Boolean> = _isPlaying
-
 
     fun changeList(list: TrackList) {
         _trackList.postValue(list)
@@ -32,5 +32,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     fun changeState(isPlaying: Boolean) {
         _isPlaying.postValue(isPlaying)
     }
+
+
 
 }

@@ -14,7 +14,11 @@ class DiscFragment : BaseFragment<FragmentDiscBinding, PlayerViewModel>() {
     override val mViewModel: PlayerViewModel by activityViewModels()
     private lateinit var animation:Animator
 
+    private lateinit var listener: ChangePageActionListener
 
+    fun setChangePageActionListener(listener: ChangePageActionListener){
+        this.listener = listener
+    }
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_disc
@@ -40,6 +44,9 @@ class DiscFragment : BaseFragment<FragmentDiscBinding, PlayerViewModel>() {
 
     override fun setupViews() {
         loadAnimation()
+        mBinding.btnList.setOnClickListener {
+            listener.changePage(1)
+        }
     }
 
     private fun loadAnimation(){

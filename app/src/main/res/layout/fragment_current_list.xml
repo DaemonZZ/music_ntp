@@ -4,20 +4,21 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:padding="@dimen/dimen_10dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="20dp"
+            android:drawablePadding="@dimen/dimens_20dp"
             android:text="@string/playlist"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_18sp"
             android:textStyle="bold"
             android:gravity="center_vertical"
             app:drawableEndCompat="@drawable/ic_list" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_current_list"
+            android:paddingBottom="@dimen/dimen_10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
