@@ -1,7 +1,10 @@
 package com.mock.musictpn.ui.activity
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -13,33 +16,55 @@ import com.mock.musictpn.databinding.ActivityMainBinding
 import com.mock.musictpn.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import android.os.Handler
+import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
-
+import androidx.navigation.NavController
+import com.mock.musictpn.service.MusicService
+import com.mock.musictpn.ui.fragment.player.PlayerViewModel
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     companion object {
         const val RC_PERMISSION: Int = 100
-    }
+        var mService: MusicService? = null
 
+    }
     private var isFinishApp = false
 
+    private val connection = object : ServiceConnection {
+        private var isConnected = false
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            isConnected = true
+            Log.d("ThangDN6 - PlayerFragment", "onServiceConnected: ")
+            val binder = service as MusicService.MusicBinder
+            mService = binder.getService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d("ThangDN6 - MainActivity", "onServiceDisconnected: ")
+            isConnected = false
+        }
+        fun isConnected() = isConnected
+    }
     override val mViewModel: MainViewModel by viewModels()
+    val playerViewModel by viewModels<PlayerViewModel>()
     override fun getLayoutRes(): Int = R.layout.activity_main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-
-    }
 
     override fun setupViews() {
         checkPermission()
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent,connection, Context.BIND_AUTO_CREATE)
+
+
         mViewModel.getTopTracksTrending()
         mViewModel.getAlbumBanner()
         mViewModel.getGenres()
         mViewModel.getAlbums()
+
     }
 
     override fun setupListeners() {
@@ -83,15 +108,23 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 
-//    override fun onBackPressed() {
-//        if (isFinishApp) {
-//            super.onBackPressed()
-//            return
-//        }
-//        isFinishApp = true
-//        Toast.makeText(this, getString(R.string.confirm_exit_app), Toast.LENGTH_SHORT).show()
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            isFinishApp = false
-//        }, 2000)
-//    }
+
+    override fun onBackPressed() {
+        if (isFinishApp) {
+            super.onBackPressed()
+            return
+        }
+        isFinishApp = true
+        Toast.makeText(this, getString(R.string.confirm_exit_app), Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            isFinishApp = false
+        }, 2000)
+
+
+    }
+
+    override fun onDestroy() {
+        unbindService(connection)
+        super.onDestroy()
+    }
 }

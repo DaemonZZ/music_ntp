@@ -23,11 +23,6 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     fun isPlaying(): LiveData<Boolean> = _isPlaying
 
 
-    fun loadAlbum(id: String) = launchOnUI {
-        val list = musicService.getTracksListByAlbumId(id)
-        _trackList.postValue(list)
-    }
-
     fun changeList(list: TrackList) {
         _trackList.postValue(list)
         Log.d("ThangDN6 - PlayerViewModel", "changeList: ${list.pivot}")
