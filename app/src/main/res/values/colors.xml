@@ -13,4 +13,5 @@
     <color name="title_bg">#01A6FF</color>
     <color name="color_background">#ECF5FF</color>
     <color name="translucent">#00000000</color>
+    <color name="color_recyclerview">#EBF5FF</color>
 </resources>

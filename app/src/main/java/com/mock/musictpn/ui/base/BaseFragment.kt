@@ -14,7 +14,8 @@ import com.mock.musictpn.views.LoadingDialog
 import com.mock.musictpn.views.MessageDialog
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
-    protected lateinit var mBinding: DB
+    private var _mBinding: DB? = null
+    protected val mBinding get() = _mBinding!!
     protected abstract val mViewModel: VM
 
     private lateinit var mLoadingDialog: LoadingDialog
@@ -32,10 +33,15 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
+        _mBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         return mBinding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _mBinding = null
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mLoadingDialog = LoadingDialog(mContext)
