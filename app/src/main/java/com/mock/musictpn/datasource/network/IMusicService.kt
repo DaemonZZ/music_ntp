@@ -55,21 +55,21 @@ interface IMusicService {
      * @param id: Album id
      */
     @GET("albums/{id}/tracks")
-    suspend fun getTracksListByAlbumId(
+    suspend fun getTracksByAlbumId(
         @Path("id") id: String,
         @Query("apikey") apiKey: String = API_KEY
-    ): TrackList
+    ): Response<TrackList>
 
     /**
      * Get all tracks of a genre which have id = {id}
      * @param id: Genre id
      */
     @GET("genres/{id}/tracks/top")
-    suspend fun getTrackListByGenreId(
+    suspend fun getTracksByGenreId(
         @Path("id") id: String,
         @Query("limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
-    ): TrackList
+    ): Response<TrackList>
 
     @GET("artists/{id}/tracks")
     suspend fun getTrackListByArtistId(

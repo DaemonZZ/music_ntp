@@ -1,5 +1,6 @@
 package com.mock.musictpn.ui.activity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mock.musictpn.model.album.AlbumList
@@ -8,8 +9,6 @@ import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,9 +29,38 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
     private val _albums = MutableLiveData<AlbumList>()
     val albums: LiveData<AlbumList> get() = _albums
 
+    private var _tracksByAlbumId = MutableLiveData<TrackList?>()
+    val tracksByAlbumId: LiveData<TrackList?> get() = _tracksByAlbumId
+
+    private var _tracksByGenreId= MutableLiveData<TrackList?>()
+    val tracksByGenreId: LiveData<TrackList?> get() = _tracksByGenreId
+
     fun fetchTracksLocal() = launchOnUI {
         val data = asyncOnIOAwait { trackRepository.fetchTracksLocal() }
         _tracksLocal.postValue(data)
+    }
+
+    fun clearData() {
+        _tracksByAlbumId.postValue(null)
+    }
+
+    fun getTracksByAlbumId(albumId: String) = launchOnUI {
+        val response = trackRepository.getTracksByAlbumId(albumId)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                _tracksByAlbumId.postValue(it)
+            }
+        }
+    }
+
+    fun getTracksByGenreId(genreId: String) = launchOnUI {
+        val response = trackRepository.getTracksByGenreId(genreId)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                Log.d("UUU", "setupObservers: $it")
+                _tracksByGenreId.postValue(it)
+            }
+        }
     }
 
     fun getTopTracksTrending() = launchOnUI {

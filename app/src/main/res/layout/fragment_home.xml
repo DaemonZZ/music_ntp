@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,63 +32,63 @@
             android:layout_marginEnd="@dimen/dimen_16dp"
             android:layout_marginBottom="@dimen/dimens_8dp"
             android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="@id/viewPagerBanner"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintRight_toRightOf="@id/viewPagerBanner"
             app:tabBackground="@drawable/viewpager_indicators"
+            app:tabGravity="start"
             app:tabIndicatorGravity="center"
             app:tabIndicatorHeight="0dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRecentTracks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dimens_8dp"
-            android:text="@string/title_recent"
-            android:textColor="@color/title_bg"
-            android:textSize="@dimen/text_size_18sp"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_clock"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRecentTracks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRecentTracks" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDeviceTracks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimens_8dp"
-            android:padding="@dimen/dimens_8dp"
-            android:text="@string/title_device"
-            android:textColor="@color/title_bg"
-            android:textSize="@dimen/text_size_18sp"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/ic_cloud"
-            app:layout_constraintBottom_toTopOf="@id/tvDeviceTracks"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvRecentTracks" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDeviceTracks"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/white"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDeviceTracks" />
+            app:layout_constraintTop_toBottomOf="@id/guideline">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRecentTracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimens_8dp"
+                android:text="@string/title_recent"
+                android:textColor="@color/title_bg"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_clock" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecentTracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_recyclerview"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dimens_8dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDeviceTracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_4dp"
+                android:padding="@dimen/dimens_8dp"
+                android:text="@string/title_device"
+                android:textColor="@color/title_bg"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@drawable/ic_cloud" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDeviceTracks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_recyclerview"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dimens_8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
 

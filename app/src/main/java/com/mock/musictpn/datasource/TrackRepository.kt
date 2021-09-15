@@ -26,6 +26,14 @@ class TrackRepository @Inject constructor(
         return apiService.getTopTracksTrending(ApiContract.RANGE_YEAR, 50)
     }
 
+    suspend fun getTracksByAlbumId(albumId: String): Response<TrackList> {
+        return apiService.getTracksByAlbumId(albumId)
+    }
+
+    suspend fun getTracksByGenreId(genreId: String): Response<TrackList> {
+        return apiService.getTracksByGenreId(genreId)
+    }
+
     suspend fun getGenres(): Response<GenreList> {
         return apiService.getGenreList()
     }

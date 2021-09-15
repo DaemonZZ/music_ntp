@@ -10,5 +10,6 @@
     <string name="num_2">2</string>
     <string name="num_3">3</string>
     <string name="confirm_exit_app">Please click BACK again to exit</string>
+    <string name="play_shuffle">Play shuffle</string>
 
 </resources>
