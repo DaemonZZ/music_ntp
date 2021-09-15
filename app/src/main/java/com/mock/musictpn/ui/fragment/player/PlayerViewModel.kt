@@ -1,7 +1,9 @@
 package com.mock.musictpn.ui.fragment.player
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.viewpager2.widget.ViewPager2
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.ui.base.BaseViewModel
@@ -12,26 +14,27 @@ import javax.inject.Inject
 class PlayerViewModel @Inject constructor() : BaseViewModel() {
 
     private val _trackList = MutableLiveData<TrackList>()  //Current list
-    private val _currentTrack = MutableLiveData<Track>()
     private val _isPlaying = MutableLiveData<Boolean>()
+    var previousState = TrackList()
 
-    fun getTrackList():LiveData<TrackList> =  _trackList
-
-    fun getCurrentTrack():LiveData<Track> = _currentTrack
-
-    fun isPlaying():LiveData<Boolean> = _isPlaying
+    fun getTrackList(): LiveData<TrackList> = _trackList
 
 
-    fun loadAlbum(id:String) = launchOnUI{
+    fun isPlaying(): LiveData<Boolean> = _isPlaying
+
+
+    fun loadAlbum(id: String) = launchOnUI {
         val list = musicService.getTracksListByAlbumId(id)
         _trackList.postValue(list)
     }
 
-    fun loadCurrent(track:Track){
-        _currentTrack.postValue(track)
+    fun changeList(list: TrackList) {
+        _trackList.postValue(list)
+        Log.d("ThangDN6 - PlayerViewModel", "changeList: ${list.pivot}")
     }
 
-    fun changeState(isPlaying:Boolean){
+
+    fun changeState(isPlaying: Boolean) {
         _isPlaying.postValue(isPlaying)
     }
 

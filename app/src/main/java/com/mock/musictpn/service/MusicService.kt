@@ -46,11 +46,11 @@ class MusicService : Service() {
             MusicPlayer.ACTION_START -> {
                 val bundle = intent.extras
                 val list = bundle?.getSerializable("list")
-                if (list != null) {
+                if (list != null ) {
                     musicController.listTrack = list as TrackList
                     val img = BitmapFactory.decodeResource(resources,R.drawable.sky)
-                    createNotification(list.tracks[musicController.getCurrentIndex()].name, img, "Some one")
-                    musicController.playTrack(0)
+                    createNotification(list.tracks[musicController.getCurrentIndex()].name, img, list.tracks[musicController.getCurrentIndex()].artistName)
+                    musicController.playTrack(list.pivot)
                     Glide.with(this@MusicService)
                         .asBitmap()
                         .load(musicController.getCurrentTrack().getImageUrl())

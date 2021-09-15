@@ -31,33 +31,31 @@ class MusicPlayer {
     }
 
     private var player: MediaPlayer = MediaPlayer()
+
     private lateinit var stateChangedListener: OnPlayerStateChangedListener
-    private lateinit var errorListener : MediaPlayer.OnErrorListener
     var listTrack: TrackList = TrackList()
-    private var currentTrack = 0
     private var isShuffle = true
     private var repeatMode = MODE_REPEAT_WHOLE_LIST
     private var pausePosition = 0
 
     init {
         player.setOnCompletionListener {
-                Log.d("ThangDN6 - MusicPlayer", "reached event: Complete track")
-                if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
-                else
-                    when (repeatMode) {
-                        MODE_NO_REPEAT -> if (currentTrack == listTrack.tracks.size - 1) stop() else next()
-                        MODE_REPEAT_ONE_TRACK -> playTrack(currentTrack)
-                        MODE_REPEAT_WHOLE_LIST -> if (currentTrack == listTrack.tracks.size - 1) playTrack(
-                            0
-                        ) else next()
-                    }
-
+            Log.d("ThangDN6 - MusicPlayer", "reached event: Complete track")
+            if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
+            else
+                when (repeatMode) {
+                    MODE_NO_REPEAT -> if (listTrack.pivot == listTrack.tracks.size - 1) stop() else next()
+                    MODE_REPEAT_ONE_TRACK -> playTrack(listTrack.pivot)
+                    MODE_REPEAT_WHOLE_LIST -> if (listTrack.pivot == listTrack.tracks.size - 1) playTrack(
+                        0
+                    ) else next()
+                }
         }
-        player.setOnErrorListener { mp, what, extra ->
+        player.setOnErrorListener { _, what, extra ->
             Log.d("ThangDN6 - MusicPlayer", "$what: $extra ")
             false
         }
-        player.setOnPreparedListener{
+        player.setOnPreparedListener {
             Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
             it.start()
             stateChangedListener.onStartedPlaying()
@@ -67,15 +65,19 @@ class MusicPlayer {
 
 
     fun playTrack(index: Int) {
-        currentTrack = index
+        if (listTrack.pivot != index) {
+            stateChangedListener.onTrackChange()
+            listTrack.pivot = index
+        }
         val track = listTrack.tracks[index]
-        stateChangedListener.onTrackChange()
         player.reset()
         player.setDataSource(track.previewURL)
         player.prepareAsync()
         //player.start()
 
         Log.d("ThangDN6 - MusicPlayer", "playTrack: ${track.name}")
+
+
     }
 
     fun togglePlayButton() {
@@ -92,28 +94,28 @@ class MusicPlayer {
     }
 
     fun next() {
-        if(listTrack.tracks.isNotEmpty()){
+        if (listTrack.tracks.isNotEmpty()) {
             if (isShuffle) {
                 val index = listTrack.tracks.indices.random()
                 playTrack(index)
-            } else if (currentTrack == listTrack.tracks.size - 1) {
+            } else if (listTrack.pivot == listTrack.tracks.size - 1) {
                 playTrack(0)
             } else {
-                playTrack(currentTrack + 1)
+                playTrack(listTrack.pivot + 1)
             }
         }
 
     }
 
     fun prev() {
-        if(listTrack.tracks.isNotEmpty()){
+        if (listTrack.tracks.isNotEmpty()) {
             if (isShuffle) {
                 val index = listTrack.tracks.indices.random()
                 playTrack(index)
-            } else if (currentTrack == 0) {
+            } else if (listTrack.pivot == 0) {
                 playTrack(listTrack.tracks.size - 1)
             } else {
-                playTrack(currentTrack - 1)
+                playTrack(listTrack.pivot - 1)
             }
         }
 
@@ -142,9 +144,10 @@ class MusicPlayer {
     }
 
     fun getCurrentTrack(): Track {
-        return listTrack.tracks[currentTrack]
+        return listTrack.tracks[listTrack.pivot]
     }
-    fun getCurrentIndex() = currentTrack
+
+    fun getCurrentIndex() = listTrack.pivot
 
     fun setOnPlayerStateChangedListener(listener: OnPlayerStateChangedListener) {
         this.stateChangedListener = listener
@@ -155,9 +158,9 @@ class MusicPlayer {
     fun isPlaying() = player.isPlaying
     fun getTrackDuration() = player.duration
     fun getCurrentPosition() = player.currentPosition
-    fun seekTo(position:Int) = player.seekTo(position)
+    fun seekTo(position: Int) = player.seekTo(position)
 
-    fun setOnErrorListener(listener : MediaPlayer.OnErrorListener){
+    fun setOnErrorListener(listener: MediaPlayer.OnErrorListener) {
         this.player.setOnErrorListener(listener)
     }
 }

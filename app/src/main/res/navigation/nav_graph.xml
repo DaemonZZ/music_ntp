@@ -31,6 +31,9 @@
             app:exitAnim="@anim/slide_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_hostFragment_to_playerFragment"
+            app:destination="@id/hilt_PlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -47,4 +50,9 @@
         android:name="com.mock.musictpn.ui.fragment.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/hilt_PlayerFragment"
+        android:name="com.mock.musictpn.ui.fragment.player.PlayerFragment"
+        android:label="Hilt_PlayerFragment"
+        tools:layout="@layout/fragment_player"/>
 </navigation>

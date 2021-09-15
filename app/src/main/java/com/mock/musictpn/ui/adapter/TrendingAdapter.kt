@@ -2,17 +2,16 @@ package com.mock.musictpn.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mock.musictpn.databinding.ItemTrackBinding
-import com.mock.musictpn.model.album.Album
 import com.mock.musictpn.model.track.Track
+import com.mock.musictpn.model.track.TrackList
+import com.mock.musictpn.ui.adapter.listener.OnTrendingItemClickedListener
 
 class TrendingAdapter(
-    val listener: (track: Track) -> Unit
 ) : RecyclerView.Adapter<TrendingAdapter.ViewHolder>() {
     private var tracks = listOf<Track>()
-
+    private lateinit var listener: OnTrendingItemClickedListener
     fun setData(newList: List<Track>) {
         tracks = newList
         notifyDataSetChanged()
@@ -25,19 +24,24 @@ class TrendingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val num = (position + 1).toString()
+        val trackList = TrackList(tracks,position)
         holder.bind(tracks[position], num)
+        holder.binding.root.setOnClickListener { listener.onClick(trackList) }
     }
 
     override fun getItemCount(): Int = tracks.size
 
-    inner class ViewHolder(private val binding: ItemTrackBinding) :
+    fun setOnTrendingClickedListener(listener: OnTrendingItemClickedListener){
+        this.listener = listener
+    }
+
+    inner class ViewHolder(val binding: ItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: Track, position: String) {
             binding.track = track
             binding.position = position
-            binding.container.setOnClickListener {
-                listener(track)
-            }
         }
     }
+
 }
+

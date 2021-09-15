@@ -2,6 +2,7 @@ package com.mock.musictpn.ui.fragment.player.player_inside
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentDiscBinding
@@ -33,8 +34,8 @@ class DiscFragment : BaseFragment<FragmentDiscBinding,PlayerViewModel>() {
             }
         })
 
-        mViewModel.getCurrentTrack().observe(this,{
-            mBinding.track = it
+        mViewModel.getTrackList().observe(this,{
+            mBinding.track = it.tracks[it.pivot]
         })
     }
 
