@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicTPN"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.activity.MainActivity2"
-            android:exported="true" />
 
         <receiver
             android:name=".receiver.MusicReceiver"
