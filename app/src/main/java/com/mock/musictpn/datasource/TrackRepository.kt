@@ -7,6 +7,7 @@ import com.mock.musictpn.datasource.network.ApiContract
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.genre.GenreList
+import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import retrofit2.Response
@@ -43,6 +44,10 @@ class TrackRepository @Inject constructor(
 
     suspend fun getAlbums(): Response<AlbumList> {
         return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 20)
+    }
+
+    suspend fun searchByKeyword(name: String): Response<SearchResult>{
+        return apiService.searchByKeyword(name)
     }
 
     suspend fun insertFavoriteTrack(track: Track): Long{

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.genre.GenreList
+import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.ui.base.BaseViewModel
@@ -32,8 +33,11 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
     private var _tracksByAlbumId = MutableLiveData<TrackList?>()
     val tracksByAlbumId: LiveData<TrackList?> get() = _tracksByAlbumId
 
-    private var _tracksByGenreId= MutableLiveData<TrackList?>()
+    private var _tracksByGenreId = MutableLiveData<TrackList?>()
     val tracksByGenreId: LiveData<TrackList?> get() = _tracksByGenreId
+
+    private var _resultSearch = MutableLiveData<SearchResult?>()
+    val resultSearch: LiveData<SearchResult?> get() = _resultSearch
 
     fun fetchTracksLocal() = launchOnUI {
         val data = asyncOnIOAwait { trackRepository.fetchTracksLocal() }
@@ -46,6 +50,15 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
 
     fun getFavoriteTracks(): LiveData<List<Track>> {
         return trackRepository.getFavoriteTracks()
+    }
+
+    fun searchByKeyword(name: String) = launchOnUI {
+        val response = trackRepository.searchByKeyword(name)
+        if (response.isSuccessful) {
+            response.body()?.let {
+                _resultSearch.postValue(it)
+            }
+        }
     }
 
     fun getTracksByAlbumId(albumId: String) = launchOnUI {
@@ -61,7 +74,6 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
         val response = trackRepository.getTracksByGenreId(genreId)
         if (response.isSuccessful) {
             response.body()?.let {
-                Log.d("UUU", "setupObservers: $it")
                 _tracksByGenreId.postValue(it)
             }
         }

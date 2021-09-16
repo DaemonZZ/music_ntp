@@ -6,51 +6,55 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/toolbar_background"
+        android:fitsSystemWindows="true"
         tools:context=".ui.fragment.HostFragment">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/taskbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/toolbar_background"
-            app:layout_constraintRight_toRightOf="parent"
-            android:fitsSystemWindows="true"
             android:orientation="horizontal"
-            android:padding="@dimen/dimens_8dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:paddingHorizontal="@dimen/dimens_8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimens_8dp"
-                android:layout_weight="5"
-                android:background="@drawable/tv_search_background"
-                android:drawablePadding="15dp"
-                android:layout_gravity="center"
-                android:gravity="center|start"
                 android:layout_marginTop="@dimen/dimens_8dp"
                 android:layout_marginBottom="@dimen/dimens_8dp"
+                android:background="@drawable/tv_search_background"
+                android:drawablePadding="@dimen/dimen_16dp"
                 android:hint="@string/search_edt_hint"
-                android:padding="8dp"
-                app:drawableStartCompat="@drawable/ic_search" />
+                android:imeOptions="actionDone"
+                android:padding="@dimen/dimens_8dp"
+                app:drawableStartCompat="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/imvSearch"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imvSearch"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dimens_8dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/dimens_8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dimens_8dp"
+                android:layout_marginBottom="@dimen/dimens_8dp"
+                app:layout_constraintBottom_toBottomOf="@id/edtSearch"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/edtSearch"
                 app:srcCompat="@drawable/ic_heart" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabMain"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
             android:background="@color/title_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabIndicator="@android:color/transparent"
@@ -60,9 +64,23 @@
             android:id="@+id/vpMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/tabMain"
+            android:layout_above="@id/tabMain"
+            android:layout_below="@id/taskbar"
+            android:fitsSystemWindows="false"
+            app:layout_constraintBottom_toTopOf="@id/tabMain"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskbar" />
+            app:layout_constraintTop_toBottomOf="@id/taskbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvResultSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_recyclerview_search"
+            android:minHeight="@dimen/dimen_280dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/taskbar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
