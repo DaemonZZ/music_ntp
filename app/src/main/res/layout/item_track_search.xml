@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="track"
+            type="com.mock.musictpn.model.track.Track" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimens_8dp"
+        android:background="@drawable/item_pressed_background"
+        android:paddingVertical="@dimen/dimens_4dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imvArtist"
+            android:layout_width="@dimen/dimens_50dp"
+            android:layout_height="@dimen/dimens_50dp"
+            android:scaleType="centerCrop"
+            set_image="@{track.imageUrl}"
+            app:shapeAppearanceOverlay="@style/roundedCornersImageView2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/artist_sample" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{track.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvArtist"
+            app:layout_constraintLeft_toRightOf="@id/imvArtist"
+            app:layout_constraintRight_toLeftOf="@id/imvPlay"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imvArtist" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{track.artistName}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imvArtist"
+            app:layout_constraintLeft_toLeftOf="@id/tvName"
+            app:layout_constraintRight_toRightOf="@id/tvName"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/imvPlay"
+            android:layout_width="@dimen/dimens_25dp"
+            android:layout_height="@dimen/dimens_25dp"
+            android:gravity="center"
+            android:textColor="@color/title_bg"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

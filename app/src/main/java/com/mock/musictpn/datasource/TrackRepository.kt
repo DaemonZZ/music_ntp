@@ -7,6 +7,7 @@ import com.mock.musictpn.datasource.network.ApiContract
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.genre.GenreList
+import com.mock.musictpn.model.search.SearchResult
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import retrofit2.Response
@@ -45,6 +46,11 @@ class TrackRepository @Inject constructor(
         return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 20)
     }
 
+    suspend fun searchByKeyword(name: String): Response<SearchResult>{
+        return apiService.searchByKeyword(name)
+    }
+
+
     suspend fun insertTrack(track: Track,playList:Int): Long{
         val favor = track.apply { this.playListId = playList }
         return dao.insertTrack(favor)
@@ -55,7 +61,7 @@ class TrackRepository @Inject constructor(
     }
 
     fun getFavoriteTracks(): LiveData<TrackList>{
-        return dao.getListByID(PlayListDao.ID_LIST_FAVORITE)
+        return dao.getFavoriteTracks()
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -12,6 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.mock.musictpn.views.LoadingDialog
 import com.mock.musictpn.views.MessageDialog
+import android.app.Activity
+
+
+
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
     protected lateinit var mBinding: DB
@@ -63,6 +68,11 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
         if (!mMessageDialog.isShowing) {
             mMessageDialog.show()
         }
+    }
+
+    open fun hideKeyboardFrom(context: Context, view: View) {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     abstract fun setupViews()
