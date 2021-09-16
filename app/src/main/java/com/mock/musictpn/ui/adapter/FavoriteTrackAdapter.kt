@@ -9,10 +9,11 @@ import com.mock.musictpn.R
 import com.mock.musictpn.databinding.ItemFavoriteTrackBinding
 import com.mock.musictpn.databinding.ItemTrackByTypeBinding
 import com.mock.musictpn.model.track.Track
+import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.utils.getImageFromUrl
 
 class FavoriteTrackAdapter(
-    val listener: (track: Track) -> Unit
+    val listener: (tracks: TrackList) -> Unit
 ) : ListAdapter<Track, FavoriteTrackAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,15 +23,14 @@ class FavoriteTrackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        val trackList = TrackList(currentList,position)
+        holder.binding.root.setOnClickListener { listener(trackList) }
     }
 
-    inner class ViewHolder(private val binding: ItemFavoriteTrackBinding) :
+    inner class ViewHolder(val binding: ItemFavoriteTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: Track) {
             binding.track = track
-            binding.container.setOnClickListener {
-                listener(track)
-            }
             if (track.artistId.isNullOrBlank()){
                 binding.imvArtist.setImageResource(R.drawable.logo)
             } else {

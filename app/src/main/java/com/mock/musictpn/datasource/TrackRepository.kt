@@ -1,5 +1,6 @@
 package com.mock.musictpn.datasource
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.mock.musictpn.datasource.local.TrackDataSource
 import com.mock.musictpn.datasource.local.dao.PlayListDao
@@ -50,12 +51,23 @@ class TrackRepository @Inject constructor(
         return dao.insertTrack(favor)
     }
 
-    suspend fun deleteFavoriteTrack(track: Track): Int{
+    suspend fun deleteTrack(track: Track): Int{
         return dao.deleteTrack(track)
     }
 
+     fun getHistoryTracks(): TrackList{
+        return dao.getListByID(PlayListDao.ID_LIST_HISTORY)
+    }
+
     fun getFavoriteTracks(): LiveData<TrackList>{
-        return dao.getListByID(PlayListDao.ID_LIST_FAVORITE)
+        return dao.getListByIDLiveData(PlayListDao.ID_LIST_FAVORITE)
+    }
+
+    suspend fun getOlderTracks(id:Int) : List<Track>{
+        return dao.filterHistory(id)
+    }
+    suspend fun deleteByUrl(url:String,playList: Int){
+        dao.deleteByUrl(url,playList)
     }
 
 }

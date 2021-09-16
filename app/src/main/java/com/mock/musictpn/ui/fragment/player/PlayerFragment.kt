@@ -19,6 +19,8 @@ import com.mock.musictpn.mediaplayer.OnPlayerStateChangedListener
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.app.service.MusicService
+import com.mock.musictpn.datasource.local.dao.PlayListDao
+import com.mock.musictpn.model.playlist.Playlist
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
@@ -100,24 +102,21 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         mViewModel.getTrackList().observe(this, {
             it?.let { trackList ->
                 if (::currentTracks.isInitialized) {
-                    Log.d(
-                        "ThangDN6 - PlayerFragment",
-                        "setupObservers: changed list ${currentTracks.pivot}"
-                    )
+
                     currentTracks = trackList
 
                     sendStartAction(trackList)
+                    Log.d("ThangDN6 - PlayerFragment  1", "setupObservers: ${it.tracks[it.pivot].playListId}")
                     updateView(it.tracks[it.pivot])
                 } else {
                     currentTracks = trackList
-                    Log.d(
-                        "ThangDN6 - PlayerFragment",
-                        "setupObservers: changed list ${currentTracks.pivot}"
-                    )
+
                     if (currentTracks == mViewModel.previousState) {
+                        Log.d("ThangDN6 - PlayerFragment   2", "setupObservers: ${currentTracks.tracks[currentTracks.pivot].playListId} ")
                         updateView(currentTracks.tracks[currentTracks.pivot])
                     } else {
                         sendStartAction(trackList)
+                        Log.d("ThangDN6 - PlayerFragment   3", "setupObservers: ${it.tracks[it.pivot].playListId}")
                         updateView(it.tracks[it.pivot])
                     }
                 }
@@ -143,8 +142,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 }
             }
             mBinding.imvFavorite.isSelected = isSelect
+            Log.d("ThangDN6 - PlayerFragment", "isFavorite: ${mTrack.name}  -  $isSelect")
         }
     }
+
 
     private fun sendStartAction(tracks: TrackList) {
         val bundle = Bundle().apply {
@@ -160,11 +161,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
     private fun updateView(track: Track) {
         mTrack = track
+        //Log.d("ThangDN6 - PlayerFragment", "updateView: ${mTrack.playListId} - ${mTrack.name}")
         mBinding.track = track
         loadState()
         setupSeekBar()
         isFavorite(mTracks)
-        Log.d("ADD", "updateView: $track ")
+        
     }
 
     private fun onFavorite() {
@@ -261,25 +263,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         ) {
 
             scope.launch {
-                var bitmap: Bitmap?
-                try{
-                    val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
-                    if (mService.musicController.getCurrentTrack().previewURL.contains(MusicPlayer.CONTENT_LOCAL)) {
-                        Log.d("ThangDN6 - PlayerFragment", "upDateNotification: loadLocal")
-                        if(Build.VERSION.SDK_INT < 28){
-                            bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, url.toUri())
-                        } else {
-                            val source = ImageDecoder.createSource(requireActivity().contentResolver, url.toUri())
-                            bitmap = ImageDecoder.decodeBitmap(source)
-                        }
-                    } else {
-
-                        bitmap = loadImg(url)
-                    }
-                } catch (e:IOException){
+                val bitmap: Bitmap?
+                val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
+                if (mService.musicController.getCurrentTrack().previewURL.contains(MusicPlayer.CONTENT_LOCAL)) {
                     bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
-                }
+                } else {
 
+                    bitmap = loadImg(url)
+                }
 
                 mService.createNotification(
                     mService.musicController.getCurrentTrack().name,
@@ -333,6 +324,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 loadTrackInfo()
                 upDateNotification()
 
+
             }
         }
 
@@ -340,9 +332,33 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mBinding.seekBar.max = mService.musicController.getTrackDuration()
             mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
             isPreparing = false
+            addToHistory(currentTracks.tracks[currentTracks.pivot])
         }
 
     }
+
+    private fun addToHistory(track: Track) {
+        scope.launch {
+            val historyList = mViewModel.getHistoryTracks()
+            var lastID  = 0
+            var isExist = false
+            Log.d("ThangDN6 - PlayerFragment", "addToHistory: ${historyList.tracks.size}")
+            for (i in historyList.tracks.indices) {
+                if (historyList.tracks[i].previewURL == track.previewURL) {
+                    isExist = true
+                }
+            }
+            if (historyList.tracks.size>20) lastID = historyList.tracks[historyList.tracks.size-20].localId
+            if(isExist){
+                Log.d("ThangDN6 - PlayerFragment", "addToHistory: IsExist")
+                mViewModel.insertHistoryTrack(track, isExist)
+            } else {
+                Log.d("ThangDN6 - PlayerFragment", "addToHistory: NotExist")
+                mViewModel.insertHistoryTrack(track,lastID)
+            }
+        }
+    }
+
 
     override fun onDestroy() {
         Log.d("ThangDN6 - PlayerFragment", "onDestroy: ")

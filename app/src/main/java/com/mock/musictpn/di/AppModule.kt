@@ -115,7 +115,7 @@ object AppModule {
 
     private suspend fun initData(dao:PlayListDao){
         val favorite = TrackListInfo(PlayListDao.ID_LIST_FAVORITE,"Favorite")
-        val history = TrackListInfo(PlayListDao.ID_LIST_HISTORY,"Favorite")
+        val history = TrackListInfo(PlayListDao.ID_LIST_HISTORY,"History")
         dao.insertTrackList(favorite)
         dao.insertTrackList(history)
     }
