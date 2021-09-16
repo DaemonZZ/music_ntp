@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.mock.musictpn.ui.fragment.favorite.FavoriteFragment"
-        android:label="fragment_favorite"
+        android:label="My favorites"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/hilt_PlayerFragment"

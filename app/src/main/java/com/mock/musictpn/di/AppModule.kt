@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mock.musictpn.datasource.local.AppDatabase
-import com.mock.musictpn.datasource.local.dao.TrackDao
+import com.mock.musictpn.datasource.local.dao.FavoriteDao
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.mediaplayer.MusicPlayer
@@ -72,18 +72,20 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "track.db").build()
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app.db").build()
     }
 
     @Provides
-    fun provideLogDao(database: AppDatabase): TrackDao {
-        return database.trackDao()
+    fun provideLogDao(database: AppDatabase): FavoriteDao {
+        return database.favoriteDao()
     }
+
     @Provides
     @Singleton
     fun providePlayer(): MusicPlayer {
         return MusicPlayer()
     }
+
     @Provides
     @Singleton
     fun provideService() = MusicService()

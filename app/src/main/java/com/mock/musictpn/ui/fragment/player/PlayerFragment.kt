@@ -30,36 +30,28 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
-
-    override val mViewModel: PlayerViewModel by activityViewModels()
-
-    private lateinit var mService: MusicService
-
     @Inject
     lateinit var scope: CoroutineScope
-
+    private lateinit var mService: MusicService
     private lateinit var serviceIntent: Intent
-
     private lateinit var currentTracks: TrackList
-
     private var isPreparing = false
-
-    override fun getLayoutRes(): Int {
-        return R.layout.fragment_player
-    }
+    private lateinit var mTrack: Track
+    private var mTracks: List<Track>? = null
+    override val mViewModel: PlayerViewModel by activityViewModels()
+    override fun getLayoutRes(): Int = R.layout.fragment_player
 
     override fun setupViews() {
         serviceIntent = Intent(requireContext(), MusicService::class.java)
-
         mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity())
         if (MainActivity.mService != null) {
             mService = MainActivity.mService!!
             setUpPlayerListener()
         }
-
     }
 
     override fun setupListeners() {
+        mBinding.imvFavorite.setOnClickListener { onFavorite() }
         mBinding.btnShuffle.setOnClickListener { toggleShuffle() }
         mBinding.btnPrev.setOnClickListener { onPrev() }
         mBinding.btnPlay.setOnClickListener { togglePlay() }
@@ -117,7 +109,24 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         })
 
+        mViewModel.getFavoriteTracks().observe(this) {
+            mTracks = it
+            isFavorite(it)
+        }
+    }
 
+    private fun isFavorite(tracks: List<Track>?) {
+        tracks?.let {
+            var isSelect = false
+            for (i in it) {
+                if (i.previewURL == mTrack.previewURL) {
+                    isSelect = true
+                    mTrack = i
+                    break
+                }
+            }
+            mBinding.imvFavorite.isSelected = isSelect
+        }
     }
 
     private fun sendStartAction(tracks: TrackList) {
@@ -133,9 +142,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     private fun updateView(track: Track) {
+        mTrack = track
         mBinding.track = track
         loadState()
         setupSeekBar()
+        isFavorite(mTracks)
+        Log.d("ADD", "updateView: $track ")
+    }
+
+    private fun onFavorite() {
+        if (mBinding.imvFavorite.isSelected) {
+            mViewModel.deleteFavoriteTrack(mTrack)
+            return
+        }
+        mViewModel.insertFavoriteTrack(mTrack)
     }
 
     private fun togglePlay() {
@@ -187,8 +207,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     fun loadTrackInfo() {
-        mBinding.track = mService.musicController.getCurrentTrack()
+        mTrack = mService.musicController.getCurrentTrack()
+        mBinding.track = mTrack
+        isFavorite(mTracks)
         // mBinding.seekBar.max = mService.musicController.getTrackDuration()
+        Log.d("ADD", "loadTrackInfo: $mTrack")
+
     }
 
     private fun setupSeekBar() {
@@ -279,6 +303,4 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         mViewModel.previousState = currentTracks
         super.onDestroy()
     }
-
-
 }

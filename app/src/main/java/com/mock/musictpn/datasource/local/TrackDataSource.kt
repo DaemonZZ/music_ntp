@@ -34,7 +34,7 @@ class TrackDataSource @Inject constructor(private val application: Application) 
                     previewURL = trackUri.toString(),
                     name = displayName,
                     artistName = artist,
-                    imageLocal = imageUri.toString()
+                    imageLocal = imageUri.toString(),
                 )
                 tracks.add(track)
             }

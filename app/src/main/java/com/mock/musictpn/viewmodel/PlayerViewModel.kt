@@ -3,7 +3,7 @@ package com.mock.musictpn.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.viewpager2.widget.ViewPager2
+import androidx.lifecycle.liveData
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.ui.base.BaseViewModel
@@ -33,4 +33,13 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
         _isPlaying.postValue(isPlaying)
     }
 
+    fun insertFavoriteTrack(track: Track) = launchOnUI {
+        asyncOnIOAwait { trackRepository.insertFavoriteTrack(track) }
+    }
+
+    fun deleteFavoriteTrack(track: Track) = launchOnUI {
+        asyncOnIOAwait { trackRepository.deleteFavoriteTrack(track) }
+    }
+
+    fun getFavoriteTracks(): LiveData<List<Track>> = trackRepository.getFavoriteTracks()
 }
