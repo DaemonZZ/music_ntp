@@ -1,6 +1,5 @@
 package com.mock.musictpn.datasource
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.mock.musictpn.datasource.local.TrackDataSource
 import com.mock.musictpn.datasource.local.dao.PlayListDao
@@ -45,6 +44,11 @@ class TrackRepository @Inject constructor(
     suspend fun getAlbums(): Response<AlbumList> {
         return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 20)
     }
+
+    suspend fun searchByKeyword(name: String): Response<SearchResult>{
+        return apiService.searchByKeyword(name)
+    }
+
 
     suspend fun insertTrack(track: Track,playList:Int): Long{
         val favor = track.apply { this.playListId = playList }

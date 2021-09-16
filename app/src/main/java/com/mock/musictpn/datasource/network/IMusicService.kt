@@ -124,7 +124,7 @@ interface IMusicService {
         @Query("query") keyword: String = "",
         @Query("per_type_limit") limit: Int = 10,
         @Query("apikey") apiKey: String = API_KEY
-    ): SearchResult
+    ): Response<SearchResult>
 
 
     /**

@@ -35,7 +35,7 @@ interface PlayListDao {
     suspend fun filterHistory(id: Int) : List<Track>
 
     @Query("SELECT * FROM track")
-    fun getFavoriteTracks(): LiveData<List<Track>>
+    fun getFavoriteTracks(): LiveData<TrackList>
 
     @Query("SELECT * FROM track_list where id = :id")
     fun getListByIDLiveData(id:Int) : LiveData<TrackList>

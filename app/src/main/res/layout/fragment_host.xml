@@ -6,51 +6,64 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/toolbar_background"
+        android:fitsSystemWindows="true"
         tools:context=".ui.fragment.HostFragment">
 
-        <LinearLayout
-            android:id="@+id/taskbar"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtSearch"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/toolbar_background"
+            android:layout_marginStart="@dimen/dimens_8dp"
+            android:layout_marginTop="@dimen/dimens_8dp"
+            android:layout_marginBottom="@dimen/dimens_8dp"
+            android:background="@drawable/tv_search_background"
+            android:drawablePadding="@dimen/dimen_16dp"
+            android:hint="@string/search_edt_hint"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:inputType="text"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:paddingEnd="@dimen/dimens_32dp"
+            android:paddingStart="@dimen/dimens_8dp"
+            android:paddingVertical="@dimen/dimens_8dp"
+            android:layout_marginEnd="@dimen/dimens_8dp"
+            app:drawableStartCompat="@drawable/ic_search"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imvMyFavorite"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvMyFavorite"
+            android:layout_width="@dimen/dimens_48dp"
+            android:layout_height="@dimen/dimens_48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimens_8dp"
+            android:visibility="visible"
+            android:layout_marginEnd="@dimen/dimens_8dp"
+            android:layout_marginBottom="@dimen/dimens_8dp"
+            app:layout_constraintBottom_toBottomOf="@id/edtSearch"
             app:layout_constraintRight_toRightOf="parent"
-            android:fitsSystemWindows="true"
-            android:orientation="horizontal"
-            android:padding="@dimen/dimens_8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@id/edtSearch"
+            app:srcCompat="@drawable/ic_heart" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/edtSearch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimens_8dp"
-                android:layout_weight="5"
-                android:background="@drawable/tv_search_background"
-                android:drawablePadding="15dp"
-                android:layout_gravity="center"
-                android:gravity="center|start"
-                android:layout_marginTop="@dimen/dimens_8dp"
-                android:layout_marginBottom="@dimen/dimens_8dp"
-                android:hint="@string/search_edt_hint"
-                android:padding="8dp"
-                app:drawableStartCompat="@drawable/ic_search" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imvSearch"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dimens_8dp"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/dimens_8dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_heart" />
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_close"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/edtSearch"
+            app:layout_constraintBottom_toBottomOf="@id/edtSearch"
+            app:layout_constraintRight_toRightOf="@id/edtSearch"
+            android:layout_marginEnd="@dimen/dimens_8dp"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabMain"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
             android:background="@color/title_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabIndicator="@android:color/transparent"
@@ -60,9 +73,26 @@
             android:id="@+id/vpMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/tabMain"
+            android:layout_above="@id/tabMain"
+            android:fitsSystemWindows="false"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            app:layout_constraintBottom_toTopOf="@id/tabMain"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskbar" />
+            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvResultSearch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recycler_view_search"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/dimens_8dp"
+            android:layout_marginEnd="@dimen/dimens_8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
