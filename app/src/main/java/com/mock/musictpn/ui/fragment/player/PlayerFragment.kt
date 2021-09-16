@@ -3,10 +3,14 @@ package com.mock.musictpn.ui.fragment.player
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentPlayerBinding
@@ -24,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.net.URL
 import java.util.*
 import javax.inject.Inject
@@ -36,10 +41,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     private lateinit var mService: MusicService
     private lateinit var serviceIntent: Intent
     private lateinit var currentTracks: TrackList
-    private var seekTimer:Timer? = null
+    private var seekTimer: Timer? = null
     private var isPreparing = false
     private lateinit var mTrack: Track
-    private var mTracks: List<Track>? = null
+    private var mTracks: TrackList? = null
     override val mViewModel: PlayerViewModel by activityViewModels()
     override fun getLayoutRes(): Int = R.layout.fragment_player
 
@@ -127,10 +132,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         }
     }
 
-    private fun isFavorite(tracks: List<Track>?) {
+    private fun isFavorite(tracks: TrackList?) {
         tracks?.let {
             var isSelect = false
-            for (i in it) {
+            for (i in it.tracks) {
                 if (i.previewURL == mTrack.previewURL) {
                     isSelect = true
                     mTrack = i
@@ -216,9 +221,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mViewModel.changeState(false)
         }
 
-        if(mService.musicController.isStopped()){
-            mBinding.seekBar.progress =0
-            if(activity==null){
+        if (mService.musicController.isStopped()) {
+            mBinding.seekBar.progress = 0
+            if (activity == null) {
                 mService.stopSelf()
             }
         }
@@ -234,10 +239,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     private fun setupSeekBar() {
-        seekTimer =Timer().apply {
+        seekTimer = Timer().apply {
             scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
-                    if(!mService.musicController.isStopped()){
+                    if (!mService.musicController.isStopped()) {
                         mBinding.seekBar.progress = mService.musicController.getCurrentPosition()
                         CoroutineScope(Dispatchers.Main).launch {
                             mBinding.tvTimeProgress.text =
@@ -256,15 +261,25 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         ) {
 
             scope.launch {
-                val bitmap: Bitmap?
-                if (mService.musicController.getCurrentTrack().getImageUrl()
-                        .contains(MusicPlayer.CONTENT_LOCAL)
-                ) {
+                var bitmap: Bitmap?
+                try{
+                    val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
+                    if (mService.musicController.getCurrentTrack().previewURL.contains(MusicPlayer.CONTENT_LOCAL)) {
+                        Log.d("ThangDN6 - PlayerFragment", "upDateNotification: loadLocal")
+                        if(Build.VERSION.SDK_INT < 28){
+                            bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, url.toUri())
+                        } else {
+                            val source = ImageDecoder.createSource(requireActivity().contentResolver, url.toUri())
+                            bitmap = ImageDecoder.decodeBitmap(source)
+                        }
+                    } else {
+
+                        bitmap = loadImg(url)
+                    }
+                } catch (e:IOException){
                     bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
-                } else {
-                    val url: String = mService.musicController.getCurrentTrack().getImageUrl()
-                    bitmap = loadImg(url)
                 }
+
 
                 mService.createNotification(
                     mService.musicController.getCurrentTrack().name,
@@ -335,7 +350,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         seekTimer?.cancel()
         super.onDestroy()
     }
-
 
 
 }

@@ -32,7 +32,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, MainViewModel>() 
     override fun setupObservers() {
         mViewModel.getFavoriteTracks().observe(this) {
             it?.let {
-                favoriteTrackAdapter.submitList(it)
+                favoriteTrackAdapter.submitList(it.tracks)
             }
         }
     }

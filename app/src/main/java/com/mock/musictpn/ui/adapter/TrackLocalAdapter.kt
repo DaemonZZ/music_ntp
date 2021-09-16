@@ -36,7 +36,7 @@ class TrackLocalAdapter : RecyclerView.Adapter<TrackLocalAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(tracks[position])
-        val trackList = TrackList(tracks,position)
+        val trackList = TrackList(tracks,pivot = position)
         holder.binding.root.setOnClickListener { listener.onClick(trackList) }
     }
 

@@ -2,14 +2,17 @@ package com.mock.musictpn.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mock.musictpn.datasource.local.AppDatabase
-import com.mock.musictpn.datasource.local.dao.FavoriteDao
 import com.mock.musictpn.datasource.network.ApiContract.BASE_URL
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.app.service.MusicService
+import com.mock.musictpn.datasource.local.dao.PlayListDao
+import com.mock.musictpn.model.track.TrackListInfo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +24,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -69,16 +73,31 @@ object AppModule {
             .create(IMusicService::class.java)
     }
 
-    @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app.db").build()
+    @Provides
+    fun provideDao(db:AppDatabase):PlayListDao{
+        return db.getDao()
     }
 
     @Provides
-    fun provideLogDao(database: AppDatabase): FavoriteDao {
-        return database.favoriteDao()
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext appContext: Context,
+        scope: CoroutineScope,
+        daoProvider : Provider<PlayListDao>
+    ): AppDatabase {
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app.db")
+            .addCallback(object : RoomDatabase.Callback(){
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    scope.launch {
+                        initData(daoProvider.get())
+                    }
+                }
+            })
+            .build()
     }
+
 
     @Provides
     @Singleton
@@ -93,4 +112,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideService() = MusicService()
+
+    private suspend fun initData(dao:PlayListDao){
+        val favorite = TrackListInfo(PlayListDao.ID_LIST_FAVORITE,"Favorite")
+        val history = TrackListInfo(PlayListDao.ID_LIST_HISTORY,"Favorite")
+        dao.insertTrackList(favorite)
+        dao.insertTrackList(history)
+    }
 }
