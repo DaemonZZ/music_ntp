@@ -50,8 +50,10 @@ class TrackRepository @Inject constructor(
         return apiService.searchByKeyword(name)
     }
 
-    suspend fun insertFavoriteTrack(track: Track): Long{
-        return favoriteDao.insertTrack(track)
+
+    suspend fun insertTrack(track: Track,playList:Int): Long{
+        val favor = track.apply { this.playListId = playList }
+        return dao.insertTrack(favor)
     }
 
     suspend fun deleteFavoriteTrack(track: Track): Int{

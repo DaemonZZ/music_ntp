@@ -23,7 +23,7 @@ class TrackByTypeAdapter : ListAdapter<Track, TrackByTypeAdapter.ViewHolder>(Dif
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
         val trackList = TrackList(currentList)
-
+        trackList.pivot = position
         holder.binding.root.setOnClickListener { listener.onClick(trackList) }
     }
     fun setOnTrackItemClickedListener(listener: OnTrackItemClickedListener){

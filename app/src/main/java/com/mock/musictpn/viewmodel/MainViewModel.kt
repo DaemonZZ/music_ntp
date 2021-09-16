@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
         _tracksByAlbumId.postValue(null)
     }
 
-    fun getFavoriteTracks(): LiveData<List<Track>> {
+    fun getFavoriteTracks(): LiveData<TrackList> {
         return trackRepository.getFavoriteTracks()
     }
 
