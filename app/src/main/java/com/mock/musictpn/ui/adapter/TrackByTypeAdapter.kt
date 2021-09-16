@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mock.musictpn.databinding.ItemTrackByTypeBinding
 import com.mock.musictpn.model.track.Track
+import com.mock.musictpn.model.track.TrackList
+import com.mock.musictpn.ui.adapter.listener.OnTrackItemClickedListener
 
-class TrackByTypeAdapter(
-    val listener: (track: Track) -> Unit
-) : ListAdapter<Track, TrackByTypeAdapter.ViewHolder>(DiffCallback()) {
+class TrackByTypeAdapter : ListAdapter<Track, TrackByTypeAdapter.ViewHolder>(DiffCallback()) {
+
+    private lateinit var listener: OnTrackItemClickedListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -20,15 +22,19 @@ class TrackByTypeAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        val trackList = TrackList(currentList)
+
+        holder.binding.root.setOnClickListener { listener.onClick(trackList) }
+    }
+    fun setOnTrackItemClickedListener(listener: OnTrackItemClickedListener){
+        this.listener = listener
     }
 
-    inner class ViewHolder(private val binding: ItemTrackByTypeBinding) :
+    inner class ViewHolder(val binding: ItemTrackByTypeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: Track) {
             binding.track = track
-            binding.container.setOnClickListener {
-                listener(track)
-            }
+
         }
     }
 
@@ -41,4 +47,5 @@ class TrackByTypeAdapter(
             return oldItem == newItem
         }
     }
+
 }

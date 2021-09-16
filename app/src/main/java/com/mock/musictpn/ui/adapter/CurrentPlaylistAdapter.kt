@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mock.musictpn.R
 import com.mock.musictpn.databinding.ItemCurrentListBinding
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
@@ -75,6 +76,7 @@ class PlaylistViewHolder(val binding: ItemCurrentListBinding) :
                 setTypeface(null,Typeface.BOLD_ITALIC)
                 setTextColor(Color.MAGENTA)
             }
+            binding.imvPlay.setBackgroundResource(R.drawable.ic_pause)
         }
         else {
             binding.root. setBackgroundColor(Color.WHITE)
@@ -86,6 +88,7 @@ class PlaylistViewHolder(val binding: ItemCurrentListBinding) :
                 setTypeface(null,Typeface.BOLD)
                 setTextColor(Color.BLACK)
             }
+            binding.imvPlay.setBackgroundResource(R.drawable.ic_play1)
         }
     }
 

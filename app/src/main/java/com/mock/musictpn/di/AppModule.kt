@@ -81,8 +81,12 @@ object AppModule {
     }
     @Provides
     @Singleton
-    fun providePlayer(): MusicPlayer {
-        return MusicPlayer()
+    fun providePlayer(
+        @ApplicationContext context: Context
+    ): MusicPlayer {
+        return MusicPlayer().apply {
+            setContext(context)
+        }
     }
     @Provides
     @Singleton

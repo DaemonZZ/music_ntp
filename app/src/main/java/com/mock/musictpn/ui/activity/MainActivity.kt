@@ -123,7 +123,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun onDestroy() {
-        unbindService(connection)
         super.onDestroy()
+        Log.d("ThangDN6 - MainActivity", "onDestroy: ")
+        if(mService?.musicController?.isStopped() == true){
+            unbindService(connection)
+        }
     }
 }

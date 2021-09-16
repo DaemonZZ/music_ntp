@@ -16,13 +16,13 @@ import com.mock.musictpn.databinding.ItemTrackBinding
 import com.mock.musictpn.databinding.ItemTrackLocalBinding
 import com.mock.musictpn.model.album.Album
 import com.mock.musictpn.model.track.Track
+import com.mock.musictpn.model.track.TrackList
+import com.mock.musictpn.ui.adapter.listener.OnTrackItemClickedListener
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class TrackLocalAdapter(
-    val listener: (track: Track) -> Unit
-) : RecyclerView.Adapter<TrackLocalAdapter.ViewHolder>() {
-
+class TrackLocalAdapter : RecyclerView.Adapter<TrackLocalAdapter.ViewHolder>() {
+    private lateinit var listener: OnTrackItemClickedListener
     private var tracks = listOf<Track>()
 
     fun setData(newList: List<Track>){
@@ -36,17 +36,20 @@ class TrackLocalAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(tracks[position])
+        val trackList = TrackList(tracks,position)
+        holder.binding.root.setOnClickListener { listener.onClick(trackList) }
     }
 
     override fun getItemCount(): Int = tracks.size
 
-    inner class ViewHolder(private val binding: ItemTrackLocalBinding) :
+    fun setOnTrackItemClickedListener(listener: OnTrackItemClickedListener){
+        this.listener = listener
+    }
+
+    inner class ViewHolder(val binding: ItemTrackLocalBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: Track) {
             binding.track = track
-            binding.container.setOnClickListener {
-                listener(track)
-            }
 //            coroutineScope.launch {
 //                try {
 //                    val x = CoroutineScope(Dispatchers.IO).async {

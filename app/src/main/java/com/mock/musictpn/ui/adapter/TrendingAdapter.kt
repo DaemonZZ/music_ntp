@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mock.musictpn.databinding.ItemTrackBinding
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.ui.adapter.listener.OnTrendingItemClickedListener
+import com.mock.musictpn.ui.adapter.listener.OnTrackItemClickedListener
 
 class TrendingAdapter(
 ) : RecyclerView.Adapter<TrendingAdapter.ViewHolder>() {
     private var tracks = listOf<Track>()
-    private lateinit var listener: OnTrendingItemClickedListener
+    private lateinit var listener: OnTrackItemClickedListener
     fun setData(newList: List<Track>) {
         tracks = newList
         notifyDataSetChanged()
@@ -31,7 +31,7 @@ class TrendingAdapter(
 
     override fun getItemCount(): Int = tracks.size
 
-    fun setOnTrendingClickedListener(listener: OnTrendingItemClickedListener){
+    fun setOnTrackItemClickedListener(listener: OnTrackItemClickedListener){
         this.listener = listener
     }
 

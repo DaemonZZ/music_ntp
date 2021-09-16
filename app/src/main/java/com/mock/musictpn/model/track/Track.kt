@@ -24,10 +24,10 @@ data class Track(
      * 70x70-200x200-300x300-500x500
      *
      */
-    fun getImageUrl(): String? {
+    fun getImageUrl(): String {
         return if (albumId != null) {
-            "https://api.napster.com/imageserver/v2/albums/$albumId/images/170x170.jpg"
-        } else null
+            "https://api.napster.com/imageserver/v2/albums/$albumId/images/300x300.jpg"
+        } else imageLocal
     }
 
 

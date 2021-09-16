@@ -58,7 +58,6 @@
             android:layout_width="@dimen/dimens_32dp"
             android:layout_height="@dimen/dimens_32dp"
             android:gravity="center"
-            android:src="@drawable/ic_play"
             android:tint="@color/title_bg"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"

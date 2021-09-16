@@ -27,10 +27,13 @@ class BannerAdapter(
 
     override fun getItemCount(): Int = albums.size
 
-    class ViewHolder(private val binding: ItemBannerBinding) :
+    inner class ViewHolder(private val binding: ItemBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(album: Album) {
             binding.album = album
+            binding.imvBanner.setOnClickListener {
+                listener(album)
+            }
         }
     }
 }

@@ -46,29 +46,9 @@ class MusicService : Service() {
             MusicPlayer.ACTION_START -> {
                 val bundle = intent.extras
                 val list = bundle?.getSerializable("list")
-                if (list != null ) {
+                if (list != null) {
                     musicController.listTrack = list as TrackList
-                    val img = BitmapFactory.decodeResource(resources,R.drawable.sky)
-                    createNotification(list.tracks[musicController.getCurrentIndex()].name, img, list.tracks[musicController.getCurrentIndex()].artistName)
-                    musicController.playTrack(list.pivot)
-                    Glide.with(this@MusicService)
-                        .asBitmap()
-                        .load(musicController.getCurrentTrack().getImageUrl())
-                        .into(object : CustomTarget<Bitmap>(){
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                createNotification(list.tracks[musicController.getCurrentIndex()].name, resource, "Some one")
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                Log.d("ThangDN6 - MusicService", "onLoadCleared: cleared")
-                            }
-
-                        })
-
-
+                    setupService()
 
                 }
             }
@@ -76,7 +56,17 @@ class MusicService : Service() {
                 musicController.stop()
             }
             MusicPlayer.ACTION_PLAY, MusicPlayer.ACTION_PAUSE -> {
-                musicController.togglePlayButton()
+                if (musicController.isStopped()) {
+                    val bundle = intent.extras
+                    val list = bundle?.getSerializable("list")
+                    if (list != null) {
+                        musicController.listTrack = list as TrackList
+                        setupService()
+
+                    }
+                } else {
+                    musicController.togglePlayButton()
+                }
             }
             MusicPlayer.ACTION_NEXT -> {
                 musicController.next()
@@ -97,6 +87,36 @@ class MusicService : Service() {
         return START_STICKY
     }
 
+    private fun setupService() {
+
+        val img = BitmapFactory.decodeResource(resources, R.drawable.logo)
+        createNotification(
+            musicController.listTrack.tracks[musicController.getCurrentIndex()].name,
+            img,
+            musicController.listTrack.tracks[musicController.getCurrentIndex()].artistName
+        )
+        musicController.playTrack(musicController.listTrack.pivot)
+        Glide.with(this@MusicService)
+            .asBitmap()
+            .load(musicController.getCurrentTrack().getImageUrl())
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    createNotification(
+                        musicController.listTrack.tracks[musicController.getCurrentIndex()].name,
+                        resource,
+                        musicController.listTrack.tracks[musicController.getCurrentIndex()].artistName
+                    )
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    Log.d("ThangDN6 - MusicService", "onLoadCleared: cleared")
+                }
+
+            })
+    }
 
 
     fun createNotification(track: String, image: Bitmap, artistName: String) {
@@ -126,12 +146,23 @@ class MusicService : Service() {
         val playPendingIntent = PendingIntent.getBroadcast(
             this,
             0,
-            mediaIntent.apply { action = if(musicController.isPlaying()) MusicPlayer.ACTION_PAUSE else MusicPlayer.ACTION_PLAY },
+            mediaIntent.apply {
+                action =
+                    if (musicController.isPlaying()) MusicPlayer.ACTION_PAUSE else MusicPlayer.ACTION_PLAY
+            },
+            0
+        )
+        val stopPendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            mediaIntent.apply { action = MusicPlayer.ACTION_STOP },
             0
         )
 
-        val btnIcon = if(musicController.isPlaying()) R.drawable.ic_pause else R.drawable.ic_play_noti
-        val notificationIcon = if(musicController.isPlaying()) R.drawable.ic_play_noti else R.drawable.ic_pause
+        val btnIcon =
+            if (musicController.isPlaying()) R.drawable.ic_pause else R.drawable.ic_play_noti
+        val notificationIcon =
+            if (musicController.isPlaying()) R.drawable.ic_play_noti else R.drawable.ic_pause
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(notificationIcon)
@@ -144,6 +175,7 @@ class MusicService : Service() {
             .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent)
             .addAction(btnIcon, "Play", playPendingIntent)
             .addAction(R.drawable.ic_next, "Next", nextPendingIntent)
+            .addAction(R.drawable.ic_close, "Stop", stopPendingIntent)
             .setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
                     .setShowActionsInCompactView(1)
@@ -153,6 +185,11 @@ class MusicService : Service() {
 
         startForeground(11, notification)
 
+    }
+
+    override fun onDestroy() {
+        Log.d("ThangDN6 - MusicService", "onDestroy: ")
+        super.onDestroy()
     }
 
     inner class MusicBinder : Binder() {

@@ -2,16 +2,23 @@ package com.mock.musictpn.ui.fragment.home
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentHomeBinding
+import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.BannerAdapter
 import com.mock.musictpn.ui.adapter.TrackLocalAdapter
+import com.mock.musictpn.ui.adapter.listener.OnTrackItemClickedListener
 import com.mock.musictpn.ui.base.BaseFragment
+import com.mock.musictpn.utils.Const
+import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -29,13 +36,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, MainViewModel>() {
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var trackLocalAdapter: TrackLocalAdapter
     override val mViewModel: MainViewModel by activityViewModels()
+    private val mPlayerViewModel by activityViewModels<PlayerViewModel>()
     private lateinit var handler: Handler
 
     override fun getLayoutRes(): Int = R.layout.fragment_home
     override fun setupViews() {
         handler = Handler(Looper.getMainLooper())
-        bannerAdapter = BannerAdapter {}
-        trackLocalAdapter = TrackLocalAdapter {}
+        bannerAdapter = BannerAdapter {
+            val bundle = bundleOf(Const.EXTRA_ALBUM to it)
+            findNavController().navigate(R.id.action_hostFragment_to_listDetailFragment, bundle)
+        }
+        trackLocalAdapter = TrackLocalAdapter().apply {
+            setOnTrackItemClickedListener(object : OnTrackItemClickedListener{
+                override fun onClick(tracks: TrackList) {
+
+                    this@HomeFragment.findNavController()
+                        .navigate(R.id.action_hostFragment_to_playerFragment)
+                    Log.d("ThangDN6 - TrendingFragment", "onClick: ${tracks.pivot}")
+                    mPlayerViewModel.apply {
+                        changeList(tracks)
+                    }
+                }
+            })
+        }
         mBinding.viewPagerBanner.adapter = bannerAdapter
         mBinding.rvDeviceTracks.adapter = trackLocalAdapter
         mBinding.viewPagerBanner.registerOnPageChangeCallback(viewPagerCallback)

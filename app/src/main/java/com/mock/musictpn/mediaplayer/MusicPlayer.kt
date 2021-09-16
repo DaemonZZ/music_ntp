@@ -1,9 +1,13 @@
 package com.mock.musictpn.mediaplayer
 
+import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +31,7 @@ class MusicPlayer {
         const val ACTION_PREV = "prev"
         const val ACTION_SHUFFLE = "shuffle"
         const val ACTION_REPEAT = "repeat"
+        const val CONTENT_LOCAL = "content://"
 
     }
 
@@ -36,7 +41,9 @@ class MusicPlayer {
     var listTrack: TrackList = TrackList()
     private var isShuffle = true
     private var repeatMode = MODE_REPEAT_WHOLE_LIST
+    private var isStopped = false
     private var pausePosition = 0
+    private lateinit var context: Context
 
     init {
         player.setOnCompletionListener {
@@ -58,6 +65,7 @@ class MusicPlayer {
         player.setOnPreparedListener {
             Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
             it.start()
+            isStopped = false
             stateChangedListener.onStartedPlaying()
             stateChangedListener.onStateChange()
         }
@@ -65,13 +73,20 @@ class MusicPlayer {
 
 
     fun playTrack(index: Int) {
+
         if (listTrack.pivot != index) {
             stateChangedListener.onTrackChange()
             listTrack.pivot = index
         }
         val track = listTrack.tracks[index]
         player.reset()
-        player.setDataSource(track.previewURL)
+        if(track.previewURL.contains(CONTENT_LOCAL)){
+            player.setDataSource(context,track.previewURL.toUri())
+        }
+        else {
+            player.setDataSource(track.previewURL)
+        }
+
         player.prepareAsync()
         //player.start()
 
@@ -89,6 +104,10 @@ class MusicPlayer {
             player.seekTo(pausePosition)
             player.start()
             Log.d("ThangDN6 - MusicPlayer", "togglePlayButton: Resumed")
+        }
+        if(isStopped){
+            playTrack(getCurrentIndex())
+            isStopped = false
         }
         stateChangedListener.onStateChange()
     }
@@ -139,7 +158,8 @@ class MusicPlayer {
 
     fun stop() {
         player.stop()
-        player.release()
+       // player.release()
+        isStopped = true
         stateChangedListener.onStateChange()
     }
 
@@ -155,12 +175,16 @@ class MusicPlayer {
 
     fun isShuffle() = isShuffle
     fun getRepeatMode() = repeatMode
-    fun isPlaying() = player.isPlaying
+    fun isPlaying() = try { player.isPlaying } catch (e:IllegalStateException){ false }
+    fun isStopped() = isStopped
     fun getTrackDuration() = player.duration
-    fun getCurrentPosition() = player.currentPosition
+    fun getCurrentPosition() = try { player.currentPosition } catch (e:IllegalStateException){ 0 }
     fun seekTo(position: Int) = player.seekTo(position)
 
     fun setOnErrorListener(listener: MediaPlayer.OnErrorListener) {
         this.player.setOnErrorListener(listener)
+    }
+    fun setContext(context: Context){
+        this.context = context
     }
 }

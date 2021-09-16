@@ -39,17 +39,29 @@
         android:id="@+id/searchFragment"
         android:name="com.mock.musictpn.ui.fragment.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_hilt_PlayerFragment"
+            app:destination="@id/hilt_PlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listDetailFragment"
         android:name="com.mock.musictpn.ui.fragment.listdetail.ListDetailFragment"
         android:label="fragment_list_detail"
-        tools:layout="@layout/fragment_list_detail" />
+        tools:layout="@layout/fragment_list_detail" >
+        <action
+            android:id="@+id/action_listDetailFragment_to_hilt_PlayerFragment"
+            app:destination="@id/hilt_PlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.mock.musictpn.ui.fragment.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_hilt_PlayerFragment"
+            app:destination="@id/hilt_PlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/hilt_PlayerFragment"
         android:name="com.mock.musictpn.ui.fragment.player.PlayerFragment"

@@ -3,10 +3,13 @@ package com.mock.musictpn.ui.fragment.player
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentPlayerBinding
@@ -27,6 +30,7 @@ import kotlinx.coroutines.launch
 import java.net.URL
 import java.util.*
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
@@ -43,6 +47,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
     private lateinit var currentTracks: TrackList
 
+    private var seekTimer:Timer? = null
 
     private var isPreparing = false
 
@@ -54,9 +59,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         serviceIntent = Intent(requireContext(), MusicService::class.java)
 
         mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity()).apply {
-            setChangePageActionListener(object : ChangePageActionListener{
+            setChangePageActionListener(object : ChangePageActionListener {
                 override fun changePage(page: Int) {
-                    mBinding.vpDisc.setCurrentItem(page,true)
+                    mBinding.vpDisc.setCurrentItem(page, true)
                 }
 
             })
@@ -195,6 +200,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mViewModel.changeState(false)
         }
 
+        if(mService.musicController.isStopped()){
+            mBinding.seekBar.progress =0
+            if(activity==null){
+                mService.stopSelf()
+            }
+        }
     }
 
     fun loadTrackInfo() {
@@ -203,28 +214,41 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     private fun setupSeekBar() {
-        Timer().apply {
+        seekTimer =Timer().apply {
             scheduleAtFixedRate(object : TimerTask() {
                 override fun run() {
-                    mBinding.seekBar.progress = mService.musicController.getCurrentPosition()
-                    CoroutineScope(Dispatchers.Main).launch {
-                        mBinding.tvTimeProgress.text =
-                            toTime(mService.musicController.getCurrentPosition())
+                    if(!mService.musicController.isStopped()){
+                        mBinding.seekBar.progress = mService.musicController.getCurrentPosition()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            mBinding.tvTimeProgress.text =
+                                toTime(mService.musicController.getCurrentPosition())
+                        }
+
                     }
+
                 }
             }, 0, 100)
         }
     }
 
     fun upDateNotification() {
-        if (mService.musicController.listTrack.tracks.isNotEmpty() && mService.musicController.getCurrentTrack()
-                .getImageUrl() != null
+        if (mService.musicController.listTrack.tracks.isNotEmpty()
         ) {
-            val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
+
             scope.launch {
+                val bitmap: Bitmap?
+                if (mService.musicController.getCurrentTrack().getImageUrl()
+                        .contains(MusicPlayer.CONTENT_LOCAL)
+                ) {
+                    bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+                } else {
+                    val url: String = mService.musicController.getCurrentTrack().getImageUrl()
+                    bitmap = loadImg(url)
+                }
+
                 mService.createNotification(
                     mService.musicController.getCurrentTrack().name,
-                    loadImg(url),
+                    bitmap!!,
                     mService.musicController.getCurrentTrack().artistName
                 )
             }
@@ -288,8 +312,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     override fun onDestroy() {
         Log.d("ThangDN6 - PlayerFragment", "onDestroy: ")
         mViewModel.previousState = currentTracks
+        seekTimer?.cancel()
         super.onDestroy()
     }
+
 
 
 }
