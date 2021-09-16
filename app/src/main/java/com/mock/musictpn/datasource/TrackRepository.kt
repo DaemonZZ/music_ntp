@@ -2,7 +2,7 @@ package com.mock.musictpn.datasource
 
 import androidx.lifecycle.LiveData
 import com.mock.musictpn.datasource.local.TrackDataSource
-import com.mock.musictpn.datasource.local.dao.FavoriteDao
+import com.mock.musictpn.datasource.local.dao.PlayListDao
 import com.mock.musictpn.datasource.network.ApiContract
 import com.mock.musictpn.datasource.network.IMusicService
 import com.mock.musictpn.model.album.AlbumList
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class TrackRepository @Inject constructor(
     private val source: TrackDataSource,
     private val apiService: IMusicService,
-    private val favoriteDao: FavoriteDao
+    private val dao: PlayListDao
 ) {
     fun fetchTracksLocal(): List<Track> {
         return source.fetchTracksLocal()
@@ -57,11 +57,11 @@ class TrackRepository @Inject constructor(
     }
 
     suspend fun deleteFavoriteTrack(track: Track): Int{
-        return favoriteDao.deleteTrack(track)
+        return dao.deleteTrack(track)
     }
 
-    fun getFavoriteTracks(): LiveData<List<Track>>{
-        return favoriteDao.getFavoriteTracks()
+    fun getFavoriteTracks(): LiveData<TrackList>{
+        return dao.getFavoriteTracks()
     }
 
 }

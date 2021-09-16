@@ -46,6 +46,8 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
 
     fun clearData() {
         _tracksByAlbumId.postValue(null)
+        _resultSearch.postValue(null)
+        _tracksByGenreId.postValue(null)
     }
 
     fun getFavoriteTracks(): LiveData<TrackList> {

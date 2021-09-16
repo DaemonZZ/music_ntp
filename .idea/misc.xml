@@ -25,6 +25,7 @@
         <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background_2.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background_3.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/recycler_view_search.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/stroke_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/toolbar_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/tv_search_background.xml" value="0.2712820512820513" />
@@ -51,6 +52,7 @@
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_track.xml" value="0.264" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_track_by_type.xml" value="0.23777173913043478" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_track_local.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_track_search.xml" value="0.24003623188405798" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/slider_item.xml" value="0.20208333333333334" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/track_item.xml" value="0.22735507246376813" />
       </map>

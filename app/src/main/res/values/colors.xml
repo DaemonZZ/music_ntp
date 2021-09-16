@@ -14,5 +14,5 @@
     <color name="color_background">#ECF5FF</color>
     <color name="translucent">#00000000</color>
     <color name="color_recyclerview">#EBF5FF</color>
-    <color name="color_recyclerview_search">#8001A6FF</color>
+    <color name="color_recyclerview_search">#BF101D32</color>
 </resources>

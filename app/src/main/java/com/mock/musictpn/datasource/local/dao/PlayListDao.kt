@@ -23,7 +23,7 @@ interface PlayListDao {
     suspend fun deleteTrack(track: Track): Int
 
     @Query("SELECT * FROM track")
-    fun getFavoriteTracks(): LiveData<List<Track>>
+    fun getFavoriteTracks(): LiveData<TrackList>
 
     @Query("SELECT * FROM track_list where id = :id")
     fun getListByID(id:Int) : LiveData<TrackList>
