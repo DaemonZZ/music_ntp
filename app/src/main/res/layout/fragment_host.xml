@@ -6,7 +6,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false"
         tools:context=".ui.fragment.HostFragment">
 
         <LinearLayout
@@ -14,10 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/toolbar_background"
+            app:layout_constraintRight_toRightOf="parent"
+            android:fitsSystemWindows="true"
             android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/dimens_8dp"
-            android:paddingTop="@dimen/dimens_40dp"
-            android:paddingBottom="@dimen/dimens_8dp"
+            android:padding="@dimen/dimens_8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -29,7 +28,10 @@
                 android:layout_weight="5"
                 android:background="@drawable/tv_search_background"
                 android:drawablePadding="15dp"
+                android:layout_gravity="center"
                 android:gravity="center|start"
+                android:layout_marginTop="@dimen/dimens_8dp"
+                android:layout_marginBottom="@dimen/dimens_8dp"
                 android:hint="@string/search_edt_hint"
                 android:padding="8dp"
                 app:drawableStartCompat="@drawable/ic_search" />
@@ -38,9 +40,11 @@
                 android:id="@+id/imvSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dimens_8dp"
                 android:layout_weight="1"
-                android:background="#00000000"
-                android:src="@drawable/ic_heart" />
+                android:layout_marginTop="@dimen/dimens_8dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_heart" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout

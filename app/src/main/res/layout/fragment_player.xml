@@ -18,8 +18,10 @@
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dimens_40dp"
+            android:fitsSystemWindows="true"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:background="@color/title_bg"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -144,25 +146,24 @@
         </LinearLayout>
 
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_download"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="@dimen/dimens_30dp"
+            android:layout_height="@dimen/dimens_30dp"
+            android:layout_marginEnd="@dimen/dimens_8dp"
             android:backgroundTint="@color/translucent"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_cloud_download"
+            app:srcCompat="@drawable/ic_cloud_download"
             android:tint="@color/title_bg"
             app:layout_constraintBottom_toTopOf="@+id/ctrl_layout"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_favorite"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/translucent"
-            android:src="@drawable/ic_heart_empty"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvFavorite"
+            android:layout_width="@dimen/dimens_30dp"
+            android:layout_height="@dimen/dimens_30dp"
+            app:srcCompat="@drawable/ic_favorite"
+            android:layout_marginStart="@dimen/dimens_8dp"
             android:tint="@color/title_bg"
             app:layout_constraintBottom_toTopOf="@+id/ctrl_layout"
             app:layout_constraintLeft_toLeftOf="parent" />

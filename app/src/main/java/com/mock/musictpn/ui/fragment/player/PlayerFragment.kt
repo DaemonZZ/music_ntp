@@ -3,13 +3,10 @@ package com.mock.musictpn.ui.fragment.player
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.FragmentPlayerBinding
@@ -21,7 +18,6 @@ import com.mock.musictpn.app.service.MusicService
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
-import com.mock.musictpn.ui.fragment.player.player_inside.ChangePageActionListener
 import com.mock.musictpn.viewmodel.PlayerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -30,33 +26,27 @@ import kotlinx.coroutines.launch
 import java.net.URL
 import java.util.*
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
-
-    override val mViewModel: PlayerViewModel by activityViewModels()
-
-    private lateinit var mService: MusicService
-
     @Inject
     lateinit var scope: CoroutineScope
-
+    private lateinit var mService: MusicService
     private lateinit var serviceIntent: Intent
-
     private lateinit var currentTracks: TrackList
 
     private var seekTimer:Timer? = null
 
     private var isPreparing = false
-
-    override fun getLayoutRes(): Int {
-        return R.layout.fragment_player
-    }
+    private lateinit var mTrack: Track
+    private var mTracks: List<Track>? = null
+    override val mViewModel: PlayerViewModel by activityViewModels()
+    override fun getLayoutRes(): Int = R.layout.fragment_player
 
     override fun setupViews() {
         serviceIntent = Intent(requireContext(), MusicService::class.java)
+
 
         mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity()).apply {
             setChangePageActionListener(object : ChangePageActionListener {
@@ -72,10 +62,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mService = MainActivity.mService!!
             setUpPlayerListener()
         }
-
     }
 
     override fun setupListeners() {
+        mBinding.imvFavorite.setOnClickListener { onFavorite() }
         mBinding.btnShuffle.setOnClickListener { toggleShuffle() }
         mBinding.btnPrev.setOnClickListener { onPrev() }
         mBinding.btnPlay.setOnClickListener { togglePlay() }
@@ -133,7 +123,24 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         })
 
+        mViewModel.getFavoriteTracks().observe(this) {
+            mTracks = it
+            isFavorite(it)
+        }
+    }
 
+    private fun isFavorite(tracks: List<Track>?) {
+        tracks?.let {
+            var isSelect = false
+            for (i in it) {
+                if (i.previewURL == mTrack.previewURL) {
+                    isSelect = true
+                    mTrack = i
+                    break
+                }
+            }
+            mBinding.imvFavorite.isSelected = isSelect
+        }
     }
 
     private fun sendStartAction(tracks: TrackList) {
@@ -149,9 +156,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     private fun updateView(track: Track) {
+        mTrack = track
         mBinding.track = track
         loadState()
         setupSeekBar()
+        isFavorite(mTracks)
+        Log.d("ADD", "updateView: $track ")
+    }
+
+    private fun onFavorite() {
+        if (mBinding.imvFavorite.isSelected) {
+            mViewModel.deleteFavoriteTrack(mTrack)
+            return
+        }
+        mViewModel.insertFavoriteTrack(mTrack)
     }
 
     private fun togglePlay() {
@@ -209,8 +227,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     }
 
     fun loadTrackInfo() {
-        mBinding.track = mService.musicController.getCurrentTrack()
+        mTrack = mService.musicController.getCurrentTrack()
+        mBinding.track = mTrack
+        isFavorite(mTracks)
         // mBinding.seekBar.max = mService.musicController.getTrackDuration()
+        Log.d("ADD", "loadTrackInfo: $mTrack")
+
     }
 
     private fun setupSeekBar() {
