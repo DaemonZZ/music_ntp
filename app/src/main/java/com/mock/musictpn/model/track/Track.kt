@@ -5,19 +5,17 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import java.io.Serializable
 
-@Entity(tableName = "favorite_track")
+@Entity(tableName = "favorite_tracks")
 data class Track(
     @PrimaryKey(autoGenerate = true)
-    @Expose
     val localId: Int = 0,
-    val id: String = "",
+    val id: String? = "",
     val name: String = "",
-    val artistId: String = "",
-    val albumId: String? = null,
-    val artistName: String = "Unknown",
-    val previewURL: String,
-    val isFavorite: Boolean = false,
-    val imageLocal: String = ""
+    val artistId: String? = "",
+    val albumId: String? = "",
+    val artistName: String = "",
+    val previewURL: String? = "",
+    val imageLocal: String? = ""
 ) : Serializable {
     /**
      * Track = Album

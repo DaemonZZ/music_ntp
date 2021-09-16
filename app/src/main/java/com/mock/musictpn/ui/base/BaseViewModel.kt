@@ -3,6 +3,7 @@ package com.mock.musictpn.ui.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mock.musictpn.datasource.TrackRepository
+import com.mock.musictpn.datasource.local.dao.FavoriteDao
 import com.mock.musictpn.datasource.network.IMusicService
 import kotlinx.coroutines.*
 import java.net.UnknownHostException

@@ -44,6 +44,10 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
         _tracksByAlbumId.postValue(null)
     }
 
+    fun getFavoriteTracks(): LiveData<List<Track>> {
+        return trackRepository.getFavoriteTracks()
+    }
+
     fun getTracksByAlbumId(albumId: String) = launchOnUI {
         val response = trackRepository.getTracksByAlbumId(albumId)
         if (response.isSuccessful) {
