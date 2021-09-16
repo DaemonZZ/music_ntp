@@ -14,7 +14,7 @@ data class Track(
     val artistId: String? = "",
     val albumId: String? = "",
     val artistName: String = "",
-    val previewURL: String? = "",
+    val previewURL: String = "",
     val imageLocal: String? = ""
 ) : Serializable {
     /**
@@ -25,7 +25,7 @@ data class Track(
     fun getImageUrl(): String {
         return if (albumId != null) {
             "https://api.napster.com/imageserver/v2/albums/$albumId/images/300x300.jpg"
-        } else imageLocal
+        } else imageLocal!!
     }
 
 
