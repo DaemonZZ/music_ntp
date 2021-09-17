@@ -68,6 +68,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabIndicator="@android:color/transparent"
             app:tabTextAppearance="@style/myTabLayout" />
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/playerHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tabMain"
+            android:tag="player_holder"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpMain"
@@ -76,7 +82,7 @@
             android:layout_above="@id/tabMain"
             android:fitsSystemWindows="false"
             android:layout_marginTop="@dimen/dimen_16dp"
-            app:layout_constraintBottom_toTopOf="@id/tabMain"
+            app:layout_constraintBottom_toTopOf="@id/playerHolder"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtSearch" />

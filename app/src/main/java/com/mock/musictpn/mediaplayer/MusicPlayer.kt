@@ -41,7 +41,7 @@ class MusicPlayer {
     var listTrack: TrackList = TrackList()
     private var isShuffle = true
     private var repeatMode = MODE_REPEAT_WHOLE_LIST
-    private var isStopped = false
+    private var isStopped = true
     private var pausePosition = 0
     private lateinit var context: Context
 

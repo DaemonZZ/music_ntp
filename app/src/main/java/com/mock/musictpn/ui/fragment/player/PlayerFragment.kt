@@ -210,10 +210,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mBinding.btnPlay.setImageResource(R.drawable.ic_pause)
             upDateNotification()
             mViewModel.changeState(true)
+            mService.isPlaying = true
         } else {
             mBinding.btnPlay.setImageResource(R.drawable.ic_play1)
             upDateNotification()
             mViewModel.changeState(false)
+            mService.isPlaying = false
         }
 
         if (mService.musicController.isStopped()) {

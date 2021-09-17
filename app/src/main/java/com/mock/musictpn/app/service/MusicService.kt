@@ -36,6 +36,8 @@ class MusicService : Service() {
     @Inject
     lateinit var scope: CoroutineScope
 
+    var isPlaying = false
+
     override fun onBind(intent: Intent): IBinder {
         return iBinder
     }
@@ -187,10 +189,12 @@ class MusicService : Service() {
 
     }
 
+
     override fun onDestroy() {
         Log.d("ThangDN6 - MusicService", "onDestroy: ")
         super.onDestroy()
     }
+
 
     inner class MusicBinder : Binder() {
         fun getService(): MusicService {

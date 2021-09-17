@@ -46,6 +46,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
             mPlayerViewModel.apply { changeList(it) }
         }
         mBinding.rvResultSearch.adapter = searchAdapter
+
     }
 
     override fun setupListeners() {
@@ -79,6 +80,9 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
                 actionSearch(false)
             }
             false
+        }
+        mBinding.playerHolder.setOnClickListener {
+            Log.d("ThangDN6 - HostFragment", "setupListeners: Open Player")
         }
     }
 
