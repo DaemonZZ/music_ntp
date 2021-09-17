@@ -198,5 +198,14 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
         //mService.musicController.setOnErrorListener(errorListener)
     }
 
+    override fun onDestroy() {
+        if(mService.musicController.isPlaying()){
+            Log.d("ThangDN6 - PlayerHolderFragment", "onDestroy: Lưu track list từ Holder")
+            mService.previousTracks = mService.musicController.listTrack
+        }
+        super.onDestroy()
+
+    }
+
 
 }

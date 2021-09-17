@@ -36,6 +36,8 @@ class MusicService : Service() {
     @Inject
     lateinit var scope: CoroutineScope
 
+    var previousTracks : TrackList? = null
+
     var isPlaying = false
 
 

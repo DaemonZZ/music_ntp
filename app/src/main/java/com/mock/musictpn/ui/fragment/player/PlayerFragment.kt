@@ -123,6 +123,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         })
 
+        if(currentTracks.tracks.isEmpty()){
+
+        }
+
         mViewModel.getFavoriteTracks().observe(this) {
             mTracks = it
             Log.d("ThangDN6 - PlayerFragment", "setupObservers:  check isInitial")
@@ -385,9 +389,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 //        Log.d("ThangDN6 - PlayerFragment", "onDestroy: ")
         mViewModel.previousState = currentTracks
         seekTimer?.cancel()
-        if(::mTrack.isInitialized){
-            mViewModel.mTrack = mTrack
-        }
+       if(mService.musicController.isPlaying()){
+           Log.d("ThangDN6 - PlayerFragment", "onDestroy: Lưu track list từ Player")
+           mService.previousTracks = currentTracks
+       }
         super.onDestroy()
     }
 
