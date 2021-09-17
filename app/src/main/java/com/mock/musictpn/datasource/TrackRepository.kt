@@ -77,6 +77,10 @@ class TrackRepository @Inject constructor(
         return dao.filterHistory(id)
     }
 
+    fun getAllHistory(rows: Int): LiveData<List<Track>>{
+        return dao.getAllHistory(rows)
+    }
+
     suspend fun deleteByUrl(url: String, playList: Int) {
         dao.deleteByUrl(url, playList)
     }

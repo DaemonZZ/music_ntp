@@ -67,7 +67,10 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
         mBinding.imvClear.setOnClickListener {
             if (mBinding.edtSearch.text.toString().isEmpty()) {
                 actionSearch(false)
-            } else mBinding.edtSearch.setText("")
+            } else {
+                mBinding.edtSearch.setText("")
+                mBinding.rvResultSearch.visibility =View.GONE
+            }
         }
         mBinding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -121,8 +124,9 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
         mViewModel.clearData()
     }
+
 }

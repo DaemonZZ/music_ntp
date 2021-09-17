@@ -25,5 +25,6 @@
     <dimen name="dimens_30dp">30dp</dimen>
     <dimen name="dimens_20dp">20dp</dimen>
     <dimen name="dimens_48dp">48dp</dimen>
+    <dimen name="dimens_220dp">220dp</dimen>
 
 </resources>
