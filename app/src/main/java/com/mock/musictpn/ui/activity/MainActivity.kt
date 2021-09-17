@@ -30,7 +30,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         var mService: MusicService? = null
 
     }
-    private var isFinishApp = false
 
     private val connection = object : ServiceConnection {
         private var isConnected = false
@@ -100,31 +99,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         ) {
             mViewModel.fetchTracksLocal()
         } else {
-            //you_have_not_enough_grant_permission
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + this.packageName)
-            startActivityForResult(intent, RC_PERMISSION)
+            Toast.makeText(this, getString(R.string.require_permission), Toast.LENGTH_SHORT).show()
         }
     }
-
-
-//    override fun onBackPressed() {
-//        if (isFinishApp) {
-//            super.onBackPressed()
-//            return
-//        }
-//        isFinishApp = true
-//        Toast.makeText(this, getString(R.string.confirm_exit_app), Toast.LENGTH_SHORT).show()
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            isFinishApp = false
-//        }, 2000)
-//
-//    }
 
     override fun onDestroy() {
         super.onDestroy()
         Log.d("ThangDN6 - MainActivity", "onDestroy: ")
-        if(mService?.musicController?.isStopped() == true){
+        if (mService?.musicController?.isStopped() == true) {
             unbindService(connection)
         }
     }

@@ -13,42 +13,49 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@drawable/media_background">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/title_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#107EE8"
             android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toTopOf="@id/vp_disc"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:background="@color/title_bg"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                android:orientation="vertical">
+                android:paddingHorizontal="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp"
+                android:text="@{track.name}"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_size_16sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{track.name}"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@{track.artistName}"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimens_8dp"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:text="@{track.artistName}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_disc"
@@ -58,23 +65,25 @@
             app:layout_constraintBottom_toTopOf="@+id/seek_bar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutToolbar" />
+
         <TextView
             android:id="@+id/tvTimeProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/seek_bar"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginHorizontal="10dp"
             android:text="@string/time_waiting"
-            android:layout_marginHorizontal="10dp"/>
+            app:layout_constraintBottom_toTopOf="@id/seek_bar"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
         <TextView
             android:id="@+id/tvTimeDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/seek_bar"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginHorizontal="10dp"
             android:text="@string/time_waiting"
-            android:layout_marginHorizontal="10dp"/>
+            app:layout_constraintBottom_toTopOf="@id/seek_bar"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <SeekBar
             android:id="@+id/seek_bar"
@@ -82,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:thumbTint="@color/title_bg"
             android:progressTint="@color/title_bg"
+            android:thumbTint="@color/title_bg"
             app:layout_constraintBottom_toTopOf="@+id/btn_download"
             tools:layout_editor_absoluteX="10dp" />
 
@@ -103,36 +112,33 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_shuffle" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_prev"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@drawable/ctr_btn_pressed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="@drawable/ctr_btn_pressed"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_prev"
                 android:tint="@color/title_bg" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_play"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@drawable/ctr_btn_pressed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_play1"
-                android:tint="@color/title_bg"
-                />
+                android:tint="@color/title_bg" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_next"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:background="@drawable/ctr_btn_pressed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="@drawable/ctr_btn_pressed"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_next"
                 android:tint="@color/title_bg" />
@@ -146,7 +152,6 @@
                 android:src="@drawable/ic_repeat" />
         </LinearLayout>
 
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btn_download"
             android:layout_width="@dimen/dimens_30dp"
@@ -154,20 +159,20 @@
             android:layout_marginEnd="@dimen/dimens_8dp"
             android:backgroundTint="@color/translucent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_cloud_download"
             android:tint="@color/title_bg"
             app:layout_constraintBottom_toTopOf="@+id/ctrl_layout"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/ic_cloud_download" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imvFavorite"
             android:layout_width="@dimen/dimens_30dp"
             android:layout_height="@dimen/dimens_30dp"
-            app:srcCompat="@drawable/ic_favorite"
             android:layout_marginStart="@dimen/dimens_8dp"
             android:tint="@color/title_bg"
             app:layout_constraintBottom_toTopOf="@+id/ctrl_layout"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:srcCompat="@drawable/ic_favorite" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
