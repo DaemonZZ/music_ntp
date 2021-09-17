@@ -46,33 +46,39 @@ class TrackRepository @Inject constructor(
         return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 20)
     }
 
-    suspend fun searchByKeyword(name: String): Response<SearchResult>{
+    suspend fun searchByKeyword(name: String): Response<SearchResult> {
         return apiService.searchByKeyword(name)
     }
 
 
-    suspend fun insertTrack(track: Track,playList:Int): Long{
-        val favor = track.apply { this.playListId = playList }
+    suspend fun insertTrack(track: Track, playList: Int): Long {
+        val favor = track.apply {
+            if (track.playListId == PlayListDao.ID_LIST_FAVORITE) {
+                this.localId = 0
+            }
+            this.playListId = playList
+        }
         return dao.insertTrack(favor)
     }
 
-    suspend fun deleteTrack(track: Track): Int{
+    suspend fun deleteTrack(track: Track): Int {
         return dao.deleteTrack(track)
     }
 
-     fun getHistoryTracks(): TrackList{
+    fun getHistoryTracks(): TrackList {
         return dao.getListByID(PlayListDao.ID_LIST_HISTORY)
     }
 
-    fun getFavoriteTracks(): LiveData<TrackList>{
+    fun getFavoriteTracks(): LiveData<TrackList> {
         return dao.getListByIDLiveData(PlayListDao.ID_LIST_FAVORITE)
     }
 
-    suspend fun getOlderTracks(id:Int) : List<Track>{
+    suspend fun getOlderTracks(id: Int): List<Track> {
         return dao.filterHistory(id)
     }
-    suspend fun deleteByUrl(url:String,playList: Int){
-        dao.deleteByUrl(url,playList)
+
+    suspend fun deleteByUrl(url: String, playList: Int) {
+        dao.deleteByUrl(url, playList)
     }
 
 }
