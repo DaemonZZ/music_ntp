@@ -23,6 +23,7 @@ class ListDetailFragment : BaseFragment<FragmentListDetailBinding, MainViewModel
 
     private lateinit var trackByTypeAdapter: TrackByTypeAdapter
     private val mPlayerViewModel by activityViewModels<PlayerViewModel>()
+    private lateinit var mTrackList: TrackList
     override val mViewModel: MainViewModel by activityViewModels()
     override fun getLayoutRes(): Int = R.layout.fragment_list_detail
 
@@ -66,26 +67,32 @@ class ListDetailFragment : BaseFragment<FragmentListDetailBinding, MainViewModel
         mBinding.rvTracksByType.adapter = trackByTypeAdapter
     }
 
+
+
     override fun setupListeners() {
+        mBinding.btnPlayShuffle.setOnClickListener {
+            this@ListDetailFragment.findNavController()
+                .navigate(R.id.action_listDetailFragment_to_hilt_PlayerFragment)
+            mPlayerViewModel.apply {
+                changeList(mTrackList)}
+        }
     }
+
+
+
 
     override fun setupObservers() {
         mViewModel.tracksByAlbumId.observe(this) {
             it?.let {
                 trackByTypeAdapter.submitList(it.tracks)
-                val trackList = TrackList(it.tracks,it.tracks.indices.random())
-                mBinding.btnPlayShuffle.setOnClickListener {
-                    this@ListDetailFragment.findNavController()
-                        .navigate(R.id.action_listDetailFragment_to_hilt_PlayerFragment)
-                    mPlayerViewModel.apply {
-                        changeList(trackList)}
-                }
+                mTrackList = TrackList(it.tracks,it.tracks.indices.random())
             }
         }
         mViewModel.tracksByGenreId.observe(this) {
             it?.let {
                 trackByTypeAdapter.submitList(it.tracks)
                 Log.d("UUU", "setupObservers: $it")
+                mTrackList = TrackList(it.tracks,it.tracks.indices.random())
             }
         }
     }
