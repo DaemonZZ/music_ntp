@@ -60,7 +60,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mService = MainActivity.mService!!
             setUpPlayerListener()
             if(mService.musicController.isPlaying()){
-                Log.d("ThangDN6 - PlayerFragment", "setupViews: Seek?")
+//                Log.d("ThangDN6 - PlayerFragment", "setupViews: Seek?")
                  mBinding.seekBar.max = mService.musicController.getTrackDuration()
                 mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
             }
@@ -125,7 +125,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         mViewModel.getFavoriteTracks().observe(this) {
             mTracks = it
-            isFavorite(it)
+            Log.d("ThangDN6 - PlayerFragment", "setupObservers:  check isInitial")
+
+            if(::mTrack.isInitialized){
+                isFavorite(it)
+
+            }
         }
     }
 
@@ -140,7 +145,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 }
             }
             mBinding.imvFavorite.isSelected = isSelect
-            Log.d("ThangDN6 - PlayerFragment", "isFavorite: ${mTrack.name}  -  $isSelect")
+//            Log.d("ThangDN6 - PlayerFragment", "isFavorite: ${mTrack.name}  -  $isSelect")
         }
     }
 
@@ -163,8 +168,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         mBinding.track = track
         loadState()
         setupSeekBar()
-        isFavorite(mTracks)
-        
+        if(::mTrack.isInitialized){
+            isFavorite(mTracks)
+        }
+
     }
 
     private fun onFavorite() {
@@ -234,9 +241,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     fun loadTrackInfo() {
         mTrack = mService.musicController.getCurrentTrack()
         mBinding.track = mTrack
-        isFavorite(mTracks)
+        Log.d("ThangDN6 - PlayerFragment", "loadTrackInfo:  ")
+        if(::mTrack.isInitialized){
+            isFavorite(mTracks)
+        }
 
-        Log.d("ADD", "loadTrackInfo: $mTrack")
+//        Log.d("ADD", "loadTrackInfo: $mTrack")
 
     }
 
@@ -342,7 +352,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             val historyList = mViewModel.getHistoryTracks()
             var lastID  = 0
             var isExist = false
-            Log.d("ThangDN6 - PlayerFragment", "addToHistory: ${historyList.tracks.size}")
+//            Log.d("ThangDN6 - PlayerFragment", "addToHistory: ${historyList.tracks.size}")
             for (i in historyList.tracks.indices) {
                 if (historyList.tracks[i].previewURL == track.previewURL) {
                     isExist = true
@@ -350,10 +360,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             }
             if (historyList.tracks.size>20) lastID = historyList.tracks[historyList.tracks.size-20].localId
             if(isExist){
-                Log.d("ThangDN6 - PlayerFragment", "addToHistory: IsExist")
+//                Log.d("ThangDN6 - PlayerFragment", "addToHistory: IsExist")
                 mViewModel.insertHistoryTrack(track, isExist)
             } else {
-                Log.d("ThangDN6 - PlayerFragment", "addToHistory: NotExist")
+//                Log.d("ThangDN6 - PlayerFragment", "addToHistory: NotExist")
                 mViewModel.insertHistoryTrack(track,lastID)
             }
         }
@@ -361,9 +371,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
 
     override fun onDestroy() {
-        Log.d("ThangDN6 - PlayerFragment", "onDestroy: ")
+//        Log.d("ThangDN6 - PlayerFragment", "onDestroy: ")
         mViewModel.previousState = currentTracks
         seekTimer?.cancel()
+        if(::mTrack.isInitialized){
+            mViewModel.mTrack = mTrack
+        }
         super.onDestroy()
     }
 

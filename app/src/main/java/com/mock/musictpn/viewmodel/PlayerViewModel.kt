@@ -17,6 +17,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
     private val _trackList = MutableLiveData<TrackList>()  //Current list
     private val _isPlaying = MutableLiveData<Boolean>()
     var previousState = TrackList()
+    var mTrack:Track? = null
 
     fun getTrackList(): LiveData<TrackList> = _trackList
 
