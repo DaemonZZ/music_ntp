@@ -3,24 +3,18 @@ package com.mock.musictpn.ui.fragment.player
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.mock.musictpn.R
+import com.mock.musictpn.app.service.MusicService
 import com.mock.musictpn.databinding.FragmentPlayerBinding
 import com.mock.musictpn.mediaplayer.MusicPlayer
 import com.mock.musictpn.mediaplayer.OnPlayerStateChangedListener
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
-import com.mock.musictpn.app.service.MusicService
-import com.mock.musictpn.datasource.local.dao.PlayListDao
-import com.mock.musictpn.model.playlist.Playlist
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.adapter.DiscPagerAdapter
 import com.mock.musictpn.ui.base.BaseFragment
@@ -30,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.net.URL
 import java.util.*
 import javax.inject.Inject
@@ -161,7 +154,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
     private fun updateView(track: Track) {
         mTrack = track
-        //Log.d("ThangDN6 - PlayerFragment", "updateView: ${mTrack.playListId} - ${mTrack.name}")
+        Log.d("NganHV", "updateView: ${mTrack.playListId}")
         mBinding.track = track
         loadState()
         setupSeekBar()

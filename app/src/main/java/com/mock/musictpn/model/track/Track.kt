@@ -9,7 +9,7 @@ import java.io.Serializable
 @Entity
 data class Track(
     @PrimaryKey(autoGenerate = true)
-    val localId: Int = 0,
+    var localId: Int = 0,
     val id: String? = "",
     val name: String = "",
     val artistId: String? = "",
