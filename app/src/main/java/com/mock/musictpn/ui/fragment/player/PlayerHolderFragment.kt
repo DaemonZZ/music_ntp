@@ -45,7 +45,7 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
         serviceIntent = Intent(requireContext(), MusicService::class.java)
         CoroutineScope(Dispatchers.Main).launch {
             while (MainActivity.mService == null) {
-                delay(1000)
+                delay(100)
                 Log.d("ThangDN6 - PlayerHolderFragment", "setupViews: Wait")
             }
             mService = MainActivity.mService!!
@@ -54,8 +54,11 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
 
             if (currentTracks.tracks.isNotEmpty()) {
                 loadState()
-                if (currentTracks.tracks.isNotEmpty())
+                if (currentTracks.tracks.isNotEmpty()){
                     loadTrackInfo()
+                    mViewModel.previousState = currentTracks
+                    Log.d("ThangDN6 - PlayerHolderFragment", "setupViews: Helloo ${mViewModel.previousState.tracks[mViewModel.previousState.pivot]}")
+                }
             }
 
         }

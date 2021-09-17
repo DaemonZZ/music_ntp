@@ -68,12 +68,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabIndicator="@android:color/transparent"
             app:tabTextAppearance="@style/myTabLayout" />
-        <androidx.fragment.app.FragmentContainerView
+        <FrameLayout
             android:id="@+id/playerHolder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tabMain"
-            android:tag="player_holder"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                class="com.mock.musictpn.ui.fragment.player.PlayerHolderFragment"
+                android:tag="player_holder"/>
+
+        </FrameLayout>
+
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpMain"

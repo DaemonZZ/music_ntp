@@ -46,7 +46,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     override fun setupViews() {
         serviceIntent = Intent(requireContext(), MusicService::class.java)
 
-
         mBinding.vpDisc.adapter = DiscPagerAdapter(requireActivity()).apply {
             setChangePageActionListener(object : ChangePageActionListener {
                 override fun changePage(page: Int) {
@@ -55,15 +54,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             })
         }
 
-
         if (MainActivity.mService != null) {
             mService = MainActivity.mService!!
-            setUpPlayerListener()
-            if(mService.musicController.isPlaying()){
-                Log.d("ThangDN6 - PlayerFragment", "setupViews: Seek?")
-                 mBinding.seekBar.max = mService.musicController.getTrackDuration()
-                mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
+            if (mViewModel.previousState.tracks.isNotEmpty()) {
+                mTrack = mViewModel.previousState.tracks[mViewModel.previousState.pivot]
+                loadState()
+                loadTrackInfo()
+                setupSeekBar()
+                mViewModel.changeList(mViewModel.previousState)
             }
+
+            setUpPlayerListener()
+            Log.d("ThangDN6 - PlayerFragment", "setupViews: Seek?")
+            mBinding.seekBar.max = mService.musicController.getTrackDuration()
+            mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
         }
     }
 
@@ -94,6 +98,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             }
 
         })
+
     }
 
     override fun setupObservers() {
@@ -104,17 +109,26 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                     currentTracks = trackList
 
                     sendStartAction(trackList)
-                    Log.d("ThangDN6 - PlayerFragment  1", "setupObservers: ${it.tracks[it.pivot].playListId}")
+                    Log.d(
+                        "ThangDN6 - PlayerFragment  1",
+                        "setupObservers: ${it.tracks[it.pivot].playListId}"
+                    )
                     updateView(it.tracks[it.pivot])
                 } else {
                     currentTracks = trackList
 
                     if (currentTracks == mViewModel.previousState) {
-                        Log.d("ThangDN6 - PlayerFragment   2", "setupObservers: ${currentTracks.tracks[currentTracks.pivot].playListId} ")
+                        Log.d(
+                            "ThangDN6 - PlayerFragment   2",
+                            "setupObservers: ${currentTracks.tracks[currentTracks.pivot].playListId} "
+                        )
                         updateView(currentTracks.tracks[currentTracks.pivot])
                     } else {
                         sendStartAction(trackList)
-                        Log.d("ThangDN6 - PlayerFragment   3", "setupObservers: ${it.tracks[it.pivot].playListId}")
+                        Log.d(
+                            "ThangDN6 - PlayerFragment   3",
+                            "setupObservers: ${it.tracks[it.pivot].playListId}"
+                        )
                         updateView(it.tracks[it.pivot])
                     }
                 }
@@ -164,7 +178,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         loadState()
         setupSeekBar()
         isFavorite(mTracks)
-        
+
     }
 
     private fun onFavorite() {
@@ -340,7 +354,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     private fun addToHistory(track: Track) {
         scope.launch {
             val historyList = mViewModel.getHistoryTracks()
-            var lastID  = 0
+            var lastID = 0
             var isExist = false
             Log.d("ThangDN6 - PlayerFragment", "addToHistory: ${historyList.tracks.size}")
             for (i in historyList.tracks.indices) {
@@ -348,13 +362,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                     isExist = true
                 }
             }
-            if (historyList.tracks.size>20) lastID = historyList.tracks[historyList.tracks.size-20].localId
-            if(isExist){
+            if (historyList.tracks.size > 20) lastID =
+                historyList.tracks[historyList.tracks.size - 20].localId
+            if (isExist) {
                 Log.d("ThangDN6 - PlayerFragment", "addToHistory: IsExist")
                 mViewModel.insertHistoryTrack(track, isExist)
             } else {
                 Log.d("ThangDN6 - PlayerFragment", "addToHistory: NotExist")
-                mViewModel.insertHistoryTrack(track,lastID)
+                mViewModel.insertHistoryTrack(track, lastID)
             }
         }
     }
