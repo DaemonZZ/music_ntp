@@ -2,6 +2,7 @@ package com.mock.musictpn.ui.fragment.player
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -36,6 +37,10 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
     private lateinit var currentTracks: TrackList
     private lateinit var animation: Animator
 
+    override fun onAttach(context: Context) {
+        Log.d("ThangDN6 - PlayerHolderFragment", "onAttach: ")
+        super.onAttach(context)
+    }
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_player_holder

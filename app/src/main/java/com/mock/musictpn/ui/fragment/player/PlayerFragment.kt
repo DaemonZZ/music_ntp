@@ -128,8 +128,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             Log.d("ThangDN6 - PlayerFragment", "setupObservers:  check isInitial")
 
             if(::mTrack.isInitialized){
+                Log.d("ThangDN6 - PlayerFragment", "setupObservers: Cái này phải được init")
                 isFavorite(it)
-
+            }
+            else {
+                mTrack = currentTracks.tracks[currentTracks.pivot]
+                isFavorite(mTracks)
             }
         }
     }
@@ -139,6 +143,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             var isSelect = false
             for (i in it.tracks) {
                 if (i.previewURL == mTrack.previewURL) {
+                    Log.d("ThangDN6 - PlayerFragment", "isFavorite: ${mTrack.name}  -   ${currentTracks.tracks[currentTracks.pivot].name}")
                     isSelect = true
                     mTrack = i
                     break
@@ -170,6 +175,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         setupSeekBar()
         if(::mTrack.isInitialized){
             isFavorite(mTracks)
+        } else {
+            Log.d("ThangDN6 - PlayerFragment", "updateView: mTrack chưa khởi tạo")
         }
 
     }
@@ -241,9 +248,13 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     fun loadTrackInfo() {
         mTrack = mService.musicController.getCurrentTrack()
         mBinding.track = mTrack
+        
         Log.d("ThangDN6 - PlayerFragment", "loadTrackInfo:  ")
+        
         if(::mTrack.isInitialized){
             isFavorite(mTracks)
+        } else {
+            Log.d("ThangDN6 - PlayerFragment", "loadTrackInfo: mTrack chưa khởi tạo")
         }
 
 //        Log.d("ADD", "loadTrackInfo: $mTrack")
