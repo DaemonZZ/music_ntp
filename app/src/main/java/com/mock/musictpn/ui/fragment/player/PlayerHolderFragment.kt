@@ -3,6 +3,8 @@ package com.mock.musictpn.ui.fragment.player
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -15,12 +17,15 @@ import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.ui.activity.MainActivity
 import com.mock.musictpn.ui.base.BaseFragment
 import com.mock.musictpn.viewmodel.PlayerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URL
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerViewModel>() {
 
     @Inject
@@ -37,28 +42,39 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
     }
 
     override fun setupViews() {
-
+        serviceIntent = Intent(requireContext(), MusicService::class.java)
         CoroutineScope(Dispatchers.Main).launch {
-            while (MainActivity.mService == null){
-                delay(100)
+            while (MainActivity.mService == null) {
+                delay(1000)
+                Log.d("ThangDN6 - PlayerHolderFragment", "setupViews: Wait")
             }
             mService = MainActivity.mService!!
-            loadState()
             setUpPlayerListener()
-            Log.d("ThangDN6 - PlayerHolderFragment", "setupViews: ?")
-            Log.d(
-                "ThangDN6 - PlayerHolderFragment",
-                "loadState: hide out ${mService.musicController.isStopped()}"
-            )
+            currentTracks = mService.musicController.listTrack
 
+            if (currentTracks.tracks.isNotEmpty()) {
+                loadState()
+                if (currentTracks.tracks.isNotEmpty())
+                    loadTrackInfo()
+            }
 
         }
-
         loadAnimation()
-
     }
 
     override fun setupListeners() {
+        mBinding.imvPlay.setOnClickListener {
+            val intent = serviceIntent.apply { action = MusicPlayer.ACTION_PLAY }
+            requireContext().startForegroundService(intent)
+        }
+        mBinding.imvNext.setOnClickListener {
+            val intent = serviceIntent.apply { action = MusicPlayer.ACTION_NEXT }
+            requireContext().startForegroundService(intent)
+        }
+        mBinding.imvPrev.setOnClickListener {
+            val intent = serviceIntent.apply { action = MusicPlayer.ACTION_PREV }
+            requireContext().startForegroundService(intent)
+        }
     }
 
     override fun setupObservers() {
@@ -91,60 +107,91 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
     private val playerStateChangedListener = object : OnPlayerStateChangedListener {
         override fun onStateChange() {
             CoroutineScope(Dispatchers.Main).launch { loadState() } // make provider
+            Log.d("ThangDN6 - PlayerHolderFragment", "onStateChange: ")
         }
 
         override fun onTrackChange() {
+            Log.d("ThangDN6 - PlayerHolderFragment", "onTrackChange: ")
             mViewModel.changeList(mService.musicController.listTrack)
             //currentTracks = mService.musicController.listTrack
             CoroutineScope(Dispatchers.Main).launch {
-//                loadTrackInfo()
-//                upDateNotification()
+                loadTrackInfo()
+                upDateNotification()
 
 
             }
         }
 
         override fun onStartedPlaying() {
-//            mBinding.seekBar.max = mService.musicController.getTrackDuration()
-//            mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
-//            isPreparing = false
-//            addToHistory(currentTracks.tracks[currentTracks.pivot])
+            Log.d("ThangDN6 - PlayerHolderFragment", "onStartedPlaying: ")
         }
 
     }
 
-    fun loadState() {
+    fun upDateNotification() {
+        if (mService.musicController.listTrack.tracks.isNotEmpty()
+        ) {
 
+            scope.launch {
+                val bitmap: Bitmap?
+                val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
+                if (mService.musicController.getCurrentTrack().previewURL.contains(MusicPlayer.CONTENT_LOCAL)) {
+                    Log.d("ThangDN6 - PlayerHolderFragment", "upDateNotification: ")
+                    bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+                } else {
+                    bitmap = loadImg(url)
+                }
+
+                mService.createNotification(
+                    mService.musicController.getCurrentTrack().name,
+                    bitmap!!,
+                    mService.musicController.getCurrentTrack().artistName
+                )
+            }
+
+
+        }
+
+    }
+
+    private fun loadImg(imagePath: String): Bitmap {
+        val url = URL(imagePath)
+        return BitmapFactory.decodeStream(url.openConnection().getInputStream())
+    }
+
+    fun loadState() {
         if (mService.musicController.isPlaying()) {
             mBinding.imvPlay.setImageResource(R.drawable.ic_pause)
-            //upDateNotification()
+            upDateNotification()
             mViewModel.changeState(true)
             mService.isPlaying = true
         } else {
             mBinding.imvPlay.setImageResource(R.drawable.ic_play_no_border)
-            //upDateNotification()
+            upDateNotification()
             mViewModel.changeState(false)
             mService.isPlaying = false
         }
 
-        Log.d(
-            "ThangDN6 - PlayerHolderFragment",
-            "loadState: hide out ${mService.musicController.isStopped()}"
-        )
         if (mService.musicController.isStopped()) {
             mBinding.container.visibility = View.GONE
+            Log.d("ThangDN6 - PlayerHolderFragment", "loadState: HIDE")
         } else {
             mBinding.container.visibility = View.VISIBLE
+            Log.d("ThangDN6 - PlayerHolderFragment", "loadState: START")
         }
+    }
+
+    fun loadTrackInfo() {
+        mBinding.track = currentTracks.tracks[currentTracks.pivot]
+        // mBinding.seekBar.max = mService.musicController.getTrackDuration()
+
     }
 
     private fun setUpPlayerListener() {
         mService.musicController.setOnPlayerStateChangedListener(playerStateChangedListener)
+
         //mService.musicController.setOnErrorListener(errorListener)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
 
-    }
 }

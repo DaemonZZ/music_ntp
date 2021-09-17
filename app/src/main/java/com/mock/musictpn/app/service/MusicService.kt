@@ -38,6 +38,7 @@ class MusicService : Service() {
 
     var isPlaying = false
 
+
     override fun onBind(intent: Intent): IBinder {
         return iBinder
     }
@@ -98,26 +99,29 @@ class MusicService : Service() {
             musicController.listTrack.tracks[musicController.getCurrentIndex()].artistName
         )
         musicController.playTrack(musicController.listTrack.pivot)
-        Glide.with(this@MusicService)
-            .asBitmap()
-            .load(musicController.getCurrentTrack().getImageUrl())
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap>?
-                ) {
-                    createNotification(
-                        musicController.listTrack.tracks[musicController.getCurrentIndex()].name,
-                        resource,
-                        musicController.listTrack.tracks[musicController.getCurrentIndex()].artistName
-                    )
-                }
+            Log.e("ThangDN6 - MusicService", "setupService: Load internet")
+            Glide.with(this@MusicService)
+                .asBitmap()
+                .load(musicController.getCurrentTrack().getImageUrl())
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        createNotification(
+                            musicController.listTrack.tracks[musicController.getCurrentIndex()].name,
+                            resource,
+                            musicController.listTrack.tracks[musicController.getCurrentIndex()].artistName
+                        )
+                    }
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    Log.d("ThangDN6 - MusicService", "onLoadCleared: cleared")
-                }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        Log.d("ThangDN6 - MusicService", "onLoadCleared: cleared")
+                    }
 
-            })
+                })
+
+
     }
 
 

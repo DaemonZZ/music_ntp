@@ -73,6 +73,13 @@ class ListDetailFragment : BaseFragment<FragmentListDetailBinding, MainViewModel
         mViewModel.tracksByAlbumId.observe(this) {
             it?.let {
                 trackByTypeAdapter.submitList(it.tracks)
+                val trackList = TrackList(it.tracks,it.tracks.indices.random())
+                mBinding.btnPlayShuffle.setOnClickListener {
+                    this@ListDetailFragment.findNavController()
+                        .navigate(R.id.action_listDetailFragment_to_hilt_PlayerFragment)
+                    mPlayerViewModel.apply {
+                        changeList(trackList)}
+                }
             }
         }
         mViewModel.tracksByGenreId.observe(this) {

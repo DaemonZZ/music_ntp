@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/mini_player_background"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="@dimen/dimens_4dp">
 
         <androidx.cardview.widget.CardView
@@ -86,13 +86,13 @@
             app:layout_constraintRight_toLeftOf="@id/imvNext"
             app:layout_constraintTop_toTopOf="parent" />
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imvLike"
+            android:id="@+id/imvPrev"
             android:layout_width="@dimen/dimens_32dp"
             android:layout_height="@dimen/dimens_32dp"
             android:gravity="center"
             android:scaleType="center"
             android:tint="@color/black"
-            android:src="@drawable/ic_heart"
+            android:src="@drawable/ic_prev"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/imvPlay"
             app:layout_constraintTop_toTopOf="parent" />

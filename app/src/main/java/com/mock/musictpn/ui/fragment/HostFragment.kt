@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,6 +19,8 @@ import com.mock.musictpn.viewmodel.MainViewModel
 import com.mock.musictpn.ui.adapter.MainViewPagerAdapter
 import com.mock.musictpn.ui.adapter.SearchAdapter
 import com.mock.musictpn.ui.base.BaseFragment
+import com.mock.musictpn.ui.fragment.player.PlayerFragment
+import com.mock.musictpn.ui.fragment.player.PlayerHolderFragment
 import com.mock.musictpn.viewmodel.PlayerViewModel
 
 class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
@@ -46,6 +49,11 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
             mPlayerViewModel.apply { changeList(it) }
         }
         mBinding.rvResultSearch.adapter = searchAdapter
+
+        childFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.playerHolder, PlayerHolderFragment())
+        }
 
     }
 
@@ -82,7 +90,8 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
             false
         }
         mBinding.playerHolder.setOnClickListener {
-            Log.d("ThangDN6 - HostFragment", "setupListeners: Open Player")
+            this@HostFragment.findNavController()
+                .navigate(R.id.action_hostFragment_to_playerFragment)
         }
     }
 

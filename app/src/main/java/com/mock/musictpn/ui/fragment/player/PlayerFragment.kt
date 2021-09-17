@@ -59,6 +59,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         if (MainActivity.mService != null) {
             mService = MainActivity.mService!!
             setUpPlayerListener()
+            if(mService.musicController.isPlaying()){
+                 mBinding.seekBar.max = mService.musicController.getTrackDuration()
+            }
         }
     }
 
@@ -230,7 +233,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         mTrack = mService.musicController.getCurrentTrack()
         mBinding.track = mTrack
         isFavorite(mTracks)
-        // mBinding.seekBar.max = mService.musicController.getTrackDuration()
+
         Log.d("ADD", "loadTrackInfo: $mTrack")
 
     }
