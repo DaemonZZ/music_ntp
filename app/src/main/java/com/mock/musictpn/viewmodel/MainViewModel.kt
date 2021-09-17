@@ -1,8 +1,9 @@
 package com.mock.musictpn.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagingData
+import androidx.paging.toLiveData
 import com.mock.musictpn.model.album.AlbumList
 import com.mock.musictpn.model.genre.GenreList
 import com.mock.musictpn.model.search.SearchResult
@@ -49,6 +50,11 @@ class MainViewModel @Inject constructor() : BaseViewModel() {
         _resultSearch.postValue(null)
         _tracksByGenreId.postValue(null)
     }
+
+    fun getAllHistory(rows: Int) :LiveData<List<Track>> {
+        return trackRepository.getAllHistory(rows)
+    }
+
 
     fun getFavoriteTracks(): LiveData<TrackList> {
         return trackRepository.getFavoriteTracks()

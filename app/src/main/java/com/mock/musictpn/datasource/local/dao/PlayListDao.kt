@@ -34,6 +34,9 @@ interface PlayListDao {
     @Query("select * from track where localId < :id and playListId = 2")
     suspend fun filterHistory(id: Int) : List<Track>
 
+    @Query("SELECT * FROM track WHERE playListId = 2 ORDER BY localId DESC LIMIT :rows")
+    fun getAllHistory(rows: Int) : LiveData<List<Track>>
+
     @Query("SELECT * FROM track")
     fun getFavoriteTracks(): LiveData<TrackList>
 
@@ -42,8 +45,5 @@ interface PlayListDao {
 
     @Query("SELECT * FROM track_list where id = :id")
     fun getListByID(id:Int) : TrackList
-
-
-
 
 }
