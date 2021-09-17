@@ -60,7 +60,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
             mService = MainActivity.mService!!
             setUpPlayerListener()
             if(mService.musicController.isPlaying()){
+                Log.d("ThangDN6 - PlayerFragment", "setupViews: Seek?")
                  mBinding.seekBar.max = mService.musicController.getTrackDuration()
+                mBinding.tvTimeDuration.text = toTime(mService.musicController.getTrackDuration())
             }
         }
     }
