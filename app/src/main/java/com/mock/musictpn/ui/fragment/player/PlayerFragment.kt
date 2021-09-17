@@ -35,7 +35,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     lateinit var scope: CoroutineScope
     private lateinit var mService: MusicService
     private lateinit var serviceIntent: Intent
-    private lateinit var currentTracks: TrackList
+    private var currentTracks: TrackList = TrackList()
     private var seekTimer: Timer? = null
     private var isPreparing = false
     private lateinit var mTrack: Track
@@ -99,7 +99,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
     override fun setupObservers() {
         mViewModel.getTrackList().observe(this, {
             it?.let { trackList ->
-                if (::currentTracks.isInitialized) {
+                if (currentTracks.tracks.isNotEmpty()) { // comment
 
                     currentTracks = trackList
 
