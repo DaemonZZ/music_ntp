@@ -123,9 +123,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         })
 
-        if(currentTracks.tracks.isEmpty()){
 
-        }
 
         mViewModel.getFavoriteTracks().observe(this) {
             mTracks = it
@@ -136,6 +134,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 isFavorite(it)
             }
             else {
+                currentTracks = mService.musicController.listTrack
+                mViewModel.previousState = currentTracks
+                mViewModel.changeList(currentTracks)
                 mTrack = currentTracks.tracks[currentTracks.pivot]
                 isFavorite(mTracks)
             }
