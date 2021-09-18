@@ -10,12 +10,12 @@ import com.mock.musictpn.mediaplayer.MusicPlayer
 fun AppCompatImageView.getImageFromUrl(url: String?) {
     url?.let {
         if(url.contains(MusicPlayer.CONTENT_LOCAL)){
-            setBackgroundResource(R.drawable.logo)
+            setBackgroundResource(R.drawable.logo_black)
         }
         else {
             Glide.with(this).load(it)
-                .error(R.drawable.logo)
-                .placeholder(R.drawable.logo)
+                .error(R.drawable.logo_black)
+                .placeholder(R.drawable.logo_black)
                 .into(this)
         }
     }

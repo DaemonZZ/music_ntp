@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mock.musictpn.R
 import com.mock.musictpn.databinding.ItemFavoriteTrackBinding
-import com.mock.musictpn.databinding.ItemTrackByTypeBinding
 import com.mock.musictpn.model.track.Track
 import com.mock.musictpn.model.track.TrackList
 import com.mock.musictpn.utils.getImageFromUrl
@@ -32,7 +31,7 @@ class FavoriteTrackAdapter(
         fun bind(track: Track) {
             binding.track = track
             if (track.artistId.isNullOrBlank()){
-                binding.imvArtist.setImageResource(R.drawable.logo)
+                binding.imvArtist.setImageResource(R.drawable.logo_white)
             } else {
                 binding.imvArtist.getImageFromUrl(track.getImageUrl())
             }

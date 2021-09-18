@@ -20,11 +20,13 @@
         android:background="@drawable/item_pressed_background"
         android:padding="@dimen/dimens_8dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imvArtist"
             set_image="@{track.imageUrl}"
             android:layout_width="@dimen/dimens_50dp"
             android:layout_height="@dimen/dimens_50dp"
+            android:background="@drawable/toolbar_background"
+            app:shapeAppearanceOverlay="@style/roundedCornersImageView2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

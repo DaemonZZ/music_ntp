@@ -22,6 +22,7 @@
             set_image="@{track.imageUrl}"
             android:layout_width="@dimen/dimens_50dp"
             android:layout_height="@dimen/dimens_50dp"
+            android:background="@drawable/toolbar_background"
             app:shapeAppearanceOverlay="@style/roundedCornersImageView2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

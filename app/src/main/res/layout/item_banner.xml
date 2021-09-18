@@ -34,22 +34,24 @@
             android:layout_marginTop="@dimen/dimens_8dp"
             app:layout_constraintLeft_toLeftOf="@id/imvBanner"
             app:layout_constraintTop_toTopOf="@id/imvBanner"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/logo_white" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimens_32dp"
             android:fontFamily="@font/bw_quinta_pro_black"
             android:shadowColor="@color/black"
-            android:shadowDx="-2"
-            android:shadowDy="-2"
-            android:shadowRadius="1"
+            android:shadowDx="-20"
+            android:shadowDy="-20"
+            android:shadowRadius="5"
             android:text="@{album.name}"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16sp"
+            android:textSize="@dimen/text_size_18sp"
             android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/dimen_16dp"
             app:layout_constraintBottom_toBottomOf="@id/imvBanner"
             app:layout_constraintLeft_toLeftOf="@id/imvBanner"
             app:layout_constraintRight_toRightOf="@id/imvBanner" />

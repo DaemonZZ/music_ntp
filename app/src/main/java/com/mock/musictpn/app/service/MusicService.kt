@@ -92,7 +92,7 @@ class MusicService : Service() {
 
     private fun setupService() {
 
-        val img = BitmapFactory.decodeResource(resources, R.drawable.logo)
+        val img = BitmapFactory.decodeResource(resources, R.drawable.logo_white)
         createNotification(
             musicController.listTrack.tracks[musicController.getCurrentIndex()].name,
             img,
