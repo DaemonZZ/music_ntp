@@ -95,6 +95,9 @@ class MusicPlayer {
 
     fun togglePlayButton() {
         if (player.isPlaying) {
+            if(isStopped){
+                playTrack(listTrack.pivot)
+            }
             player.pause()
             pausePosition = player.currentPosition
         } else {
