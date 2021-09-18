@@ -67,7 +67,6 @@ class PlaylistViewHolder(val binding: ItemCurrentListBinding) :
 
     fun highLightViewHolder(isSelected:Boolean){
         if( isSelected){
-            binding.root. setBackgroundColor(Color.parseColor("#BFE9FF"))
             binding.tvName.apply {
                 setTypeface(null,Typeface.BOLD_ITALIC)
                 setTextColor(Color.MAGENTA)
@@ -79,7 +78,6 @@ class PlaylistViewHolder(val binding: ItemCurrentListBinding) :
             binding.imvPlay.setBackgroundResource(R.drawable.ic_pause)
         }
         else {
-            binding.root. setBackgroundColor(Color.WHITE)
             binding.tvName.apply {
                 setTypeface(null,Typeface.BOLD)
                 setTextColor(Color.BLACK)

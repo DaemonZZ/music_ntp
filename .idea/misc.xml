@@ -8,6 +8,7 @@
         <entry key="..\:/mock/Music/app/src/main/res/layout/fragment_player_holder.xml" value="0.11822916666666666" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/banner_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/ctr_btn_pressed.xml" value="0.2546875" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/custom_background_banner.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/dialog_notification_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/expand_show.xml" value="0.27037037037037037" />
@@ -26,6 +27,8 @@
         <entry key="..\:/music_ntp/app/src/main/res/drawable/ic_trending.xml" value="0.27037037037037037" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/item_pressed_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/item_track_background.xml" value="0.2712820512820513" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/media_background.xml" value="0.25729166666666664" />
+        <entry key="..\:/music_ntp/app/src/main/res/drawable/mini_player_background.xml" value="0.21458333333333332" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/opiton_background.xml" value="0.27037037037037037" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/option_background.xml" value="0.2712820512820513" />
         <entry key="..\:/music_ntp/app/src/main/res/drawable/oval_background.xml" value="0.2712820512820513" />
@@ -42,17 +45,21 @@
         <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_loading.xml" value="0.22509057971014493" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/dialog_message.xml" value="0.22509057971014493" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_album.xml" value="0.22509057971014493" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_current_list.xml" value="0.24864130434782608" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_disc.xml" value="0.24864130434782608" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_favorite.xml" value="0.2328125" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_genre.xml" value="0.22056159420289856" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_host.xml" value="0.2" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_list_detail.xml" value="0.2" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_player.xml" value="0.2" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_player_holder.xml" value="0.1984375" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_search.xml" value="0.2328125" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/fragment_trending.xml" value="0.2" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_album.xml" value="0.22056159420289856" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_artist.xml" value="0.22735507246376813" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_banner.xml" value="0.264" />
+        <entry key="..\:/music_ntp/app/src/main/res/layout/item_current_list.xml" value="0.24864130434782608" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_favorite_track.xml" value="0.1956521739130435" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_genre.xml" value="0.2" />
         <entry key="..\:/music_ntp/app/src/main/res/layout/item_history.xml" value="0.21965579710144928" />
