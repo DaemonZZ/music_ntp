@@ -26,7 +26,7 @@ class PlayerViewModel @Inject constructor() : BaseViewModel() {
 
     fun changeList(list: TrackList) {
         _trackList.postValue(list)
-        Log.d("ThangDN6 - PlayerViewModel", "changeList: ${list.pivot}")
+        Log.d("ThangDN6 - PlayerViewModel", "changeList: ${list.tracks[list.pivot]}")
     }
 
 

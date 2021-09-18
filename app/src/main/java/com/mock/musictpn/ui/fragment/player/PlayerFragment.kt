@@ -240,6 +240,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         if (mService.musicController.isStopped()) {
             mBinding.seekBar.progress = 0
+            mViewModel.previousState = TrackList()
             if (activity == null) {
                 mService.stopSelf()
             }
