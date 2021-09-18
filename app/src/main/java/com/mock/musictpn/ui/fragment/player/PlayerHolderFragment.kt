@@ -178,6 +178,9 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
         if (mService.musicController.isStopped()) {
             mBinding.holderContainer.visibility = View.GONE
             Log.d("ThangDN6 - PlayerHolderFragment", "loadState: GONE ${mBinding.holderContainer.visibility}")
+            if (activity == null) {
+                mService.stopSelf()
+            }
         } else {
             mBinding.holderContainer.visibility = View.VISIBLE
             Log.d("ThangDN6 - PlayerHolderFragment", "loadState: START")
