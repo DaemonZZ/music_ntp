@@ -61,7 +61,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 loadState()
                 loadTrackInfo()
                 setupSeekBar()
-
+                mViewModel.changeList(mViewModel.previousState)
 
             }
 
