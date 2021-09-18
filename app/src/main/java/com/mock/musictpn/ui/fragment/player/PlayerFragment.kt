@@ -107,8 +107,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 if (::currentTracks.isInitialized) {
 
                     currentTracks = trackList
-
-                    sendStartAction(trackList)
+                    if (currentTracks == mViewModel.previousState){
+                        sendStartAction(trackList)
+                    }
                     Log.d(
                         "ThangDN6 - PlayerFragment  1",
                         "setupObservers: ${it.tracks[it.pivot].playListId}"
