@@ -47,6 +47,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
             findNavController().navigate(R.id.action_hostFragment_to_playerFragment)
             Log.d("NganHV-HostFragment", "onClick: ${it.pivot}")
             mPlayerViewModel.apply { changeList(it) }
+            hideKeyboardFrom(requireContext(),mBinding.edtSearch)
         }
         mBinding.rvResultSearch.adapter = searchAdapter
 
@@ -115,6 +116,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
         } else {
             mBinding.imvMyFavorite.visibility = View.GONE
             mBinding.imvClear.visibility = View.VISIBLE
+            Log.d("ThangDN6 - HostFragment", "actionSearch: ${mBinding.imvClear.visibility}")
             mBinding.rvResultSearch.visibility = View.VISIBLE
         }
 
