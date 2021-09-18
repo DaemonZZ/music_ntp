@@ -107,7 +107,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 if (::currentTracks.isInitialized) {
 
                     currentTracks = trackList
-                    if (currentTracks != mViewModel.previousState){
+                    if (currentTracks != mViewModel.previousState || mService.musicController.isStopped()){
                         sendStartAction(trackList)
                     }
                     Log.d(
@@ -121,7 +121,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                     if (currentTracks == mViewModel.previousState) {
                         Log.d(
                             "ThangDN6 - PlayerFragment   2",
-                            "setupObservers: ${currentTracks.tracks[currentTracks.pivot].playListId} "
+                            "setupObservers: ${currentTracks.tracks[currentTracks.pivot].name} "
                         )
                         updateView(currentTracks.tracks[currentTracks.pivot])
                     } else {
