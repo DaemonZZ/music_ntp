@@ -23,7 +23,7 @@ class TrackRepository @Inject constructor(
     }
 
     suspend fun getAlbumBanner(): Response<AlbumList> {
-        return apiService.getTopTrendingAlbums(ApiContract.RANGE_WEEK, 5)
+        return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 5)
     }
 
     suspend fun getTopTracksTrending(): Response<TrackList> {
@@ -43,7 +43,7 @@ class TrackRepository @Inject constructor(
     }
 
     suspend fun getAlbums(): Response<AlbumList> {
-        return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 20)
+        return apiService.getTopTrendingAlbums(ApiContract.RANGE_MONTH, 30)
     }
 
     suspend fun searchByKeyword(name: String): Response<SearchResult> {
