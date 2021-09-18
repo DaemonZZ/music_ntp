@@ -283,7 +283,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 val bitmap: Bitmap?
                 val url: String = mService.musicController.getCurrentTrack().getImageUrl()!!
                 if (mService.musicController.getCurrentTrack().previewURL.contains(MusicPlayer.CONTENT_LOCAL)) {
-                    bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo)
+                    bitmap = BitmapFactory.decodeResource(resources, R.drawable.logo_white)
                 } else {
 
                     bitmap = loadImg(url)
