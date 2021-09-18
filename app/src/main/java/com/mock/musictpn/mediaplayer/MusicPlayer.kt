@@ -80,6 +80,7 @@ class MusicPlayer {
         }
         val track = listTrack.tracks[index]
         player.reset()
+        Log.d("ThangDN6 - MusicPlayer", "playTrack: ${track.previewURL}")
         if(track.previewURL.contains(CONTENT_LOCAL)){
             player.setDataSource(context,track.previewURL.toUri())
         }
