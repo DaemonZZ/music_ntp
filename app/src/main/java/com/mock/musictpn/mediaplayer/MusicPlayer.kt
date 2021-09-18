@@ -47,7 +47,6 @@ class MusicPlayer {
 
     init {
         player.setOnCompletionListener {
-            Log.d("ThangDN6 - MusicPlayer", "reached event: Complete track")
             if (isShuffle && repeatMode != MODE_REPEAT_ONE_TRACK) next()
             else
                 when (repeatMode) {
@@ -59,11 +58,9 @@ class MusicPlayer {
                 }
         }
         player.setOnErrorListener { _, what, extra ->
-            Log.d("ThangDN6 - MusicPlayer", "$what: $extra ")
             false
         }
         player.setOnPreparedListener {
-            Log.d("ThangDN6 - MusicPlayer", ": onPrepared")
             it.start()
             isStopped = false
             stateChangedListener.onStartedPlaying()
@@ -75,12 +72,12 @@ class MusicPlayer {
     fun playTrack(index: Int) {
 
         if (listTrack.pivot != index) {
-            stateChangedListener.onTrackChange()
             listTrack.pivot = index
+            stateChangedListener.onTrackChange()
         }
         val track = listTrack.tracks[index]
         player.reset()
-        Log.d("ThangDN6 - MusicPlayer", "playTrack: ${track.previewURL}")
+        Log.d("ThangDN6 - MusicPlayer", "playTrack: ${track.name}")
         if(track.previewURL.contains(CONTENT_LOCAL)){
             player.setDataSource(context,track.previewURL.toUri())
         }
@@ -100,11 +97,9 @@ class MusicPlayer {
         if (player.isPlaying) {
             player.pause()
             pausePosition = player.currentPosition
-            Log.d("ThangDN6 - MusicPlayer", "togglePlayButton: Player Paused")
         } else {
             player.seekTo(pausePosition)
             player.start()
-            Log.d("ThangDN6 - MusicPlayer", "togglePlayButton: Resumed")
         }
         if(isStopped){
             playTrack(getCurrentIndex())
