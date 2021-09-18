@@ -109,7 +109,7 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
 
     private val playerStateChangedListener = object : OnPlayerStateChangedListener {
         override fun onStateChange() {
-            CoroutineScope(Dispatchers.Main).launch { loadState() } // make provider
+            CoroutineScope(Dispatchers.Main).launch { loadState() }
             Log.d("ThangDN6 - PlayerHolderFragment", "onStateChange: ")
         }
 
@@ -176,10 +176,10 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
         }
 
         if (mService.musicController.isStopped()) {
-            mBinding.container.visibility = View.GONE
-            Log.d("ThangDN6 - PlayerHolderFragment", "loadState: HIDE")
+            mBinding.holderContainer.visibility = View.GONE
+            Log.d("ThangDN6 - PlayerHolderFragment", "loadState: GONE ${mBinding.holderContainer.visibility}")
         } else {
-            mBinding.container.visibility = View.VISIBLE
+            mBinding.holderContainer.visibility = View.VISIBLE
             Log.d("ThangDN6 - PlayerHolderFragment", "loadState: START")
         }
     }
@@ -191,6 +191,7 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
     }
 
     private fun setUpPlayerListener() {
+        Log.d("ThangDN6 - PlayerHolderFragment", "setUpPlayerListener: ")
         mService.musicController.setOnPlayerStateChangedListener(playerStateChangedListener)
 
         //mService.musicController.setOnErrorListener(errorListener)

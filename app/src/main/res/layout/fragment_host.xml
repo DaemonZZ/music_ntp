@@ -98,8 +98,6 @@
             android:id="@+id/rvResultSearch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
-
             android:background="@drawable/recycler_view_search"
             android:orientation="vertical"
             android:visibility="gone"

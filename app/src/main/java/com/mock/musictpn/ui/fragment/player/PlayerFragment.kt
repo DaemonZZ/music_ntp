@@ -107,7 +107,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
                 if (::currentTracks.isInitialized) {
 
                     currentTracks = trackList
-                    if (currentTracks == mViewModel.previousState){
+                    if (currentTracks != mViewModel.previousState){
                         sendStartAction(trackList)
                     }
                     Log.d(

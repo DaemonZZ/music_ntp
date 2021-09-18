@@ -50,10 +50,6 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
         }
         mBinding.rvResultSearch.adapter = searchAdapter
 
-        childFragmentManager.commit {
-            setReorderingAllowed(true)
-            add(R.id.playerHolder, PlayerHolderFragment())
-        }
 
     }
 
@@ -69,7 +65,7 @@ class HostFragment : BaseFragment<FragmentHostBinding, MainViewModel>() {
                 actionSearch(false)
             } else {
                 mBinding.edtSearch.setText("")
-                mBinding.rvResultSearch.visibility =View.GONE
+                mBinding.rvResultSearch.visibility = View.GONE
             }
         }
         mBinding.edtSearch.addTextChangedListener(object : TextWatcher {
