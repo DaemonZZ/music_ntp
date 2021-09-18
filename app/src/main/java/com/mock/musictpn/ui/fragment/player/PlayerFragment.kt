@@ -56,12 +56,13 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
 
         if (MainActivity.mService != null) {
             mService = MainActivity.mService!!
-            if (mViewModel.previousState.tracks.isNotEmpty()) {
+            if (mViewModel.previousState.tracks.isNotEmpty() ) {
                 mTrack = mViewModel.previousState.tracks[mViewModel.previousState.pivot]
                 loadState()
                 loadTrackInfo()
                 setupSeekBar()
-                mViewModel.changeList(mViewModel.previousState)
+
+
             }
 
             setUpPlayerListener()
@@ -334,8 +335,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding, PlayerViewModel>() {
         }
 
         override fun onTrackChange() {
-            mViewModel.changeList(mService.musicController.listTrack)
-            //currentTracks = mService.musicController.listTrack
+            currentTracks = mService.musicController.listTrack
+            mViewModel.changeList(currentTracks)
             CoroutineScope(Dispatchers.Main).launch {
                 loadTrackInfo()
                 upDateNotification()

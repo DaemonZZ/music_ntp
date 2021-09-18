@@ -115,8 +115,8 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
 
         override fun onTrackChange() {
             Log.d("ThangDN6 - PlayerHolderFragment", "onTrackChange: ")
-            mViewModel.changeList(mService.musicController.listTrack)
-            //currentTracks = mService.musicController.listTrack
+            //mViewModel.changeList(mService.musicController.listTrack)
+            currentTracks = mService.musicController.listTrack
             CoroutineScope(Dispatchers.Main).launch {
                 loadTrackInfo()
                 upDateNotification()
@@ -196,6 +196,7 @@ class PlayerHolderFragment : BaseFragment<FragmentPlayerHolderBinding, PlayerVie
 
         //mService.musicController.setOnErrorListener(errorListener)
     }
+
 
 
 }
